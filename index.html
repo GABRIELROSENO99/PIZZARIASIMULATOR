@@ -159,8 +159,6 @@
 </head>
 <body class="aussie-background min-h-screen p-4 md:p-8">
 
-    <audio id="background-music" src="The Most Popular Italian Pizza Music! Italian Tarantella Background Music For Food Videos .mp3" loop></audio>
-
     <div id="game-ui" class="max-w-7xl mx-auto">
         <header class="bg-white/90 p-4 mb-6 rounded-xl shadow-lg border-t-4 border-aussie-green">
             <div class="flex flex-col md:flex-row justify-between items-center text-center">
@@ -176,7 +174,8 @@
                 </div>
             </div>
             <div id="game-message" class="mt-3 text-center text-xl font-semibold text-gray-800">
-                Helber: "G'day, mate! Let's make some wicked pizzas today!"
+                Helber: "G'day, mate!
+                Let's make some wicked pizzas today!"
             </div>
         </header>
 
@@ -261,6 +260,10 @@
 
     </div>
 
+    <audio id="background-music" loop>
+        <source src="The Most Popular Italian Pizza Music! Italian Tarantella Background Music For Food Videos.mp3" type="audio/mpeg">
+        Seu navegador não suporta o elemento de áudio.
+    </audio>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
@@ -268,7 +271,8 @@
         import { setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // Variáveis globais de ambiente (PREENCHIDAS PELO CANVAS)
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const appId = typeof __app_id !== 'undefined' ?
+            __app_id : 'default-app-id';
         const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
         const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
         // Configurações e Variáveis Globais do Jogo
@@ -377,15 +381,16 @@
             customerAvatar: document.getElementById('customer-avatar'),
             feedbackText: document.getElementById('feedback-text'),
             timerBarFill: document.getElementById('timer-bar-fill'),
+            
             gameModal: document.getElementById('game-modal'),
             modalTitle: document.getElementById('modal-title'),
             modalBody: document.getElementById('modal-body'),
             modalActions: document.getElementById('modal-actions'),
             startGameBtn: document.getElementById('start-game-btn'),
+            // NOVO: Referência ao elemento de áudio
+            backgroundMusic: document.getElementById('background-music'), 
             currentPizzaBase: document.getElementById('current-pizza-base'),
             customerWaitTimer: document.getElementById('customer-wait-timer'),
-            // ADICIONADO: Elemento de música
-            backgroundMusic: document.getElementById('background-music'),
         };
         // --- Firebase Setup (Mantido como estava) ---
         let db, auth;
@@ -462,18 +467,23 @@
                 console.error("Erro ao salvar High Score:", e);
             }
         }
+
         // --- Web Speech Synthesis (Helber's Voice) (Mantido como estava) ---
+
         function helberSpeak(text) {
             if ('speechSynthesis' in window) {
                 const utterance = new SpeechSynthesisUtterance(text);
                 utterance.lang = 'en-US';
+
                 const voices = window.speechSynthesis.getVoices();
                 let aussieVoice = voices.find(voice => voice.lang === 'en-AU');
                 if (aussieVoice) {
                     utterance.voice = aussieVoice;
                 } else {
-                    utterance.voice = voices[0] || null;
+                    utterance.voice = voices[0] ||
+                        null;
                 }
+
                 utterance.rate = 1.0;
                 utterance.pitch = 1.0;
                 window.speechSynthesis.speak(utterance);
@@ -481,8 +491,16 @@
                 console.warn("Speech Synthesis não suportado neste navegador.");
             }
         }
+
         // --- Game Logic ---
+
         function startGame() {
+            // NOVO: Toca a música ao clique do usuário
+            elements.backgroundMusic.play().catch(error => {
+                // Captura e ignora o erro se a reprodução falhar (ex: se o usuário pausar manualmente e tentar dar play de novo)
+                console.error("Falha ao tentar tocar a música:", error);
+            });
+            
             GAME_STATE.currentPhase = 1;
             GAME_STATE.balance = 0;
             GAME_STATE.streak = 0;
@@ -490,20 +508,15 @@
             hideModal();
             startPhase();
             helberSpeak(HELBER_SPEAK.START);
-
-            // ADIÇÃO: Tocar a música quando o jogo iniciar após a interação do usuário.
-            if (elements.backgroundMusic) {
-                elements.backgroundMusic.volume = 0.3; // Define um volume baixo para a música de fundo
-                // Play() deve ser chamado após uma interação do usuário para funcionar na maioria dos navegadores
-                elements.backgroundMusic.play().catch(e => console.log("Música não pôde ser iniciada (Autoplay bloqueado):", e));
-            }
         }
+
         function startPhase() {
             const phase = PHASES[GAME_STATE.currentPhase];
             GAME_STATE.pizzasCompleted = 0;
             GAME_STATE.phaseGoal = phase.goal;
             GAME_STATE.timerMax = phase.timer * 1000;
-            GAME_STATE.elapsedTime = 0; // Reset do tempo
+            GAME_STATE.elapsedTime = 0;
+            // Reset do tempo
             GAME_STATE.appliedIngredients = [];
             resetPizzaBench();
             updateUI();
@@ -514,6 +527,7 @@
                 GAME_STATE.currentOrder = null;
             }
         }
+
         /**
          * Retorna a lista de nomes de ingredientes que estão em *qualquer* receita
          * disponível para a fase atual.
@@ -521,28 +535,43 @@
         function getAvailableIngredientsForPhase() {
             const availableRecipes = Object.keys(RECIPES).filter(name => RECIPES[name].phaseMin <= GAME_STATE.currentPhase);
             const uniqueIngredients = new Set();
+
             availableRecipes.forEach(rName => {
                 RECIPES[rName].ingredients.forEach(iName => {
                     uniqueIngredients.add(iName);
                 });
-            }); // Na Fase 1, se tivermos uma lista restrita de receitas, usamos elas.
-            if (GAME_STATE.currentPhase === 1 && PHASES[1].available.length > 0) {
-                return PHASES[1].available.flatMap(rName => RECIPES[rName].ingredients).filter((v, i, a) => a.indexOf(v) === i);
+            });
+            // Na Fase 1, se tivermos uma lista restrita de receitas, usamos elas.
+            if (GAME_STATE.currentPhase === 1) {
+                const phase1Recipes = PHASES[1].available;
+                // Nomes das receitas
+                const phase1Ingredients = new Set();
+                phase1Recipes.forEach(rName => {
+                    if (RECIPES[rName]) {
+                        RECIPES[rName].ingredients.forEach(iName => phase1Ingredients.add(iName));
+                    }
+                });
+                return Array.from(phase1Ingredients);
             }
+
             return Array.from(uniqueIngredients);
         }
 
+
         function generateNextOrder() {
-            const availableRecipes = Object.keys(RECIPES).filter(name => RECIPES[name].phaseMin <= GAME_STATE.currentPhase);
-            if (availableRecipes.length === 0) {
-                console.error("Nenhuma receita disponível para a fase atual.");
-                return;
+            const allRecipes = Object.keys(RECIPES).filter(name => RECIPES[name].phaseMin <= GAME_STATE.currentPhase);
+            let availableRecipes = allRecipes;
+
+            if (GAME_STATE.currentPhase === 1) {
+                availableRecipes = PHASES[1].available;
+                // Usa a lista restrita de nomes de receita
+            } else {
+                // Se a fase tem um limite de receitas (o número em 'available'), usa um subconjunto
+                const numAvailable = PHASES[GAME_STATE.currentPhase].available;
+                availableRecipes = allRecipes.slice(0, numAvailable);
             }
-            // Na fase 1, restringe-se ainda mais aos itens disponíveis:
-            const finalRecipes = GAME_STATE.currentPhase === 1 ? PHASES[1].available : availableRecipes;
-            
-            // Seleciona uma receita aleatoriamente
-            const randomRecipeName = finalRecipes[Math.floor(Math.random() * finalRecipes.length)];
+
+            const randomRecipeName = availableRecipes[Math.floor(Math.random() * availableRecipes.length)];
             const order = RECIPES[randomRecipeName];
 
             GAME_STATE.currentOrder = {
@@ -576,6 +605,7 @@
                 handleWrongOrder("Falta ou sobra de ingredientes, Helber!");
                 return;
             }
+
             // 2. Verifica a ordem exata
             let isCorrect = true;
             for (let i = 0; i < correctRecipe.length; i++) {
@@ -613,6 +643,7 @@
 
             GAME_STATE.balance += price;
             GAME_STATE.pizzasCompleted++;
+
             helberSpeak(HELBER_SPEAK.CORRECT);
             animatePizzaDelivery();
 
@@ -636,42 +667,45 @@
 
         function continueGameFlow() {
             if (GAME_STATE.pizzasCompleted >= GAME_STATE.phaseGoal) {
-                // Fim da Fase
-                if (GAME_STATE.balance > GAME_STATE.highScore) {
-                    GAME_STATE.highScore = GAME_STATE.balance;
-                    saveGameState();
-                }
-                
+                stopTimer();
                 if (GAME_STATE.currentPhase < 5) {
+                    // Atualiza High Score antes de passar de fase
+                    if (GAME_STATE.balance > GAME_STATE.highScore) {
+                        GAME_STATE.highScore = GAME_STATE.balance;
+                        saveGameState();
+                    }
+
                     GAME_STATE.currentPhase++;
-                    displayMessage(HELBER_SPEAK.NEXT_PHASE, 'text-blue-700 font-extrabold');
-                    showModal(`Dia ${GAME_STATE.currentPhase - 1} Completo!`, `Você completou ${GAME_STATE.phaseGoal} pizzas! Saldo: R$ ${GAME_STATE.balance}. Prepare-se para o Dia ${GAME_STATE.currentPhase}!`, 'nextPhase');
-                    startPhase(); // Começa a próxima fase
+                    startPhase();
+                    showModal(`Fim do Dia ${GAME_STATE.currentPhase - 1}`, `R$ ${GAME_STATE.balance} ganhos hoje! Prepare-se para o Dia ${GAME_STATE.currentPhase}.`, 'nextPhase');
                 } else {
-                    // Vitória Final
-                    displayMessage(HELBER_SPEAK.VICTORY, 'text-purple-700 font-extrabold');
-                    animateFireworks();
-                    showModal("Vitória!", `Você é o mestre pizzaiolo Helber B! Saldo Final: R$ ${GAME_STATE.balance}`, 'victory');
-                    // Para a música ao vencer
-                    if (elements.backgroundMusic) elements.backgroundMusic.pause();
+                    endGame(true);
                 }
             } else {
-                // Continua o jogo
                 resetPizzaBench();
+                updateUI();
                 generateNextOrder();
             }
         }
 
-        function gameOver() {
+        function endGame(isVictory) {
             GAME_STATE.isGameRunning = false;
             stopTimer();
+
+            // Atualiza High Score no final do jogo
             if (GAME_STATE.balance > GAME_STATE.highScore) {
                 GAME_STATE.highScore = GAME_STATE.balance;
                 saveGameState();
             }
-            if (elements.backgroundMusic) elements.backgroundMusic.pause(); // Para a música ao perder
-            showModal("Game Over", `Você não aguentou a pressão! Saldo Final: R$ ${GAME_STATE.balance}`, 'gameOver');
-            helberSpeak("Ah, well, that's disappointing mate. Have another go!");
+
+            if (isVictory) {
+                animateFireworks();
+                showModal("Vitória! Lenda da Pizza!", `Você é o Pizzaiolo nº 1 da Austrália, Helber! Saldo Final: R$ ${GAME_STATE.balance}`, 'victory');
+                helberSpeak(HELBER_SPEAK.VICTORY);
+            } else {
+                showModal("Game Over", `Você não aguentou a pressão! Saldo Final: R$ ${GAME_STATE.balance}`, 'gameOver');
+                helberSpeak("Ah, well, that's disappointing mate. Have another go!");
+            }
         }
 
         function resetPizzaBench() {
@@ -682,23 +716,27 @@
             elements.pizzaStack.classList.add('border-dashed', 'border-aussie-orange/50');
             elements.pizzaStack.classList.remove('border-aussie-orange', 'bg-yellow-600');
         }
+
+
         // --- UI Rendering ---
+
         function updateUI() {
             elements.faseCounter.textContent = `Fase: ${GAME_STATE.currentPhase}/5`;
             elements.pizzaCounter.textContent = `Pizzas: ${GAME_STATE.pizzasCompleted}/${GAME_STATE.phaseGoal}`;
             elements.saldoCounter.textContent = `Saldo: R$ ${GAME_STATE.balance}`;
             elements.highscoreDisplay.textContent = `Recorde: R$ ${GAME_STATE.highScore}`;
-
             const canDeliver = GAME_STATE.isGameRunning && GAME_STATE.currentOrder && GAME_STATE.appliedIngredients.length > 0;
             elements.deliverBtn.disabled = !canDeliver;
             elements.deliverBtn.classList.remove('bg-aussie-orange', 'bg-gray-400');
             elements.deliverBtn.classList.add(canDeliver ? 'bg-aussie-orange' : 'bg-gray-400');
             elements.deliverBtn.classList.remove('hover:bg-aussie-green', 'hover:bg-gray-500');
             elements.deliverBtn.classList.add(canDeliver ? 'hover:bg-aussie-green' : 'hover:bg-gray-500');
+
             renderIngredientButtons();
             renderRecipeList();
             renderPizzaStack();
         }
+
         /**
          * Renderiza os botões de ingredientes disponíveis.
          * (Corrigido)
@@ -712,6 +750,7 @@
                 const ingredient = INGREDIENTS[name];
                 // Verifica se o ingrediente está na lista de disponíveis para a fase
                 const isAvailable = availableIngredients.includes(name);
+
                 const button = document.createElement('button');
                 button.className = `ingredient-btn p-2 rounded-lg text-xs font-bold shadow-md flex flex-col items-center transition duration-100 ${isAvailable ? 'bg-fundo-claro border-2 border-aussie-green hover:bg-aussie-green/20' : 'bg-gray-200 text-gray-400 cursor-not-allowed'}`;
                 button.disabled = !isAvailable;
@@ -723,36 +762,40 @@
                 container.appendChild(button);
             });
         }
+
         function renderRecipeList() {
             const container = elements.recipeList;
             container.innerHTML = '';
-            const availableRecipes = Object.keys(RECIPES)
-                .filter(name => RECIPES[name].phaseMin <= GAME_STATE.currentPhase)
-                .sort((a, b) => RECIPES[a].phaseMin - RECIPES[b].phaseMin);
 
-            availableRecipes.forEach(name => {
-                const recipe = RECIPES[name];
-                const item = document.createElement('div');
-                item.className = 'bg-gray-50 p-2 rounded-md shadow-sm border border-gray-200';
-                item.innerHTML = `
-                    <p class="font-bold text-sm text-aussie-orange">${name} (R$${recipe.price})</p>
-                    <p class="text-xs text-gray-600">${recipe.ingredients.join(' > ')}</p>
-                `;
-                container.appendChild(item);
+            const availableRecipes = Object.keys(RECIPES)
+                .filter(name => RECIPES[name].phaseMin <= GAME_STATE.currentPhase);
+            // Se Fase 1, usa a lista restrita para exibir apenas as que realmente aparecerão
+            const recipesToDisplay = GAME_STATE.currentPhase === 1 ?
+                PHASES[1].available.map(name => ({ name, recipe: RECIPES[name] })) :
+                availableRecipes.map(name => ({ name, recipe: RECIPES[name] }));
+            recipesToDisplay.forEach(item => {
+                const { name, recipe } = item;
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'border-b border-gray-200 pb-1';
+                itemDiv.innerHTML = `
+                <p class="font-bold text-md text-aussie-orange">${name} (R$${recipe.price})</p>
+                <p class="text-xs">${recipe.ingredients.map(i => INGREDIENTS[i] ? INGREDIENTS[i].emoji + ' ' + i : '?').join(' ')}</p>
+            `; // Adicionado o nome do ingrediente ao lado do emoji
+                container.appendChild(itemDiv);
             });
         }
 
         function renderPizzaStack() {
             const stack = elements.pizzaStack;
-            // Limpa o stack
             stack.innerHTML = '';
-            
-            // Esconde a base de texto se houver ingredientes
+
+            // Se houver ingredientes, a base muda para visual de massa pronta.
             if (GAME_STATE.appliedIngredients.length > 0) {
                 elements.currentPizzaBase.style.display = 'none';
                 stack.classList.remove('border-dashed', 'border-aussie-orange/50', 'bg-aussie-orange/10');
                 stack.classList.add('border-aussie-orange', 'bg-yellow-600');
             } else {
+                stack.appendChild(elements.currentPizzaBase);
                 elements.currentPizzaBase.style.display = 'block';
                 stack.classList.add('border-dashed', 'border-aussie-orange/50', 'bg-aussie-orange/10');
                 stack.classList.remove('border-aussie-orange', 'bg-yellow-600');
@@ -769,7 +812,10 @@
                 }
             });
         }
+
+
         // --- Timer, Modal & FX ---
+
         function showModal(title, body, actionType) {
             elements.modalTitle.textContent = title;
             elements.modalBody.textContent = body;
@@ -777,7 +823,6 @@
 
             const button = document.createElement('button');
             button.className = "bg-aussie-orange text-white font-bold py-3 px-6 rounded-full text-lg transition duration-150 hover:bg-aussie-green";
-            
             if (actionType === 'nextPhase') {
                 button.textContent = `Iniciar Dia ${GAME_STATE.currentPhase}`;
                 button.onclick = () => {
@@ -795,6 +840,7 @@
                 button.textContent = "Iniciar Dia 1";
                 button.onclick = startGame;
             }
+
             elements.modalActions.appendChild(button);
             elements.gameModal.classList.remove('hidden');
         }
@@ -810,6 +856,7 @@
             stopTimer();
             GAME_STATE.timerMax = durationMs;
             GAME_STATE.elapsedTime = 0;
+
             if (durationMs <= 0) {
                 elements.timerBarFill.style.width = '0%';
                 elements.customerWaitTimer.textContent = 'CLIENTE AGUARDANDO A (Sem Pressão)';
@@ -820,39 +867,40 @@
             const updateBar = () => {
                 const now = Date.now();
                 GAME_STATE.elapsedTime = now - startTime;
-                
-                const percentage = Math.min(100, (GAME_STATE.elapsedTime / GAME_STATE.timerMax) * 100);
+
+                // Tempo decorrido (crescente)
+                if (GAME_STATE.elapsedTime >= durationMs) {
+                    stopTimer();
+                    handleTimeout();
+                    return;
+                }
+
+                // Barra de progresso cresce de 0% a 100%
+                const percentage = (GAME_STATE.elapsedTime / durationMs) * 100;
                 elements.timerBarFill.style.width = `${percentage}%`;
 
-                // Cor da barra de progresso (verde -> amarelo -> vermelho)
-                if (percentage < 50) {
-                    elements.timerBarFill.style.backgroundColor = 'rgb(34, 197, 94)'; // green-500
-                    elements.customerWaitTimer.classList.remove('text-red-600', 'text-yellow-600');
-                    elements.customerWaitTimer.classList.add('text-green-600');
-                } else if (percentage < 80) {
-                    elements.timerBarFill.style.backgroundColor = 'rgb(234, 179, 8)'; // yellow-600
-                    elements.customerWaitTimer.classList.remove('text-red-600', 'text-green-600');
-                    elements.customerWaitTimer.classList.add('text-yellow-600');
-                } else {
-                    elements.timerBarFill.style.backgroundColor = 'rgb(239, 68, 68)'; // red-600
-                    elements.customerWaitTimer.classList.remove('text-green-600', 'text-yellow-600');
-                    elements.customerWaitTimer.classList.add('text-red-600');
-                }
-                
-                // Atualiza o texto do tempo restante
-                const timeLeft = Math.max(0, GAME_STATE.timerMax - GAME_STATE.elapsedTime);
-                const seconds = Math.floor(timeLeft / 1000);
-                const minutes = Math.floor(seconds / 60);
-                const remainingSeconds = seconds % 60;
-                const timeString = `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
-                elements.customerWaitTimer.textContent = `CLIENTE AGUARDANDO A (${timeString})`;
+                // Atualiza o tempo em minutos:segundos (Mostra o tempo que JÁ PASSOU)
+                const totalSeconds = Math.max(0, Math.floor(GAME_STATE.elapsedTime / 1000));
+                const minutes = Math.floor(totalSeconds / 60);
+                const seconds = totalSeconds % 60;
+                const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                elements.customerWaitTimer.textContent = `CLIENTE AGUARDANDO HÁ (${timeString})`;
 
-                if (GAME_STATE.elapsedTime >= GAME_STATE.timerMax) {
-                    gameOver();
+                // Muda a cor da barra perto do fim (quando a porcentagem está alta)
+                if (percentage > 75) {
+                    elements.timerBarFill.classList.remove('bg-green-500', 'bg-yellow-500');
+                    elements.timerBarFill.classList.add('bg-red-700');
+                } else if (percentage > 50) {
+                    elements.timerBarFill.classList.remove('bg-green-500', 'bg-red-700');
+                    elements.timerBarFill.classList.add('bg-yellow-500');
+                } else {
+                    elements.timerBarFill.classList.remove('bg-red-700', 'bg-yellow-500');
+                    elements.timerBarFill.classList.add('bg-green-500');
                 }
             };
 
             timerInterval = setInterval(updateBar, 100);
+            // Atualização mais suave a cada 100ms
             updateBar();
         }
 
@@ -861,33 +909,40 @@
                 clearInterval(timerInterval);
                 timerInterval = null;
             }
-            if (GAME_STATE.currentOrder) {
-                elements.customerWaitTimer.textContent = `CLIENTE AGUARDANDO A (Limite Atingido)`;
-                handleWrongOrder("Tempo esgotado, Helber!");
-            }
         }
+
+        function handleTimeout() {
+            elements.timerBarFill.style.width = '100%';
+            elements.customerWaitTimer.textContent = 'CLIENTE CANSOU! (Tempo Limite Atingido)';
+            handleWrongOrder("Tempo esgotado, Helber!");
+        }
+
         // --- Utility Functions (Mantido como estava) ---
         function displayMessage(message, className = 'text-gray-800') {
             elements.gameMessage.innerHTML = `Helber: "<span class="${className}">${message}</span>"`;
         }
+
         function getRandomPraisePhrase() {
             return PRAISE_PHRASES[Math.floor(Math.random() * PRAISE_PHRASES.length)];
         }
+
         function getRandomCustomerEmoji() {
             const emojis = ['👨', '👩', '👴', '👵', '🧑‍🍳', '👮', '👨‍🎤', '👩‍🦰', '👱', '👨‍🦱', '🦁'];
             return emojis[Math.floor(Math.random() * emojis.length)];
         }
+
         // --- Animation & FX (Mantido como estava) ---
         function animatePizzaDelivery() {
             const stack = elements.pizzaStack;
-            // Anima a saída da pizza
             stack.style.transition = 'all 0.5s ease-in';
             stack.style.transform = 'translateY(-200px) rotate(30deg) scale(0.5)';
-
+            stack.style.opacity = '0';
+            // Simula o preparo da próxima massa
+            stack.style.backgroundColor = '';
             setTimeout(() => {
-                resetPizzaBench();
-                // Restaura o estado inicial (invisível) para a próxima transição
+                stack.style.transition = 'none';
                 stack.style.transform = 'translateY(0) rotate(0) scale(1)';
+                stack.style.opacity = '1';
                 setTimeout(() => {
                     stack.style.transition = 'all 0.2s ease-out';
                 }, 50);
@@ -896,40 +951,26 @@
 
         function animatePizzaExplosion() {
             const stack = elements.pizzaStack;
-            // Simula uma explosão de ingredientes no lugar
-            stack.style.transition = 'all 0.1s ease-out';
+            stack.style.transition = 'all 0.1s linear';
             stack.style.transform = 'scale(1.1) rotate(5deg)';
-            
-            const fireworkContainer = document.createElement('div');
-            fireworkContainer.style.position = 'absolute';
-            fireworkContainer.style.left = stack.offsetLeft + stack.offsetWidth / 2 + 'px';
-            fireworkContainer.style.top = stack.offsetTop + stack.offsetHeight / 2 + 'px';
-            fireworkContainer.style.zIndex = '5';
-            document.body.appendChild(fireworkContainer);
-
-            for (let i = 0; i < 15; i++) {
-                const firework = document.createElement('div');
-                firework.className = 'firework';
-                firework.style.width = '5px';
-                firework.style.height = '5px';
-                const angle = Math.random() * 2 * Math.PI;
-                const distance = Math.random() * 50 + 20;
-                const x = Math.cos(angle) * distance + 'px';
-                const y = Math.sin(angle) * distance + 'px';
-                firework.style.setProperty('--x', x);
-                firework.style.setProperty('--y', y);
-                firework.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
-                fireworkContainer.appendChild(firework);
-                setTimeout(() => firework.remove(), 800);
-            }
+            stack.style.backgroundColor = '#e74c3c';
+            // Explosão vermelha/erro
 
             setTimeout(() => {
-                resetPizzaBench();
+                stack.style.transform = 'scale(0.8) rotate(-5deg)';
+                stack.style.opacity = '0.5';
+            }, 100);
+            setTimeout(() => {
+                stack.style.transition = 'none';
                 stack.style.transform = 'scale(1) rotate(0)';
-                fireworkContainer.remove();
+                stack.style.opacity = '1';
+                stack.style.backgroundColor = '';
+                setTimeout(() => {
+                    stack.style.transition = 'all 0.2s ease-out';
+                }, 50);
             }, 500);
         }
-        
+
         function animateFireworks() {
             const container = document.body;
             for (let i = 0; i < 20; i++) {
@@ -962,9 +1003,8 @@
             showModal("Pizzaria Helber B ", "Pressione Iniciar para começar sua jornada como o Pizzaiolo Helber B!", 'initial');
         }
 
-        // Execução do script
         init();
-
     </script>
 </body>
+
 </html>
