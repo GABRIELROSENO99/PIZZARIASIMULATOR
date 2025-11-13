@@ -171,7 +171,10 @@
                     <span id="pizza-counter" class="bg-aussie-orange text-white px-3 py-1 rounded-full shadow-md">Pizzas: 0/25</span>
                     <span id="saldo-counter" class="bg-gray-700 text-white px-3 py-1 rounded-full shadow-md">Saldo: R$ 0</span>
                     <span id="highscore-display" class="bg-blue-600 text-white px-3 py-1 rounded-full shadow-md">Recorde: R$ 0</span>
-                </div>
+                    <button id="music-toggle-btn" class="bg-gray-500 text-white px-3 py-1 rounded-full shadow-md hover:bg-gray-600 transition duration-150">
+                        🎵 Play
+                    </button>
+                    </div>
             </div>
             <div id="game-message" class="mt-3 text-center text-xl font-semibold text-gray-800">
                 Helber: "G'day, mate! Let's make some wicked pizzas today!"
@@ -246,8 +249,7 @@
             <div id="modal-content"
                 class="bg-white p-8 rounded-xl shadow-2xl max-w-md w-full text-center border-t-8 border-aussie-orange">
                 <h2 id="modal-title" class="text-3xl font-black mb-4 text-aussie-green">Bem-vindo, Mate!</h2>
-                <p id="modal-body" class="mb-6 text-gray-700">Pressione Iniciar para começar sua jornada como o Pizzaiolo
-                    Helber B!</p>
+                <p id="modal-body" class="mb-6 text-gray-700">Pressione Iniciar para começar sua jornada como o Pizzaiolo Helber B!</p>
                 <div id="modal-actions">
                     <button id="start-game-btn"
                         class="bg-aussie-orange text-white font-bold py-3 px-6 rounded-full text-lg transition duration-150 hover:bg-aussie-green">
@@ -259,6 +261,10 @@
 
     </div>
 
+    <audio id="background-music" loop>
+        <source src="The Most Popular Italian Pizza Music! Italian Tarantella Background Music For Food Videos.mp3" type="audio/mpeg">
+        Seu navegador não suporta o elemento de áudio.
+    </audio>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
@@ -266,10 +272,11 @@
         import { setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // Variáveis globais de ambiente (PREENCHIDAS PELO CANVAS)
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const appId = typeof __app_id !== 'undefined' ?
+            __app_id : 'default-app-id';
         const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
         const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-
+        
         // Configurações e Variáveis Globais do Jogo
         let GAME_STATE = {
             currentPhase: 1,
@@ -286,7 +293,6 @@
             isAuthReady: false,
             userId: null,
         };
-        
         // --- ALTERAÇÃO 2: INCLUSÃO DOS EMOJIS SOLICITADOS ---
         const INGREDIENTS = {
             'MOLHO': { color: '#c0392b', emoji: '🥫', type: 'layer-molho' },
@@ -332,7 +338,6 @@
             'VEGETARIANA': { ingredients: ['MOLHO', 'QUEIJO', 'PIMENTÃO', 'COGUMELOS', 'ABACAXI'], price: 95, phaseMin: 5 },
             'SUPREMA': { ingredients: ['MOLHO', 'QUEIJO', 'PEPPERONI', 'BACON', 'COGUMELOS', 'PIMENTÃO'], price: 110, phaseMin: 5 },
         };
-
         const PHASES = {
             1: { goal: 2, timer: 0, available: ['MARGHERITA', 'CALABRESA', 'FRANGO CATUPIRY', 'PEPPERONI', 'BACON'], message: "Dia de treino! Sem pressão, mate!" }, // Reduzido goal para teste
             2: { goal: 5, timer: 120, available: 8, message: "Aperta o passo! O relógio está correndo, cobber!" }, // Reduzido goal para teste
@@ -378,15 +383,19 @@
             customerAvatar: document.getElementById('customer-avatar'),
             feedbackText: document.getElementById('feedback-text'),
             timerBarFill: document.getElementById('timer-bar-fill'),
+            
             gameModal: document.getElementById('game-modal'),
             modalTitle: document.getElementById('modal-title'),
             modalBody: document.getElementById('modal-body'),
             modalActions: document.getElementById('modal-actions'),
             startGameBtn: document.getElementById('start-game-btn'),
+            
+            // NOVO: Referência ao elemento de áudio
+            backgroundMusic: document.getElementById('background-music'), 
+            musicToggleButton: document.getElementById('music-toggle-btn'), // NOVO
             currentPizzaBase: document.getElementById('current-pizza-base'),
             customerWaitTimer: document.getElementById('customer-wait-timer'),
         };
-
         // --- Firebase Setup (Mantido como estava) ---
         let db, auth;
         async function initFirebase() {
@@ -475,7 +484,8 @@
                 if (aussieVoice) {
                     utterance.voice = aussieVoice;
                 } else {
-                    utterance.voice = voices[0] || null;
+                    utterance.voice = voices[0] ||
+                null;
                 }
 
                 utterance.rate = 1.0;
@@ -486,9 +496,42 @@
             }
         }
 
+        // --- Audio Controls ---
+        function toggleMusic() {
+            const audio = elements.backgroundMusic;
+            const button = elements.musicToggleButton;
+
+            if (audio.paused) {
+                audio.volume = 0.1; // Volume bem baixinho
+                audio.play().then(() => {
+                    button.textContent = '⏸ Pause';
+                    button.classList.remove('bg-gray-500');
+                    button.classList.add('bg-gray-800');
+                }).catch(error => {
+                    // Ignora o erro se o navegador bloquear o autoplay inicialmente
+                    console.warn("Falha ao tentar tocar a música (pode ser restrição de autoplay).", error);
+                    button.textContent = '🎵 Play';
+                    button.classList.remove('bg-gray-800');
+                    button.classList.add('bg-gray-500');
+                });
+            } else {
+                audio.pause();
+                button.textContent = '🎵 Play';
+                button.classList.remove('bg-gray-800');
+                button.classList.add('bg-gray-500');
+            }
+        }
+
         // --- Game Logic ---
 
         function startGame() {
+            // NOVO: Tenta iniciar a música aqui, após o clique do usuário no modal
+            const audio = elements.backgroundMusic;
+            if (audio.paused) {
+                 audio.volume = 0.1; 
+                 toggleMusic(); // Chama toggleMusic, que vai tentar dar play
+            }
+
             GAME_STATE.currentPhase = 1;
             GAME_STATE.balance = 0;
             GAME_STATE.streak = 0;
@@ -503,7 +546,8 @@
             GAME_STATE.pizzasCompleted = 0;
             GAME_STATE.phaseGoal = phase.goal;
             GAME_STATE.timerMax = phase.timer * 1000;
-            GAME_STATE.elapsedTime = 0; // Reset do tempo
+            GAME_STATE.elapsedTime = 0;
+            // Reset do tempo
             GAME_STATE.appliedIngredients = [];
             resetPizzaBench();
             updateUI();
@@ -530,7 +574,8 @@
             });
             // Na Fase 1, se tivermos uma lista restrita de receitas, usamos elas.
             if (GAME_STATE.currentPhase === 1) {
-                const phase1Recipes = PHASES[1].available; // Nomes das receitas
+                const phase1Recipes = PHASES[1].available;
+                // Nomes das receitas
                 const phase1Ingredients = new Set();
                 phase1Recipes.forEach(rName => {
                     if (RECIPES[rName]) {
@@ -549,7 +594,8 @@
             let availableRecipes = allRecipes;
 
             if (GAME_STATE.currentPhase === 1) {
-                availableRecipes = PHASES[1].available; // Usa a lista restrita de nomes de receita
+                availableRecipes = PHASES[1].available;
+                // Usa a lista restrita de nomes de receita
             } else {
                 // Se a fase tem um limite de receitas (o número em 'available'), usa um subconjunto
                 const numAvailable = PHASES[GAME_STATE.currentPhase].available;
@@ -685,7 +731,9 @@
 
             if (isVictory) {
                 animateFireworks();
-                showModal("Vitória! Lenda da Pizza!", `Você é o Pizzaiolo nº 1 da Austrália, Helber! Saldo Final: R$ ${GAME_STATE.balance}`, 'victory');
+                // ALTERAÇÃO SOLICITADA: MENSAGEM DE VITÓRIA CUSTOMIZADA
+                const finalMessage = `Você é o Pizzaiolo nº 1 da Austrália, Helber! Saldo Final: R$ ${GAME_STATE.balance}. E o mais importante: você conseguiu dinheiro suficiente para montar a melhor pizzaria também no Brasil!`;
+                showModal("Vitória! Lenda da Pizza!", finalMessage, 'victory');
                 helberSpeak(HELBER_SPEAK.VICTORY);
             } else {
                 showModal("Game Over", `Você não aguentou a pressão! Saldo Final: R$ ${GAME_STATE.balance}`, 'gameOver');
@@ -710,7 +758,6 @@
             elements.pizzaCounter.textContent = `Pizzas: ${GAME_STATE.pizzasCompleted}/${GAME_STATE.phaseGoal}`;
             elements.saldoCounter.textContent = `Saldo: R$ ${GAME_STATE.balance}`;
             elements.highscoreDisplay.textContent = `Recorde: R$ ${GAME_STATE.highScore}`;
-
             const canDeliver = GAME_STATE.isGameRunning && GAME_STATE.currentOrder && GAME_STATE.appliedIngredients.length > 0;
             elements.deliverBtn.disabled = !canDeliver;
             elements.deliverBtn.classList.remove('bg-aussie-orange', 'bg-gray-400');
@@ -724,14 +771,14 @@
         }
 
         /**
-         * Renderiza os botões de ingredientes disponíveis. (Corrigido)
+         * Renderiza os botões de ingredientes disponíveis.
+         * (Corrigido)
          */
         function renderIngredientButtons() {
             const container = elements.ingredientButtons;
             container.innerHTML = '';
             // Obtém apenas os nomes dos ingredientes necessários nas receitas da fase atual
             const availableIngredients = getAvailableIngredientsForPhase();
-
             Object.keys(INGREDIENTS).forEach(name => {
                 const ingredient = INGREDIENTS[name];
                 // Verifica se o ingrediente está na lista de disponíveis para a fase
@@ -755,12 +802,10 @@
 
             const availableRecipes = Object.keys(RECIPES)
                 .filter(name => RECIPES[name].phaseMin <= GAME_STATE.currentPhase);
-
             // Se Fase 1, usa a lista restrita para exibir apenas as que realmente aparecerão
             const recipesToDisplay = GAME_STATE.currentPhase === 1 ?
                 PHASES[1].available.map(name => ({ name, recipe: RECIPES[name] })) :
                 availableRecipes.map(name => ({ name, recipe: RECIPES[name] }));
-
             recipesToDisplay.forEach(item => {
                 const { name, recipe } = item;
                 const itemDiv = document.createElement('div');
@@ -811,7 +856,6 @@
 
             const button = document.createElement('button');
             button.className = "bg-aussie-orange text-white font-bold py-3 px-6 rounded-full text-lg transition duration-150 hover:bg-aussie-green";
-
             if (actionType === 'nextPhase') {
                 button.textContent = `Iniciar Dia ${GAME_STATE.currentPhase}`;
                 button.onclick = () => {
@@ -888,7 +932,8 @@
                 }
             };
 
-            timerInterval = setInterval(updateBar, 100); // Atualização mais suave a cada 100ms
+            timerInterval = setInterval(updateBar, 100);
+            // Atualização mais suave a cada 100ms
             updateBar();
         }
 
@@ -941,13 +986,13 @@
             const stack = elements.pizzaStack;
             stack.style.transition = 'all 0.1s linear';
             stack.style.transform = 'scale(1.1) rotate(5deg)';
-            stack.style.backgroundColor = '#e74c3c'; // Explosão vermelha/erro
+            stack.style.backgroundColor = '#e74c3c';
+            // Explosão vermelha/erro
 
             setTimeout(() => {
                 stack.style.transform = 'scale(0.8) rotate(-5deg)';
                 stack.style.opacity = '0.5';
             }, 100);
-
             setTimeout(() => {
                 stack.style.transition = 'none';
                 stack.style.transform = 'scale(1) rotate(0)';
@@ -983,6 +1028,7 @@
         function initEventListeners() {
             elements.deliverBtn.addEventListener('click', deliverPizza);
             elements.startGameBtn.addEventListener('click', startGame);
+            elements.musicToggleButton.addEventListener('click', toggleMusic); // NOVO
         }
 
         function init() {
