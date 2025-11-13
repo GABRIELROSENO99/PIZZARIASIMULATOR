@@ -767,14 +767,22 @@ container.innerHTML = '';
             ?
 PHASES[1].available.map(name => ({ name, recipe: RECIPES[name] }))
             : availableRecipes.map(name => ({ name, recipe: RECIPES[name] }));
-recipesToDisplay.forEach(item => {
+            
+        recipesToDisplay.forEach(item => {
             const { name, recipe } = item;
+            
+            // NOVO: Mapeia o nome do ingrediente e o emoji para exibição clara.
+            const ingredientDisplay = recipe.ingredients.map(i => {
+                const ingredientData = INGREDIENTS[i];
+                return ingredientData ? `${i} ${ingredientData.emoji}` : '?';
+            }).join(' > ');
+            
             const itemDiv = document.createElement('div');
             itemDiv.className = 'border-b border-gray-200 pb-1';
             itemDiv.innerHTML = `
                 <p class="font-bold text-md text-aussie-orange">${name} (R$${recipe.price})</p>
                
-                <p class="text-xs">${recipe.ingredients.map(i => i).join(', ')}</p>
+ <p class="text-xs font-semibold text-gray-700">${ingredientDisplay}</p>
             `;
             container.appendChild(itemDiv);
         });
