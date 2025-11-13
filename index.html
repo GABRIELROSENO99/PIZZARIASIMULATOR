@@ -213,11 +213,16 @@
                     </div>
                 </div>
 
-                <button id="deliver-btn" disabled
-                    class="w-full max-w-sm bg-gray-400 text-white font-black text-xl py-3 rounded-full shadow-lg transition duration-150 hover:bg-gray-500 disabled:opacity-50 disabled:cursor-not-allowed">
-                    ENTREGAR AO CLIENTE
-                </button>
-
+                <div class="flex space-x-4 w-full max-w-lg">
+                    <button id="discard-btn"
+                        class="flex-1 bg-gray-500 text-white font-black text-xl py-3 rounded-full shadow-lg transition duration-150 hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed">
+                        DESCARTAR PIZZA
+                    </button>
+                    <button id="deliver-btn" disabled
+                        class="flex-1 bg-gray-400 text-white font-black text-xl py-3 rounded-full shadow-lg transition duration-150 hover:bg-gray-500 disabled:opacity-50 disabled:cursor-not-allowed">
+                        ENTREGAR AO CLIENTE
+                    </button>
+                </div>
                 <div class="w-full max-w-lg mt-4 bg-gray-200 rounded-full h-4">
                     <div id="timer-bar-fill" class="bg-green-500 h-4 rounded-full" style="width: 0%;"></div>
                 </div>
@@ -276,7 +281,6 @@
             __app_id : 'default-app-id';
         const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
         const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-        
         // Configurações e Variáveis Globais do Jogo
         let GAME_STATE = {
             currentPhase: 1,
@@ -379,6 +383,8 @@
             recipeList: document.getElementById('recipe-list'),
             pizzaStack: document.getElementById('pizza-stack'),
             deliverBtn: document.getElementById('deliver-btn'),
+            // NOVO: Referência ao botão DESCARTAR
+            discardBtn: document.getElementById('discard-btn'), 
             currentOrderName: document.getElementById('current-order-name'),
             customerAvatar: document.getElementById('customer-avatar'),
             feedbackText: document.getElementById('feedback-text'),
@@ -472,29 +478,28 @@
             }
         }
 
-        // --- Web Speech Synthesis (Helber's Voice) (Mantido como estava) ---
-
+        // --- ALTERAÇÃO 2: FUNÇÃO helberSpeak ESVAZIADA PARA REMOVER VOZ ---
         function helberSpeak(text) {
-            if ('speechSynthesis' in window) {
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'en-US';
-
-                const voices = window.speechSynthesis.getVoices();
-                let aussieVoice = voices.find(voice => voice.lang === 'en-AU');
-                if (aussieVoice) {
-                    utterance.voice = aussieVoice;
-                } else {
-                    utterance.voice = voices[0] ||
-                null;
-                }
-
-                utterance.rate = 1.0;
-                utterance.pitch = 1.0;
-                window.speechSynthesis.speak(utterance);
-            } else {
-                console.warn("Speech Synthesis não suportado neste navegador.");
-            }
+            // Remove a síntese de voz para manter apenas a música de fundo.
+            // if ('speechSynthesis' in window) {
+            //     const utterance = new SpeechSynthesisUtterance(text);
+            //     utterance.lang = 'en-US';
+            //     const voices = window.speechSynthesis.getVoices();
+            //     let aussieVoice = voices.find(voice => voice.lang === 'en-AU');
+            //     if (aussieVoice) {
+            //         utterance.voice = aussieVoice;
+            //     } else {
+            //         utterance.voice = voices[0] ||
+            //         null;
+            //     }
+            //     utterance.rate = 1.0;
+            //     utterance.pitch = 1.0;
+            //     window.speechSynthesis.speak(utterance);
+            // } else {
+            //     console.warn("Speech Synthesis não suportado neste navegador.");
+            // }
         }
+        // --- FIM ALTERAÇÃO 2 ---
 
         // --- Audio Controls ---
         function toggleMusic() {
@@ -502,7 +507,8 @@
             const button = elements.musicToggleButton;
 
             if (audio.paused) {
-                audio.volume = 0.1; // Volume bem baixinho
+                audio.volume = 0.1;
+                // Volume bem baixinho
                 audio.play().then(() => {
                     button.textContent = '⏸ Pause';
                     button.classList.remove('bg-gray-500');
@@ -528,8 +534,8 @@
             // NOVO: Tenta iniciar a música aqui, após o clique do usuário no modal
             const audio = elements.backgroundMusic;
             if (audio.paused) {
-                 audio.volume = 0.1; 
-                 toggleMusic(); // Chama toggleMusic, que vai tentar dar play
+                 audio.volume = 0.1;
+                toggleMusic(); // Chama toggleMusic, que vai tentar dar play
             }
 
             GAME_STATE.currentPhase = 1;
@@ -538,7 +544,7 @@
             GAME_STATE.isGameRunning = true;
             hideModal();
             startPhase();
-            helberSpeak(HELBER_SPEAK.START);
+            // helberSpeak(HELBER_SPEAK.START); // ALTERAÇÃO 2: REMOVIDA
         }
 
         function startPhase() {
@@ -675,7 +681,7 @@
             GAME_STATE.balance += price;
             GAME_STATE.pizzasCompleted++;
 
-            helberSpeak(HELBER_SPEAK.CORRECT);
+            // helberSpeak(HELBER_SPEAK.CORRECT); // ALTERAÇÃO 2: REMOVIDA
             animatePizzaDelivery();
 
             setTimeout(() => {
@@ -688,7 +694,7 @@
             comboStreak = 0;
             elements.feedbackText.textContent = ` Penalidade (-R$20). ${reason}`;
             displayMessage(` Crikey! That's gone belly up. Try again, cobber!`, 'text-red-600');
-            helberSpeak(HELBER_SPEAK.WRONG);
+            // helberSpeak(HELBER_SPEAK.WRONG); // ALTERAÇÃO 2: REMOVIDA
             animatePizzaExplosion();
 
             setTimeout(() => {
@@ -732,12 +738,13 @@
             if (isVictory) {
                 animateFireworks();
                 // MENSAGEM DE VITÓRIA CUSTOMIZADA
-                const finalMessage = `Você é o Pizzaiolo nº 1 da Austrália, Helber! Saldo Final: R$ ${GAME_STATE.balance}. E o mais importante: você conseguiu dinheiro suficiente para montar a melhor pizzaria também no Brasil!`;
+                const finalMessage = `Você é o Pizzaiolo nº 1 da Austrália, Helber!
+Saldo Final: R$ ${GAME_STATE.balance}. E o mais importante: você conseguiu dinheiro suficiente para montar a melhor pizzaria também no Brasil!`;
                 showModal("Vitória! Lenda da Pizza!", finalMessage, 'victory');
-                helberSpeak(HELBER_SPEAK.VICTORY);
+                // helberSpeak(HELBER_SPEAK.VICTORY); // ALTERAÇÃO 2: REMOVIDA
             } else {
                 showModal("Game Over", `Você não aguentou a pressão! Saldo Final: R$ ${GAME_STATE.balance}`, 'gameOver');
-                helberSpeak("Ah, well, that's disappointing mate. Have another go!");
+                // helberSpeak("Ah, well, that's disappointing mate. Have another go!"); // ALTERAÇÃO 2: REMOVIDA
             }
         }
 
@@ -748,6 +755,12 @@
             elements.currentPizzaBase.style.display = 'block';
             elements.pizzaStack.classList.add('border-dashed', 'border-aussie-orange/50');
             elements.pizzaStack.classList.remove('border-aussie-orange', 'bg-yellow-600');
+            // ALTERAÇÃO 1: Desabilita/habilita o botão Descartar
+            elements.discardBtn.disabled = true;
+            elements.discardBtn.classList.remove('bg-gray-500', 'bg-aussie-orange');
+            elements.discardBtn.classList.add('bg-gray-500'); 
+            elements.discardBtn.classList.remove('hover:bg-gray-600', 'hover:bg-aussie-green');
+            elements.discardBtn.classList.add('hover:bg-gray-600');
         }
 
 
@@ -758,12 +771,24 @@
             elements.pizzaCounter.textContent = `Pizzas: ${GAME_STATE.pizzasCompleted}/${GAME_STATE.phaseGoal}`;
             elements.saldoCounter.textContent = `Saldo: R$ ${GAME_STATE.balance}`;
             elements.highscoreDisplay.textContent = `Recorde: R$ ${GAME_STATE.highScore}`;
-            const canDeliver = GAME_STATE.isGameRunning && GAME_STATE.currentOrder && GAME_STATE.appliedIngredients.length > 0;
+            
+            const hasIngredients = GAME_STATE.appliedIngredients.length > 0; // ALTERAÇÃO 1: Nova variável para o botão Discard
+            const canDeliver = GAME_STATE.isGameRunning && GAME_STATE.currentOrder && hasIngredients; // Usa hasIngredients
+
+            // Botão Entregar
             elements.deliverBtn.disabled = !canDeliver;
             elements.deliverBtn.classList.remove('bg-aussie-orange', 'bg-gray-400');
             elements.deliverBtn.classList.add(canDeliver ? 'bg-aussie-orange' : 'bg-gray-400');
             elements.deliverBtn.classList.remove('hover:bg-aussie-green', 'hover:bg-gray-500');
             elements.deliverBtn.classList.add(canDeliver ? 'hover:bg-aussie-green' : 'hover:bg-gray-500');
+
+            // Botão Descartar (habilita se houver ingredientes) - ALTERAÇÃO 1
+            elements.discardBtn.disabled = !hasIngredients;
+            elements.discardBtn.classList.remove('bg-gray-500', 'bg-red-600');
+            elements.discardBtn.classList.add(hasIngredients ? 'bg-red-600' : 'bg-gray-500');
+            elements.discardBtn.classList.remove('hover:bg-gray-600', 'hover:bg-red-700');
+            elements.discardBtn.classList.add(hasIngredients ? 'hover:bg-red-700' : 'hover:bg-gray-600');
+
 
             renderIngredientButtons();
             renderRecipeList();
@@ -811,7 +836,8 @@
                 const itemDiv = document.createElement('div');
                 itemDiv.className = 'border-b border-gray-200 pb-1';
                 itemDiv.innerHTML = `
-                <p class="font-bold text-md text-aussie-orange">${name} (R$${recipe.price})</p>
+                <p class="font-bold text-md 
+                text-aussie-orange">${name} (R$${recipe.price})</p>
                 <p class="text-xs">${recipe.ingredients.map(i => INGREDIENTS[i] ? INGREDIENTS[i].emoji + ' ' + i : '?').join(' ')}</p>
             `; // Adicionado o nome do ingrediente ao lado do emoji
                 container.appendChild(itemDiv);
@@ -860,10 +886,11 @@
                 button.textContent = `Iniciar Dia ${GAME_STATE.currentPhase}`;
                 button.onclick = () => {
                     hideModal();
-                    helberSpeak(HELBER_SPEAK.NEXT_PHASE);
+                    // helberSpeak(HELBER_SPEAK.NEXT_PHASE); // ALTERAÇÃO 2: REMOVIDA
                     // FIX: O startPhase() já foi chamado, mas limpou o pedido.
                     // Precisamos gerar o primeiro pedido do novo dia aqui, após o clique do usuário.
-                    generateNextOrder(); // <--- LINHA CORRIGIDA
+                    generateNextOrder();
+                    // <--- LINHA CORRIGIDA
                 };
             } else if (actionType === 'victory' || actionType === 'gameOver') {
                 button.textContent = "Recomeçar Dia 1";
@@ -979,7 +1006,8 @@
                 stack.style.transform = 'translateY(0) rotate(0) scale(1)';
                 stack.style.opacity = '1';
                 setTimeout(() => {
-                    stack.style.transition = 'all 0.2s ease-out';
+                    stack.style.transition = 'all 0.2s 
+                    ease-out';
                 }, 50);
             }, 500);
         }
@@ -1029,8 +1057,9 @@
 
         function initEventListeners() {
             elements.deliverBtn.addEventListener('click', deliverPizza);
+            elements.discardBtn.addEventListener('click', resetPizzaBench); // ALTERAÇÃO 1: Novo listener
             elements.startGameBtn.addEventListener('click', startGame);
-            elements.musicToggleButton.addEventListener('click', toggleMusic); // NOVO
+            elements.musicToggleButton.addEventListener('click', toggleMusic); 
         }
 
         function init() {
