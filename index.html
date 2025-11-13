@@ -731,7 +731,7 @@
 
             if (isVictory) {
                 animateFireworks();
-                // ALTERAÇÃO SOLICITADA: MENSAGEM DE VITÓRIA CUSTOMIZADA
+                // MENSAGEM DE VITÓRIA CUSTOMIZADA
                 const finalMessage = `Você é o Pizzaiolo nº 1 da Austrália, Helber! Saldo Final: R$ ${GAME_STATE.balance}. E o mais importante: você conseguiu dinheiro suficiente para montar a melhor pizzaria também no Brasil!`;
                 showModal("Vitória! Lenda da Pizza!", finalMessage, 'victory');
                 helberSpeak(HELBER_SPEAK.VICTORY);
@@ -861,7 +861,9 @@
                 button.onclick = () => {
                     hideModal();
                     helberSpeak(HELBER_SPEAK.NEXT_PHASE);
-                    // startPhase() já foi chamado em continueGameFlow
+                    // FIX: O startPhase() já foi chamado, mas limpou o pedido.
+                    // Precisamos gerar o primeiro pedido do novo dia aqui, após o clique do usuário.
+                    generateNextOrder(); // <--- LINHA CORRIGIDA
                 };
             } else if (actionType === 'victory' || actionType === 'gameOver') {
                 button.textContent = "Recomeçar Dia 1";
