@@ -215,8 +215,8 @@
 
                 <div class="flex space-x-4 w-full max-w-lg">
                     <button id="discard-btn"
-                        class="flex-1 bg-gray-500 text-white font-black text-xl py-3 rounded-full shadow-lg transition duration-150 hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed">
-                        DESCARTAR PIZZA
+                        class="flex-1 bg-red-500 text-white font-black text-xl py-3 rounded-full shadow-lg transition duration-150 hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed">
+                        DESCARTAR
                     </button>
                     <button id="deliver-btn" disabled
                         class="flex-1 bg-gray-400 text-white font-black text-xl py-3 rounded-full shadow-lg transition duration-150 hover:bg-gray-500 disabled:opacity-50 disabled:cursor-not-allowed">
@@ -383,8 +383,7 @@
             recipeList: document.getElementById('recipe-list'),
             pizzaStack: document.getElementById('pizza-stack'),
             deliverBtn: document.getElementById('deliver-btn'),
-            // NOVO: Referência ao botão DESCARTAR
-            discardBtn: document.getElementById('discard-btn'), 
+            discardBtn: document.getElementById('discard-btn'), // NOVO: Botão Descartar
             currentOrderName: document.getElementById('current-order-name'),
             customerAvatar: document.getElementById('customer-avatar'),
             feedbackText: document.getElementById('feedback-text'),
@@ -478,28 +477,8 @@
             }
         }
 
-        // --- ALTERAÇÃO 2: FUNÇÃO helberSpeak ESVAZIADA PARA REMOVER VOZ ---
-        function helberSpeak(text) {
-            // Remove a síntese de voz para manter apenas a música de fundo.
-            // if ('speechSynthesis' in window) {
-            //     const utterance = new SpeechSynthesisUtterance(text);
-            //     utterance.lang = 'en-US';
-            //     const voices = window.speechSynthesis.getVoices();
-            //     let aussieVoice = voices.find(voice => voice.lang === 'en-AU');
-            //     if (aussieVoice) {
-            //         utterance.voice = aussieVoice;
-            //     } else {
-            //         utterance.voice = voices[0] ||
-            //         null;
-            //     }
-            //     utterance.rate = 1.0;
-            //     utterance.pitch = 1.0;
-            //     window.speechSynthesis.speak(utterance);
-            // } else {
-            //     console.warn("Speech Synthesis não suportado neste navegador.");
-            // }
-        }
-        // --- FIM ALTERAÇÃO 2 ---
+        // --- REMOVIDO: Web Speech Synthesis (Helber's Voice) ---
+        // Funções helberSpeak() removidas para cumprir a Alteração 2.
 
         // --- Audio Controls ---
         function toggleMusic() {
@@ -544,7 +523,7 @@
             GAME_STATE.isGameRunning = true;
             hideModal();
             startPhase();
-            // helberSpeak(HELBER_SPEAK.START); // ALTERAÇÃO 2: REMOVIDA
+            displayMessage(HELBER_SPEAK.START); // Alterado para apenas exibir mensagem
         }
 
         function startPhase() {
@@ -681,7 +660,7 @@
             GAME_STATE.balance += price;
             GAME_STATE.pizzasCompleted++;
 
-            // helberSpeak(HELBER_SPEAK.CORRECT); // ALTERAÇÃO 2: REMOVIDA
+            // helberSpeak(HELBER_SPEAK.CORRECT); // REMOVIDO
             animatePizzaDelivery();
 
             setTimeout(() => {
@@ -694,7 +673,7 @@
             comboStreak = 0;
             elements.feedbackText.textContent = ` Penalidade (-R$20). ${reason}`;
             displayMessage(` Crikey! That's gone belly up. Try again, cobber!`, 'text-red-600');
-            // helberSpeak(HELBER_SPEAK.WRONG); // ALTERAÇÃO 2: REMOVIDA
+            // helberSpeak(HELBER_SPEAK.WRONG); // REMOVIDO
             animatePizzaExplosion();
 
             setTimeout(() => {
@@ -738,13 +717,12 @@
             if (isVictory) {
                 animateFireworks();
                 // MENSAGEM DE VITÓRIA CUSTOMIZADA
-                const finalMessage = `Você é o Pizzaiolo nº 1 da Austrália, Helber!
-Saldo Final: R$ ${GAME_STATE.balance}. E o mais importante: você conseguiu dinheiro suficiente para montar a melhor pizzaria também no Brasil!`;
+                const finalMessage = `Você é o Pizzaiolo nº 1 da Austrália, Helber! Saldo Final: R$ ${GAME_STATE.balance}. E o mais importante: você conseguiu dinheiro suficiente para montar a melhor pizzaria também no Brasil!`;
                 showModal("Vitória! Lenda da Pizza!", finalMessage, 'victory');
-                // helberSpeak(HELBER_SPEAK.VICTORY); // ALTERAÇÃO 2: REMOVIDA
+                // helberSpeak(HELBER_SPEAK.VICTORY); // REMOVIDO
             } else {
                 showModal("Game Over", `Você não aguentou a pressão! Saldo Final: R$ ${GAME_STATE.balance}`, 'gameOver');
-                // helberSpeak("Ah, well, that's disappointing mate. Have another go!"); // ALTERAÇÃO 2: REMOVIDA
+                // helberSpeak("Ah, well, that's disappointing mate. Have another go!"); // REMOVIDO
             }
         }
 
@@ -755,12 +733,8 @@ Saldo Final: R$ ${GAME_STATE.balance}. E o mais importante: você conseguiu dinh
             elements.currentPizzaBase.style.display = 'block';
             elements.pizzaStack.classList.add('border-dashed', 'border-aussie-orange/50');
             elements.pizzaStack.classList.remove('border-aussie-orange', 'bg-yellow-600');
-            // ALTERAÇÃO 1: Desabilita/habilita o botão Descartar
+            // Desativa o botão de descarte se não houver ingredientes
             elements.discardBtn.disabled = true;
-            elements.discardBtn.classList.remove('bg-gray-500', 'bg-aussie-orange');
-            elements.discardBtn.classList.add('bg-gray-500'); 
-            elements.discardBtn.classList.remove('hover:bg-gray-600', 'hover:bg-aussie-green');
-            elements.discardBtn.classList.add('hover:bg-gray-600');
         }
 
 
@@ -771,24 +745,17 @@ Saldo Final: R$ ${GAME_STATE.balance}. E o mais importante: você conseguiu dinh
             elements.pizzaCounter.textContent = `Pizzas: ${GAME_STATE.pizzasCompleted}/${GAME_STATE.phaseGoal}`;
             elements.saldoCounter.textContent = `Saldo: R$ ${GAME_STATE.balance}`;
             elements.highscoreDisplay.textContent = `Recorde: R$ ${GAME_STATE.highScore}`;
-            
-            const hasIngredients = GAME_STATE.appliedIngredients.length > 0; // ALTERAÇÃO 1: Nova variável para o botão Discard
-            const canDeliver = GAME_STATE.isGameRunning && GAME_STATE.currentOrder && hasIngredients; // Usa hasIngredients
+            const canDeliver = GAME_STATE.isGameRunning && GAME_STATE.currentOrder && GAME_STATE.appliedIngredients.length > 0;
+            const hasIngredients = GAME_STATE.appliedIngredients.length > 0; // Para o botão Descartar
 
-            // Botão Entregar
             elements.deliverBtn.disabled = !canDeliver;
             elements.deliverBtn.classList.remove('bg-aussie-orange', 'bg-gray-400');
             elements.deliverBtn.classList.add(canDeliver ? 'bg-aussie-orange' : 'bg-gray-400');
             elements.deliverBtn.classList.remove('hover:bg-aussie-green', 'hover:bg-gray-500');
             elements.deliverBtn.classList.add(canDeliver ? 'hover:bg-aussie-green' : 'hover:bg-gray-500');
 
-            // Botão Descartar (habilita se houver ingredientes) - ALTERAÇÃO 1
+            // Lógica do botão Descartar
             elements.discardBtn.disabled = !hasIngredients;
-            elements.discardBtn.classList.remove('bg-gray-500', 'bg-red-600');
-            elements.discardBtn.classList.add(hasIngredients ? 'bg-red-600' : 'bg-gray-500');
-            elements.discardBtn.classList.remove('hover:bg-gray-600', 'hover:bg-red-700');
-            elements.discardBtn.classList.add(hasIngredients ? 'hover:bg-red-700' : 'hover:bg-gray-600');
-
 
             renderIngredientButtons();
             renderRecipeList();
@@ -836,8 +803,7 @@ Saldo Final: R$ ${GAME_STATE.balance}. E o mais importante: você conseguiu dinh
                 const itemDiv = document.createElement('div');
                 itemDiv.className = 'border-b border-gray-200 pb-1';
                 itemDiv.innerHTML = `
-                <p class="font-bold text-md 
-                text-aussie-orange">${name} (R$${recipe.price})</p>
+                <p class="font-bold text-md text-aussie-orange">${name} (R$${recipe.price})</p>
                 <p class="text-xs">${recipe.ingredients.map(i => INGREDIENTS[i] ? INGREDIENTS[i].emoji + ' ' + i : '?').join(' ')}</p>
             `; // Adicionado o nome do ingrediente ao lado do emoji
                 container.appendChild(itemDiv);
@@ -886,7 +852,7 @@ Saldo Final: R$ ${GAME_STATE.balance}. E o mais importante: você conseguiu dinh
                 button.textContent = `Iniciar Dia ${GAME_STATE.currentPhase}`;
                 button.onclick = () => {
                     hideModal();
-                    // helberSpeak(HELBER_SPEAK.NEXT_PHASE); // ALTERAÇÃO 2: REMOVIDA
+                    displayMessage(HELBER_SPEAK.NEXT_PHASE); // Alterado para apenas exibir mensagem
                     // FIX: O startPhase() já foi chamado, mas limpou o pedido.
                     // Precisamos gerar o primeiro pedido do novo dia aqui, após o clique do usuário.
                     generateNextOrder();
@@ -1006,8 +972,7 @@ Saldo Final: R$ ${GAME_STATE.balance}. E o mais importante: você conseguiu dinh
                 stack.style.transform = 'translateY(0) rotate(0) scale(1)';
                 stack.style.opacity = '1';
                 setTimeout(() => {
-                    stack.style.transition = 'all 0.2s 
-                    ease-out';
+                    stack.style.transition = 'all 0.2s ease-out';
                 }, 50);
             }, 500);
         }
@@ -1057,9 +1022,9 @@ Saldo Final: R$ ${GAME_STATE.balance}. E o mais importante: você conseguiu dinh
 
         function initEventListeners() {
             elements.deliverBtn.addEventListener('click', deliverPizza);
-            elements.discardBtn.addEventListener('click', resetPizzaBench); // ALTERAÇÃO 1: Novo listener
+            elements.discardBtn.addEventListener('click', resetPizzaBench); // NOVO: Listener para Descartar
             elements.startGameBtn.addEventListener('click', startGame);
-            elements.musicToggleButton.addEventListener('click', toggleMusic); 
+            elements.musicToggleButton.addEventListener('click', toggleMusic); // NOVO
         }
 
         function init() {
