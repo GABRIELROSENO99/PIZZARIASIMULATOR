@@ -47,8 +47,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(255, 255, 255, 0.8);
-            /* Camada de opacidade para a UI */
+            background: rgba(255, 255, 255, 0.8); /* Camada de opacidade para a UI */
             z-index: 2;
         }
 
@@ -59,8 +58,7 @@
 
         /* Estilo da Bancada da Pizza */
         #pizza-bench {
-            background-color: #bcaaa4;
-            /* Mármore claro/madeira */
+            background-color: #bcaaa4; /* Mármore claro/madeira */
             border-radius: 1rem;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
@@ -72,12 +70,8 @@
         }
 
         @keyframes pulse {
-            from {
-                transform: scale(1);
-            }
-            to {
-                transform: scale(1.05);
-            }
+            from { transform: scale(1); }
+            to { transform: scale(1.05); }
         }
 
         /* Botão de Ingrediente */
@@ -106,24 +100,12 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
             transition: all 0.2s ease-out;
         }
-        .layer-molho {
-            background-color: #c0392b;
-        }
-        .layer-queijo {
-            background-color: #f1c40f;
-        }
-        .layer-carne {
-            background-color: #8B4513;
-        }
-        .layer-vegetal {
-            background-color: #27ae60;
-        }
-        .layer-premium {
-            background-color: #9b59b6;
-        }
-        .layer-abacaxi {
-            background-color: #f39c12;
-        }
+        .layer-molho { background-color: #c0392b; }
+        .layer-queijo { background-color: #f1c40f; }
+        .layer-carne { background-color: #8B4513; }
+        .layer-vegetal { background-color: #27ae60; }
+        .layer-premium { background-color: #9b59b6; }
+        .layer-abacaxi { background-color: #f39c12; }
 
 
         /* Foguetes de Artifício (Vitória) */
@@ -138,20 +120,14 @@
         }
 
         @keyframes firework-burst {
-            0% {
-                opacity: 1;
-                transform: translate(0, 0) scale(1);
-            }
-            100% {
-                opacity: 0;
-                transform: translate(var(--x), var(--y)) scale(0.5);
-            }
+            0% { opacity: 1; transform: translate(0, 0) scale(1); }
+            100% { opacity: 0; transform: translate(var(--x), var(--y)) scale(0.5); }
         }
 
         /* Timer Bar */
         #timer-bar-fill {
             /* Transição ajustada para dar a sensação de crescimento/acúmulo */
-            transition: width 0.1s linear;
+            transition: width 0.1s linear; 
         }
     </style>
 </head>
@@ -161,19 +137,17 @@
     <header class="bg-white/90 p-4 mb-6 rounded-xl shadow-lg border-t-4 border-aussie-green">
         <div class="flex flex-col md:flex-row justify-between items-center text-center">
             <h1 class="text-3xl font-black text-aussie-orange uppercase tracking-wider mb-2 md:mb-0">
-                Pizzaria Helber B - Australian Man 
+                Pizzaria Helber B - Australian Man 🇦🇺
             </h1>
             <div class="flex space-x-4 font-bold text-lg">
                 <span id="fase-counter" class="bg-aussie-green text-white px-3 py-1 rounded-full shadow-md">Fase: 1/5</span>
                 <span id="pizza-counter" class="bg-aussie-orange text-white px-3 py-1 rounded-full shadow-md">Pizzas: 0/25</span>
                 <span id="saldo-counter" class="bg-gray-700 text-white px-3 py-1 rounded-full shadow-md">Saldo: R$ 0</span>
-                <span id="highscore-display" class="bg-blue-600 text-white px-3 py-1 
-rounded-full shadow-md">Recorde: R$ 0</span>
+                <span id="highscore-display" class="bg-blue-600 text-white px-3 py-1 rounded-full shadow-md">Recorde: R$ 0</span>
             </div>
         </div>
         <div id="game-message" class="mt-3 text-center text-xl font-semibold text-gray-800">
-            Helber: "G'day, mate!
-Let's make some wicked pizzas today!"
+            Helber: "G'day, mate! Let's make some wicked pizzas today!"
         </div>
     </header>
 
@@ -181,67 +155,58 @@ Let's make some wicked pizzas today!"
 
         <div class="lg:col-span-3 space-y-6">
             <div id="ingredients-shelf" class="bg-white/95 p-4 rounded-xl shadow-inner border border-aussie-green">
-                <h2 class="text-xl font-bold mb-3 text-gray-800">Ingredientes </h2>
+                <h2 class="text-xl font-bold mb-3 text-gray-800">Ingredientes 🛒</h2>
                 <div id="ingredient-buttons" class="grid grid-cols-3 gap-2">
-     
-                </div>
+                    </div>
             </div>
 
             <div class="bg-white/95 p-4 rounded-xl shadow-inner border border-aussie-orange max-h-96 overflow-y-auto">
-                <h2 class="text-xl font-bold mb-3 text-aussie-green">Receitas (Ordem Exata!) </h2>
+                <h2 class="text-xl font-bold mb-3 text-aussie-green">Receitas (Ordem Exata!) 📜</h2>
                 <div id="recipe-list" class="text-sm font-mono text-gray-700 space-y-2">
-         
-                </div>
+                    </div>
             </div>
         </div>
 
         <div class="lg:col-span-6 flex flex-col items-center space-y-4">
             <div class="text-center">
-                <span id="helber-avatar"> </span>
+                <span id="helber-avatar">👨‍🍳 🇦🇺</span>
                 <p class="text-xl font-bold text-gray-800">Helber B.</p>
-     
             </div>
 
             <div id="pizza-bench" class="w-full max-w-lg h-80 flex flex-col items-center justify-center p-4">
                 <h3 class="text-center text-lg font-semibold mb-4 text-white p-2 rounded-lg bg-gray-800/70">
-                    Sua Pizza 
+                    Sua Pizza 🍕
                 </h3>
-          
                 <div id="pizza-stack" class="w-64 h-64 border-8 border-dashed border-aussie-orange/50 rounded-full bg-aussie-orange/10 flex flex-col items-center justify-center">
                     <p id="current-pizza-base" class="text-sm text-gray-600">Massa (Arraste o primeiro ingrediente)</p>
                 </div>
             </div>
 
             <button id="deliver-btn" disabled
-             
-            class="w-full max-w-sm bg-gray-400 text-white font-black text-xl py-3 rounded-full shadow-lg transition duration-150 hover:bg-gray-500 disabled:opacity-50 disabled:cursor-not-allowed">
-                ENTREGAR AO CLIENTE 
+                    class="w-full max-w-sm bg-gray-400 text-white font-black text-xl py-3 rounded-full shadow-lg transition duration-150 hover:bg-gray-500 disabled:opacity-50 disabled:cursor-not-allowed">
+                ENTREGAR AO CLIENTE 🚀
             </button>
 
             <div class="w-full max-w-lg mt-4 bg-gray-200 rounded-full h-4">
                 <div id="timer-bar-fill" class="bg-green-500 h-4 rounded-full" style="width: 0%;"></div>
-         
             </div>
         </div>
 
         <div class="lg:col-span-3 space-y-6">
             <div id="order-queue" class="bg-white/95 p-4 rounded-xl shadow-inner border border-aussie-green">
-                <h2 class="text-xl font-bold mb-3 text-gray-800">Próximo Pedido </h2>
+                <h2 class="text-xl font-bold mb-3 text-gray-800">Próximo Pedido 🧑‍🤝‍🧑</h2>
                 <p id="customer-wait-timer" class="text-md font-bold text-green-600 mb-2">
-                 
                     CLIENTE AGUARDANDO A (00:00)
                 </p>
                 <div id="current-order-card" class="bg-yellow-100 p-3 rounded-lg shadow-md border-l-4 border-yellow-500">
                     <p class="text-sm text-gray-500">Cliente (Aguardando Helber)</p>
-                    <p id="customer-avatar" class="text-2xl mt-1"></p>
-        
+                    <p id="customer-avatar" class="text-2xl mt-1">🏄‍♂️</p>
                     <p id="current-order-name" class="text-xl font-black text-red-700 mt-2">...</p>
                 </div>
             </div>
 
             <div id="feedback-area" class="bg-white/95 p-4 rounded-xl shadow-inner border border-aussie-orange min-h-[100px]">
-                <h2 class="text-xl font-bold mb-3 text-gray-800">Feedback </h2>
-              
+                <h2 class="text-xl font-bold mb-3 text-gray-800">Feedback 🗣️</h2>
                 <p id="feedback-text" class="text-lg italic text-gray-600">Aguardando entrega...</p>
             </div>
         </div>
@@ -250,14 +215,12 @@ Let's make some wicked pizzas today!"
     <div id="game-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden">
         <div id="modal-content" class="bg-white p-8 rounded-xl shadow-2xl max-w-md w-full text-center border-t-8 border-aussie-orange">
             <h2 id="modal-title" class="text-3xl font-black mb-4 text-aussie-green">Bem-vindo, Mate!</h2>
-            <p id="modal-body" class="mb-6 text-gray-700">Pressione Iniciar para começar 
-sua jornada como o Pizzaiolo Helber B!</p>
+            <p id="modal-body" class="mb-6 text-gray-700">Pressione Iniciar para começar sua jornada como o Pizzaiolo Helber B!</p>
             <div id="modal-actions">
                 <button id="start-game-btn" class="bg-aussie-orange text-white font-bold py-3 px-6 rounded-full text-lg transition duration-150 hover:bg-aussie-green">
-                    Iniciar Dia 1 
+                    Iniciar Dia 1 🍕
                 </button>
             </div>
-   
         </div>
     </div>
 
@@ -270,10 +233,10 @@ sua jornada como o Pizzaiolo Helber B!</p>
     import { setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
     // Variáveis globais de ambiente (PREENCHIDAS PELO CANVAS)
-    const appId = typeof __app_id !== 'undefined' ?
-__app_id : 'default-app-id';
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
     const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
     const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
     // Configurações e Variáveis Globais do Jogo
     let GAME_STATE = {
         currentPhase: 1,
@@ -285,40 +248,38 @@ __app_id : 'default-app-id';
         currentOrder: null,
         appliedIngredients: [],
         phaseGoal: 25,
-      
         timerMax: 0,
         elapsedTime: 0, // ALTERADO: Contará o tempo que passou.
         isAuthReady: false,
         userId: null,
     };
-    
-    // --- CORREÇÃO 1: REINTRODUÇÃO DOS EMOJIS DOS INGREDIENTES ---
+
     const INGREDIENTS = {
-        'MOLHO': { color: '#c0392b', emoji: '🍅', type: 'layer-molho' },
+        'MOLHO': { color: '#c0392b', emoji: '🥫', type: 'layer-molho' },
         'QUEIJO': { color: '#f1c40f', emoji: '🧀', type: 'layer-queijo' },
-        'CALABRESA': { color: '#e74c3c', emoji: '🌶️', type: 'layer-carne' },
-        'PEPPERONI': { color: '#c0392b', emoji: '🥩', type: 'layer-carne' },
-        'FRANGO': { color: '#f39c12', emoji: '🍗', type: 'layer-carne' },
+        'CALABRESA': { color: '#e74c3c', emoji: '🥩', type: 'layer-carne' },
+        'PEPPERONI': { color: '#c0392b', emoji: '🌶️', type: 'layer-carne' },
+        'FRANGO': { color: '#f39c12', emoji: '🐔', type: 'layer-carne' },
         'CATUPIRY': { color: '#ecf0f1', emoji: '🥛', type: 'layer-queijo' },
         'MANJERICÃO': { color: '#2ecc71', emoji: '🌿', type: 'layer-vegetal' },
         'ORÉGANO': { color: '#27ae60', emoji: '🍃', type: 'layer-vegetal' },
         'CEBOLA': { color: '#bdc3c7', emoji: '🧅', type: 'layer-vegetal' },
         'COGUMELOS': { color: '#95a5a6', emoji: '🍄', type: 'layer-vegetal' },
-        'GORGONZOLA': { color: '#3498db', emoji: '💧', type: 'layer-queijo' },
-        'PROVOLONE': { color: '#9b59b6', emoji: '💜', type: 'layer-queijo' },
+        'GORGONZOLA': { color: '#3498db', emoji: '🧀', type: 'layer-queijo' },
+        'PROVOLONE': { color: '#9b59b6', emoji: '🧀', type: 'layer-queijo' },
         'BACON': { color: '#e67e22', emoji: '🥓', type: 'layer-carne' },
         'AZEITONAS': { color: '#2c3e50', emoji: '⚫', type: 'layer-vegetal' },
         'PIMENTÃO': { color: '#e67e22', emoji: '🫑', type: 'layer-vegetal' },
         'ABACAXI': { color: '#f1c40f', emoji: '🍍', type: 'layer-abacaxi' },
-        'PRESUNTO': { color: '#e67e22', emoji: '🐷', type: 'layer-carne' },
-        'PARMESÃO': { color: '#f39c12', emoji: '🥇', type: 'layer-queijo' },
+        'PRESUNTO': { color: '#e67e22', emoji: '🍖', type: 'layer-carne' },
+        'PARMESÃO': { color: '#f39c12', emoji: '🧀', type: 'layer-queijo' },
         'BRÓCOLIS': { color: '#2ecc71', emoji: '🥦', type: 'layer-vegetal' },
-        'QUEIJO EXTRA': { color: '#f1c40f', emoji: '✨', type: 'layer-queijo' },
-        'CARNE MOÍDA': { color: '#8B4513', emoji: '🐂', type: 'layer-carne' },
+        'QUEIJO EXTRA': { color: '#f1c40f', emoji: '🧀', type: 'layer-queijo' },
+        'CARNE MOÍDA': { color: '#8B4513', emoji: '🥩', type: 'layer-carne' },
         'ATUM': { color: '#2c3e50', emoji: '🐟', type: 'layer-carne' },
         'ESCARGOT': { color: '#9b59b6', emoji: '🐌', type: 'layer-premium' },
     };
-    
+
     const RECIPES = {
         'MARGHERITA': { ingredients: ['MOLHO', 'QUEIJO', 'MANJERICÃO'], price: 50, phaseMin: 1 },
         'CALABRESA': { ingredients: ['MOLHO', 'QUEIJO', 'CALABRESA', 'CEBOLA'], price: 60, phaseMin: 1 },
@@ -338,16 +299,11 @@ __app_id : 'default-app-id';
     };
 
     const PHASES = {
-        1: { goal: 2, timer: 0, available: ['MARGHERITA', 'CALABRESA', 'FRANGO CATUPIRY', 'PEPPERONI', 'BACON'], message: "Dia de treino! Sem pressão, mate!"
-}, // Reduzido goal para teste
-        2: { goal: 5, timer: 120, available: 8, message: "Aperta o passo! O relógio está correndo, cobber!"
-}, // Reduzido goal para teste
-        3: { goal: 5, timer: 105, available: 12, message: "A clientela está agitada, menos tempo para errar!"
-},
-        4: { goal: 5, timer: 90, available: 15, message: "Dia de super-pico! Pedidos piscando!"
-},
-        5: { goal: 5, timer: 75, available: 15, message: "Final do campeonato! Acerto triplo é dinheiro extra!"
-},
+        1: { goal: 2, timer: 0, available: ['MARGHERITA', 'CALABRESA', 'FRANGO CATUPIRY', 'PEPPERONI', 'BACON'], message: "Dia de treino! Sem pressão, mate!" }, // Reduzido goal para teste
+        2: { goal: 5, timer: 120, available: 8, message: "Aperta o passo! O relógio está correndo, cobber!" }, // Reduzido goal para teste
+        3: { goal: 5, timer: 105, available: 12, message: "A clientela está agitada, menos tempo para errar!" },
+        4: { goal: 5, timer: 90, available: 15, message: "Dia de super-pico! Pedidos piscando!" },
+        5: { goal: 5, timer: 75, available: 15, message: "Final do campeonato! Acerto triplo é dinheiro extra!" },
     };
 
     // Frases de elogio expandidas com o tema Brasil/São Paulo
@@ -356,13 +312,13 @@ __app_id : 'default-app-id';
         "Simplesmente perfeito!", "Dez de dez!", "Eu voltarei!", "Fantástico!", "Sabor impecável, mate!",
         "Muito bom, amigo!", "Que fatia de pizza!", "Obrigado, lenda!",
         "Entrega incrivelmente rápida! Você é um foguete, Helber!",
-        "Helber é o mestre 
-da velocidade! Ripper!",
+        "Helber é o mestre da velocidade! Ripper!",
         "Essa rapidez é nota 10! Não deu tempo nem de piscar!",
         "É sabor de São Paulo, Helber! Que saudade da pizza brasileira!",
         "Esse queijo lembra o da Mooca! Sabor de casa!",
         "Atendimento Aussie, sabor brasileiro. Combinação perfeita!",
     ];
+
     const HELBER_SPEAK = {
         START: "G'day, mate! Let's make some wicked pizzas today!",
         CORRECT: "Fair dinkum! Nailed it, mate! Get that dough!",
@@ -370,6 +326,7 @@ da velocidade! Ripper!",
         NEXT_PHASE: "Ripper! We smashed that day. Now for the next one!",
         VICTORY: "You beaut! We did it! Pizza empire, here we come!",
     };
+
     let timerInterval = null;
     let comboStreak = 0;
 
@@ -383,8 +340,7 @@ da velocidade! Ripper!",
         ingredientButtons: document.getElementById('ingredient-buttons'),
         recipeList: document.getElementById('recipe-list'),
         pizzaStack: document.getElementById('pizza-stack'),
-        deliverBtn: 
-document.getElementById('deliver-btn'),
+        deliverBtn: document.getElementById('deliver-btn'),
         currentOrderName: document.getElementById('current-order-name'),
         customerAvatar: document.getElementById('customer-avatar'),
         feedbackText: document.getElementById('feedback-text'),
@@ -396,56 +352,58 @@ document.getElementById('deliver-btn'),
         startGameBtn: document.getElementById('start-game-btn'),
         currentPizzaBase: document.getElementById('current-pizza-base'),
         customerWaitTimer: document.getElementById('customer-wait-timer'),
- 
     };
 
     // --- Firebase Setup (Mantido como estava) ---
     let db, auth;
+
     async function initFirebase() {
         if (!firebaseConfig) {
             console.error("Firebase config not available. Running game without persistence.");
-GAME_STATE.isAuthReady = true;
+            GAME_STATE.isAuthReady = true;
             elements.highscoreDisplay.textContent = "Recorde: R$ 0 (Local)";
             return;
-}
+        }
         
         try {
             // ... (Lógica de inicialização Firebase omitida para brevidade, mas mantida no código original)
             const app = initializeApp(firebaseConfig);
-db = getFirestore(app);
+            db = getFirestore(app);
             auth = getAuth(app);
             setLogLevel('debug'); // Log level for Firestore
 
             let userCredential;
-try {
+            try {
                 if (initialAuthToken) {
                     userCredential = await signInWithCustomToken(auth, initialAuthToken);
-} else {
+                } else {
                     userCredential = await signInAnonymously(auth);
-}
+                }
             } catch (error) {
                 userCredential = await signInAnonymously(auth);
-}
+            }
 
             GAME_STATE.userId = userCredential.user.uid;
             GAME_STATE.isAuthReady = true;
-            loadGameState();
-} catch (error) {
+            loadGameState(); 
+
+        } catch (error) {
             console.error("Erro fatal ao inicializar Firebase ou Autenticar:", error);
-GAME_STATE.isAuthReady = true;
+            GAME_STATE.isAuthReady = true;
             elements.highscoreDisplay.textContent = "Recorde: R$ 0 (Erro Auth)";
-}
+        }
     }
 
     function getUserScoreDocRef() {
         if (!db || !GAME_STATE.userId) return null;
-const collectionPath = `/artifacts/${appId}/users/${GAME_STATE.userId}/pizzagame_scores`;
+        const collectionPath = `/artifacts/${appId}/users/${GAME_STATE.userId}/pizzagame_scores`;
         return doc(db, collectionPath, 'high_score');
     }
 
     function loadGameState() {
         if (!GAME_STATE.isAuthReady || !db || !GAME_STATE.userId) return;
-const docRef = getUserScoreDocRef();
+
+        const docRef = getUserScoreDocRef();
         if (!docRef) return;
 
         onSnapshot(docRef, (docSnap) => {
@@ -454,26 +412,27 @@ const docRef = getUserScoreDocRef();
                 GAME_STATE.highScore = data.highScore || 0;
             } else {
                 saveGameState(); 
-      
             }
             updateUI();
         }, (error) => {
             console.error("Erro ao ouvir High Score:", error);
         });
-}
+    }
 
     async function saveGameState() {
         if (!GAME_STATE.isAuthReady || !db || !GAME_STATE.userId) return;
-try {
+
+        try {
             const docRef = getUserScoreDocRef();
             if (!docRef) return;
-await setDoc(docRef, {
+
+            await setDoc(docRef, {
                 highScore: GAME_STATE.highScore,
                 lastUpdated: new Date().toISOString()
             }, { merge: true });
-} catch (e) {
+        } catch (e) {
             console.error("Erro ao salvar High Score:", e);
-}
+        }
     }
 
     // --- Web Speech Synthesis (Helber's Voice) (Mantido como estava) ---
@@ -481,124 +440,125 @@ await setDoc(docRef, {
     function helberSpeak(text) {
         if ('speechSynthesis' in window) {
             const utterance = new SpeechSynthesisUtterance(text);
-utterance.lang = 'en-US'; 
+            utterance.lang = 'en-US'; 
 
             const voices = window.speechSynthesis.getVoices();
             let aussieVoice = voices.find(voice => voice.lang === 'en-AU');
-if (aussieVoice) {
+
+            if (aussieVoice) {
                 utterance.voice = aussieVoice;
-} else {
-                utterance.voice = voices[0] ||
-null;
+            } else {
+                utterance.voice = voices[0] || null;
             }
 
             utterance.rate = 1.0;
             utterance.pitch = 1.0;
             window.speechSynthesis.speak(utterance);
-} else {
+        } else {
             console.warn("Speech Synthesis não suportado neste navegador.");
-}
+        }
     }
 
     // --- Game Logic ---
 
     function startGame() {
         GAME_STATE.currentPhase = 1;
-GAME_STATE.balance = 0;
+        GAME_STATE.balance = 0;
         GAME_STATE.streak = 0;
         GAME_STATE.isGameRunning = true;
         hideModal();
         startPhase();
         helberSpeak(HELBER_SPEAK.START);
-}
+    }
 
     function startPhase() {
         const phase = PHASES[GAME_STATE.currentPhase];
-GAME_STATE.pizzasCompleted = 0;
+        GAME_STATE.pizzasCompleted = 0;
         GAME_STATE.phaseGoal = phase.goal;
         GAME_STATE.timerMax = phase.timer * 1000;
-        GAME_STATE.elapsedTime = 0;
-// Reset do tempo
+        GAME_STATE.elapsedTime = 0; // Reset do tempo
         GAME_STATE.appliedIngredients = [];
         resetPizzaBench();
         updateUI();
         displayMessage(phase.message);
-if (GAME_STATE.currentPhase === 1) {
+
+        if (GAME_STATE.currentPhase === 1) {
             generateNextOrder();
-} else {
-            GAME_STATE.currentOrder = null;
-}
+        } else {
+            GAME_STATE.currentOrder = null; 
+        }
     }
 
     /**
      * Retorna a lista de nomes de ingredientes que estão em *qualquer* receita
      * disponível para a fase atual.
-*/
+     */
     function getAvailableIngredientsForPhase() {
         const availableRecipes = Object.keys(RECIPES).filter(name => RECIPES[name].phaseMin <= GAME_STATE.currentPhase);
-const uniqueIngredients = new Set();
+        const uniqueIngredients = new Set();
         
         availableRecipes.forEach(rName => {
             RECIPES[rName].ingredients.forEach(iName => {
                 uniqueIngredients.add(iName);
             });
         });
-// Na Fase 1, se tivermos uma lista restrita de receitas, usamos elas.
-if (GAME_STATE.currentPhase === 1) {
-            const phase1Recipes = PHASES[1].available;
-// Nomes das receitas
+
+        // Na Fase 1, se tivermos uma lista restrita de receitas, usamos elas.
+        if (GAME_STATE.currentPhase === 1) {
+            const phase1Recipes = PHASES[1].available; // Nomes das receitas
             const phase1Ingredients = new Set();
-phase1Recipes.forEach(rName => {
+            phase1Recipes.forEach(rName => {
                  if (RECIPES[rName]) {
                     RECIPES[rName].ingredients.forEach(iName => phase1Ingredients.add(iName));
                  }
             });
-return Array.from(phase1Ingredients);
+            return Array.from(phase1Ingredients);
         }
 
         return Array.from(uniqueIngredients);
-}
+    }
 
 
     function generateNextOrder() {
         const allRecipes = Object.keys(RECIPES).filter(name => RECIPES[name].phaseMin <= GAME_STATE.currentPhase);
-let availableRecipes = allRecipes;
+        let availableRecipes = allRecipes;
 
         if (GAME_STATE.currentPhase === 1) {
-            availableRecipes = PHASES[1].available;
-// Usa a lista restrita de nomes de receita
+            availableRecipes = PHASES[1].available; // Usa a lista restrita de nomes de receita
         } else {
             // Se a fase tem um limite de receitas (o número em 'available'), usa um subconjunto
             const numAvailable = PHASES[GAME_STATE.currentPhase].available;
-availableRecipes = allRecipes.slice(0, numAvailable); 
+            availableRecipes = allRecipes.slice(0, numAvailable); 
         }
 
         const randomRecipeName = availableRecipes[Math.floor(Math.random() * availableRecipes.length)];
-const order = RECIPES[randomRecipeName];
+        const order = RECIPES[randomRecipeName];
 
         GAME_STATE.currentOrder = {
             name: randomRecipeName,
             recipe: order.ingredients,
             price: order.price,
         };
-elements.currentOrderName.textContent = randomRecipeName;
+
+        elements.currentOrderName.textContent = randomRecipeName;
         elements.customerAvatar.textContent = getRandomCustomerEmoji();
 
         // O timer só começa a contar quando o pedido é gerado
         resetTimer(GAME_STATE.timerMax);
-updateUI();
+        updateUI();
     }
 
     function addIngredient(ingredientName) {
         if (!GAME_STATE.isGameRunning || !GAME_STATE.currentOrder) return;
-GAME_STATE.appliedIngredients.push(ingredientName);
+
+        GAME_STATE.appliedIngredients.push(ingredientName);
         renderPizzaStack();
         updateUI(); 
     }
 
     function deliverPizza() {
         if (GAME_STATE.appliedIngredients.length === 0 || !GAME_STATE.currentOrder) return;
-stopTimer();
+        stopTimer();
 
         const correctRecipe = GAME_STATE.currentOrder.recipe;
         const applied = GAME_STATE.appliedIngredients;
@@ -606,46 +566,46 @@ stopTimer();
         // 1. Verifica o tamanho
         if (applied.length !== correctRecipe.length) {
             handleWrongOrder("Falta ou sobra de ingredientes, Helber!");
-return;
+            return;
         }
 
         // 2. Verifica a ordem exata
         let isCorrect = true;
-for (let i = 0; i < correctRecipe.length; i++) {
+        for (let i = 0; i < correctRecipe.length; i++) {
             if (applied[i] !== correctRecipe[i]) {
                 isCorrect = false;
-break;
+                break;
             }
         }
 
         if (isCorrect) {
             handleCorrectOrder();
-} else {
+        } else {
             handleWrongOrder("A ordem dos ingredientes está errada, cobber!");
-}
+        }
     }
 
     function handleCorrectOrder() {
         let price = GAME_STATE.currentOrder.price;
-comboStreak++;
+        comboStreak++;
 
         if (comboStreak >= 5) {
-            price = Math.round(price * 1.5);
-elements.feedbackText.textContent = ` STREAK x1.5! Pizza perfeita! +R$${price}`;
+            price = Math.round(price * 1.5); 
+            elements.feedbackText.textContent = `🔥 STREAK x1.5! Pizza perfeita! +R$${price}`;
             displayMessage(HELBER_SPEAK.CORRECT, 'text-green-700 font-extrabold');
-} else {
+        } else {
             const praise = getRandomPraisePhrase();
-elements.feedbackText.textContent = praise;
+            elements.feedbackText.textContent = praise;
             displayMessage(HELBER_SPEAK.CORRECT, 'text-green-600');
         }
 
         if (GAME_STATE.currentPhase === 5 && comboStreak > 0 && comboStreak % 3 === 0) {
-            price *= 2;
-elements.feedbackText.textContent = ` COMBO ESPECIAL X2! +R$${price} | ${elements.feedbackText.textContent}`;
+            price *= 2; 
+            elements.feedbackText.textContent = `✨ COMBO ESPECIAL X2! +R$${price} | ${elements.feedbackText.textContent}`;
         }
 
         GAME_STATE.balance += price;
-GAME_STATE.pizzasCompleted++;
+        GAME_STATE.pizzasCompleted++;
 
         helberSpeak(HELBER_SPEAK.CORRECT);
         animatePizzaDelivery();
@@ -653,37 +613,39 @@ GAME_STATE.pizzasCompleted++;
         setTimeout(() => {
             continueGameFlow();
         }, 1500);
-}
+    }
 
     function handleWrongOrder(reason) {
-        GAME_STATE.balance = Math.max(0, GAME_STATE.balance - 20);
-comboStreak = 0;
-        elements.feedbackText.textContent = ` Penalidade (-R$20). ${reason}`;
-        displayMessage(` Crikey! That's gone belly up. Try again, cobber!`, 'text-red-600');
+        GAME_STATE.balance = Math.max(0, GAME_STATE.balance - 20); 
+        comboStreak = 0;
+        elements.feedbackText.textContent = `❌ Penalidade (-R$20). ${reason}`;
+        displayMessage(`❌ Crikey! That's gone belly up. Try again, cobber!`, 'text-red-600');
         helberSpeak(HELBER_SPEAK.WRONG);
-animatePizzaExplosion();
+        animatePizzaExplosion();
         
         setTimeout(() => {
             continueGameFlow();
         }, 1500);
-}
+    }
 
     function continueGameFlow() {
         if (GAME_STATE.pizzasCompleted >= GAME_STATE.phaseGoal) {
             stopTimer();
-if (GAME_STATE.currentPhase < 5) {
+            if (GAME_STATE.currentPhase < 5) {
                 GAME_STATE.currentPhase++;
-startPhase(); 
+                
+                startPhase(); 
 
                 showModal(`Fim do Dia ${GAME_STATE.currentPhase - 1}`,
                           `R$ ${GAME_STATE.balance} ganhos hoje! Prepare-se para o Dia ${GAME_STATE.currentPhase}.`,
                           'nextPhase');
-} else {
+
+            } else {
                 endGame(true);
-}
+            }
         } else {
-            resetPizzaBench();
-updateUI();
+            resetPizzaBench(); 
+            updateUI();
             generateNextOrder();
         }
     }
@@ -691,203 +653,205 @@ updateUI();
 
     function endGame(isVictory) {
         GAME_STATE.isGameRunning = false;
-stopTimer();
+        stopTimer();
 
         if (GAME_STATE.balance > GAME_STATE.highScore) {
             GAME_STATE.highScore = GAME_STATE.balance;
-saveGameState();
+            saveGameState();
         }
 
         if (isVictory) {
             helberSpeak(HELBER_SPEAK.VICTORY);
-showModal("PARABÉNS, HELBER! VITÓRIA!",
+            showModal("PARABÉNS, HELBER! VITÓRIA!",
                       `VOCÊ CONSEGUIU DINHEIRO SUFICIENTE PARA MONTAR UMA PIZZARIA NA AUSTRÁLIA! Saldo Final: R$ ${GAME_STATE.balance}`,
                       'endGame', true);
-animateFireworks();
+            animateFireworks();
         } else {
-            showModal("Fim de Jogo ",
+            showModal("Fim de Jogo 😔",
                       `Você não atingiu a meta. Saldo Final: R$ ${GAME_STATE.balance}`,
                       'endGame');
-}
+        }
     }
 
     // --- UI Rendering ---
 
     function updateUI() {
         elements.faseCounter.textContent = `Fase: ${GAME_STATE.currentPhase}/5`;
-elements.pizzaCounter.textContent = `Pizzas: ${GAME_STATE.pizzasCompleted}/${GAME_STATE.phaseGoal}`;
+        elements.pizzaCounter.textContent = `Pizzas: ${GAME_STATE.pizzasCompleted}/${GAME_STATE.phaseGoal}`;
         elements.saldoCounter.textContent = `Saldo: R$ ${GAME_STATE.balance}`;
         elements.highscoreDisplay.textContent = `Recorde: R$ ${GAME_STATE.highScore}`;
-const canDeliver = GAME_STATE.isGameRunning && GAME_STATE.currentOrder && GAME_STATE.appliedIngredients.length > 0;
+        
+        const canDeliver = GAME_STATE.isGameRunning && GAME_STATE.currentOrder && GAME_STATE.appliedIngredients.length > 0;
         elements.deliverBtn.disabled = !canDeliver;
         elements.deliverBtn.classList.remove('bg-aussie-orange', 'bg-gray-400');
         elements.deliverBtn.classList.add(canDeliver ? 'bg-aussie-orange' : 'bg-gray-400');
-elements.deliverBtn.classList.remove('hover:bg-aussie-green', 'hover:bg-gray-500');
+        elements.deliverBtn.classList.remove('hover:bg-aussie-green', 'hover:bg-gray-500');
         elements.deliverBtn.classList.add(canDeliver ? 'hover:bg-aussie-green' : 'hover:bg-gray-500');
 
         renderIngredientButtons();
         renderRecipeList();
-        renderPizzaStack();
-}
+        renderPizzaStack(); 
+    }
 
     /**
-     * Renderiza os botões de ingredientes disponíveis.
- (Corrigido)
+     * Renderiza os botões de ingredientes disponíveis. (Corrigido)
      */
     function renderIngredientButtons() {
         const container = elements.ingredientButtons;
-container.innerHTML = '';
+        container.innerHTML = '';
         
         // Obtém apenas os nomes dos ingredientes necessários nas receitas da fase atual
         const availableIngredients = getAvailableIngredientsForPhase();
-Object.keys(INGREDIENTS).forEach(name => {
+
+        Object.keys(INGREDIENTS).forEach(name => {
             const ingredient = INGREDIENTS[name];
             
             // Verifica se o ingrediente está na lista de disponíveis para a fase
             const isAvailable = availableIngredients.includes(name);
 
             const button = document.createElement('button');
-            button.className = `ingredient-btn p-2 rounded-lg 
-text-xs font-bold shadow-md flex flex-col items-center transition duration-100 ${isAvailable ? 'bg-fundo-claro border-2 border-aussie-green hover:bg-aussie-green/20' : 'bg-gray-200 text-gray-400 cursor-not-allowed'}`;
+            button.className = `ingredient-btn p-2 rounded-lg text-xs font-bold shadow-md flex flex-col items-center transition duration-100 ${isAvailable ? 'bg-fundo-claro border-2 border-aussie-green hover:bg-aussie-green/20' : 'bg-gray-200 text-gray-400 cursor-not-allowed'}`;
             button.disabled = !isAvailable;
             button.innerHTML = `<span class="text-xl">${ingredient.emoji}</span>${name}`;
             
             if (isAvailable) {
                 button.onclick = () => addIngredient(name);
-        
             }
 
             container.appendChild(button);
         });
-}
+    }
 
     function renderRecipeList() {
         const container = elements.recipeList;
-container.innerHTML = '';
+        container.innerHTML = '';
 
         const availableRecipes = Object.keys(RECIPES)
             .filter(name => RECIPES[name].phaseMin <= GAME_STATE.currentPhase);
-// Se Fase 1, usa a lista restrita para exibir apenas as que realmente aparecerão
+        
+        // Se Fase 1, usa a lista restrita para exibir apenas as que realmente aparecerão
         const recipesToDisplay = GAME_STATE.currentPhase === 1 
-            ?
-PHASES[1].available.map(name => ({ name, recipe: RECIPES[name] }))
+            ? PHASES[1].available.map(name => ({ name, recipe: RECIPES[name] }))
             : availableRecipes.map(name => ({ name, recipe: RECIPES[name] }));
-recipesToDisplay.forEach(item => {
+
+
+        recipesToDisplay.forEach(item => {
             const { name, recipe } = item;
             const itemDiv = document.createElement('div');
             itemDiv.className = 'border-b border-gray-200 pb-1';
             itemDiv.innerHTML = `
                 <p class="font-bold text-md text-aussie-orange">${name} (R$${recipe.price})</p>
-               
-<p class="text-xs">${recipe.ingredients.map(i => INGREDIENTS[i] ? INGREDIENTS[i].emoji : '?').join(' ')}</p>
+                <p class="text-xs">${recipe.ingredients.map(i => INGREDIENTS[i] ? INGREDIENTS[i].emoji : '?').join(' ')}</p>
             `;
             container.appendChild(itemDiv);
         });
-}
+    }
 
 
     function renderPizzaStack() {
         const stack = elements.pizzaStack;
-stack.innerHTML = ''; 
+        stack.innerHTML = ''; 
 
         const baseLayer = document.createElement('div');
         baseLayer.className = 'w-full h-10 border-8 border-aussie-orange rounded-full bg-yellow-600 shadow-xl';
         stack.appendChild(baseLayer);
-GAME_STATE.appliedIngredients.forEach(name => {
+
+        GAME_STATE.appliedIngredients.forEach(name => {
             const ingredient = INGREDIENTS[name];
             const layer = document.createElement('div');
             layer.className = `pizza-layer ${ingredient.type}`;
             layer.textContent = ingredient.emoji; 
             layer.style.backgroundColor = ingredient.color;
             layer.style.opacity = 0.9;
-          
             stack.appendChild(layer);
         });
-if (GAME_STATE.appliedIngredients.length === 0) {
+
+        if (GAME_STATE.appliedIngredients.length === 0) {
             elements.currentPizzaBase.style.display = 'block';
-} else {
+        } else {
             elements.currentPizzaBase.style.display = 'none';
-}
+        }
     }
     
     function resetPizzaBench() {
         GAME_STATE.appliedIngredients = [];
-elements.feedbackText.textContent = "Aguardando entrega...";
+        elements.feedbackText.textContent = "Aguardando entrega...";
         elements.gameMessage.innerHTML = 'Helber: "G\'day, mate! Let\'s make some wicked pizzas today!"';
         renderPizzaStack();
         updateUI();
-}
+    }
 
 
     // --- Timer Logic (AJUSTADO para Crescente) ---
 
     /**
      * Inicia ou reinicia o timer, contando de 0 até o limite.
- * @param {number} durationMs - Duração total do timer em milissegundos (o limite).
+     * @param {number} durationMs - Duração total do timer em milissegundos (o limite).
      */
     function resetTimer(durationMs) {
         stopTimer();
         GAME_STATE.timerMax = durationMs;
-GAME_STATE.elapsedTime = 0;
+        GAME_STATE.elapsedTime = 0;
         
         if (durationMs <= 0) {
             elements.timerBarFill.style.width = '0%';
-elements.customerWaitTimer.textContent = 'CLIENTE AGUARDANDO A (Sem Pressão)';
+            elements.customerWaitTimer.textContent = 'CLIENTE AGUARDANDO A (Sem Pressão)';
             return;
         }
 
         const startTime = Date.now();
-const updateBar = () => {
+        
+        const updateBar = () => {
             const now = Date.now();
-GAME_STATE.elapsedTime = now - startTime; // Tempo decorrido (crescente)
+            GAME_STATE.elapsedTime = now - startTime; // Tempo decorrido (crescente)
 
             if (GAME_STATE.elapsedTime >= durationMs) {
                 stopTimer();
-handleTimeout();
+                handleTimeout();
                 return;
             }
 
             // Barra de progresso cresce de 0% a 100%
             const percentage = (GAME_STATE.elapsedTime / durationMs) * 100;
-elements.timerBarFill.style.width = `${percentage}%`;
+            elements.timerBarFill.style.width = `${percentage}%`;
             
             // Atualiza o tempo em minutos:segundos (Mostra o tempo que JÁ PASSOU)
             const totalSeconds = Math.max(0, Math.floor(GAME_STATE.elapsedTime / 1000));
-const minutes = Math.floor(totalSeconds / 60);
+            const minutes = Math.floor(totalSeconds / 60);
             const seconds = totalSeconds % 60;
             const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-elements.customerWaitTimer.textContent = `CLIENTE AGUARDANDO HÁ (${timeString})`;
+            elements.customerWaitTimer.textContent = `CLIENTE AGUARDANDO HÁ (${timeString})`;
 
             // Muda a cor da barra perto do fim (quando a porcentagem está alta)
             if (percentage > 75) {
                 elements.timerBarFill.classList.remove('bg-green-500', 'bg-yellow-500');
-elements.timerBarFill.classList.add('bg-red-700');
+                elements.timerBarFill.classList.add('bg-red-700');
             } else if (percentage > 50) {
                 elements.timerBarFill.classList.remove('bg-green-500', 'bg-red-700');
-elements.timerBarFill.classList.add('bg-yellow-500');
+                elements.timerBarFill.classList.add('bg-yellow-500');
             } else {
                 elements.timerBarFill.classList.remove('bg-red-700', 'bg-yellow-500');
-elements.timerBarFill.classList.add('bg-green-500');
+                elements.timerBarFill.classList.add('bg-green-500');
             }
         };
 
-        timerInterval = setInterval(updateBar, 100);
-// Atualização mais suave a cada 100ms
-        updateBar();
-}
+        timerInterval = setInterval(updateBar, 100); // Atualização mais suave a cada 100ms
+        updateBar(); 
+    }
 
     function stopTimer() {
         if (timerInterval) {
             clearInterval(timerInterval);
-timerInterval = null;
+            timerInterval = null;
         }
     }
 
     function handleTimeout() {
         elements.timerBarFill.style.width = '100%';
-elements.customerWaitTimer.textContent = 'CLIENTE CANSOU! (Tempo Limite Atingido)';
+        elements.customerWaitTimer.textContent = 'CLIENTE CANSOU! (Tempo Limite Atingido)';
         displayMessage("Too slow, mate! The customer's bolted!", 'text-red-800');
-handleWrongOrder("Tempo limite atingido! Cliente desistiu da pizza.");
+        
+        handleWrongOrder("Tempo limite atingido! Cliente desistiu da pizza.");
     }
 
 
@@ -895,62 +859,62 @@ handleWrongOrder("Tempo limite atingido! Cliente desistiu da pizza.");
 
     function showModal(title, body, type, isVictory = false) {
         elements.modalTitle.textContent = title;
-elements.modalBody.textContent = body;
+        elements.modalBody.textContent = body;
         elements.modalActions.innerHTML = ''; 
 
         let buttonText = "Continuar";
         let buttonClass = 'bg-aussie-orange hover:bg-aussie-green';
         let action = hideModal;
-if (type === 'start') {
-            buttonText = "Iniciar Dia 1 ";
-action = startGame;
+
+        if (type === 'start') {
+            buttonText = "Iniciar Dia 1 🍕";
+            action = startGame;
         } else if (type === 'nextPhase') {
-            buttonText = `Começar Dia ${GAME_STATE.currentPhase} `;
-buttonClass = 'bg-aussie-green hover:bg-aussie-orange';
+            buttonText = `Começar Dia ${GAME_STATE.currentPhase} 🚀`;
+            buttonClass = 'bg-aussie-green hover:bg-aussie-orange';
         } else if (type === 'endGame') {
-            buttonText = isVictory ?
-"Jogar Novamente!" : "Tentar Novamente";
+            buttonText = isVictory ? "Jogar Novamente!" : "Tentar Novamente";
             buttonClass = isVictory ? 'bg-blue-600 hover:bg-blue-800' : 'bg-red-600 hover:bg-red-800';
             action = startGame;
-}
+        }
 
         const newButton = document.createElement('button');
-newButton.className = `font-bold py-3 px-6 rounded-full text-lg transition duration-150 text-white shadow-lg ${buttonClass}`;
+        newButton.className = `font-bold py-3 px-6 rounded-full text-lg transition duration-150 text-white shadow-lg ${buttonClass}`;
         newButton.textContent = buttonText;
         newButton.onclick = action;
         elements.modalActions.appendChild(newButton);
 
         elements.gameModal.classList.remove('hidden');
-}
+    }
 
     function hideModal() {
         elements.gameModal.classList.add('hidden');
-if (GAME_STATE.isGameRunning && GAME_STATE.currentOrder === null) {
+        
+        if (GAME_STATE.isGameRunning && GAME_STATE.currentOrder === null) {
             generateNextOrder();
-}
+        }
     }
 
     // --- Utility Functions (Mantido como estava) ---
 
     function displayMessage(message, className = 'text-gray-800') {
         elements.gameMessage.innerHTML = `Helber: "<span class="${className}">${message}</span>"`;
-}
+    }
 
     function getRandomPraisePhrase() {
         return PRAISE_PHRASES[Math.floor(Math.random() * PRAISE_PHRASES.length)];
-}
+    }
 
-    // --- CORREÇÃO 2: REINTRODUÇÃO DOS EMOJIS DOS CLIENTES ---
     function getRandomCustomerEmoji() {
-        const emojis = ['🇦🇺', '🧑‍🌾', '👵', '👨‍🦱', '👩', '🤠', '🦘', '🐨', '🐻', '🔥', '🛵'];
-return emojis[Math.floor(Math.random() * emojis.length)];
+        const emojis = ['👨', '👩', '👴', '👵', '🧑‍🎓', '👷', '👨‍🎤', '🏄‍♂️', '🐨', '🦘', '🦙'];
+        return emojis[Math.floor(Math.random() * emojis.length)];
     }
 
     // --- Animation & FX (Mantido como estava) ---
 
     function animatePizzaDelivery() {
         const stack = elements.pizzaStack;
-stack.style.transform = 'translateY(-200px) rotate(30deg) scale(0.5)';
+        stack.style.transform = 'translateY(-200px) rotate(30deg) scale(0.5)';
         stack.style.opacity = '0';
 
         setTimeout(() => {
@@ -959,14 +923,13 @@ stack.style.transform = 'translateY(-200px) rotate(30deg) scale(0.5)';
             stack.style.opacity = '1';
             setTimeout(() => {
                 stack.style.transition = 'all 0.2s ease-out';
-            
-}, 50); 
-        }, 500);
-}
+            }, 50); 
+        }, 500); 
+    }
 
     function animatePizzaExplosion() {
         const stack = elements.pizzaStack;
-stack.style.transform = 'scale(0)';
+        stack.style.transform = 'scale(0)';
         stack.style.opacity = '0';
         stack.style.backgroundColor = 'red';
 
@@ -976,29 +939,28 @@ stack.style.transform = 'scale(0)';
             stack.style.opacity = '1';
             stack.style.backgroundColor = '';
             setTimeout(() => {
-                stack.style.transition = 'all 
-0.2s ease-out';
+                stack.style.transition = 'all 0.2s ease-out';
             }, 50); 
-        }, 500);
-}
+        }, 500); 
+    }
 
 
     function animateFireworks() {
         const container = document.body;
-for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < 20; i++) {
             const firework = document.createElement('div');
-firework.className = 'firework';
-            const x = (Math.random() * 200 - 100) + 'px';
-const y = (Math.random() * 200 - 100) + 'px'; 
+            firework.className = 'firework';
+            const x = (Math.random() * 200 - 100) + 'px'; 
+            const y = (Math.random() * 200 - 100) + 'px'; 
             firework.style.left = `${Math.random() * 100}%`;
             firework.style.top = `${Math.random() * 100}%`;
-firework.style.setProperty('--x', x);
+            firework.style.setProperty('--x', x);
             firework.style.setProperty('--y', y);
             firework.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
             container.appendChild(firework);
 
             setTimeout(() => firework.remove(), 800);
-}
+        }
     }
 
 
@@ -1006,14 +968,14 @@ firework.style.setProperty('--x', x);
 
     function initEventListeners() {
         elements.deliverBtn.addEventListener('click', deliverPizza);
-elements.startGameBtn.addEventListener('click', startGame);
+        elements.startGameBtn.addEventListener('click', startGame);
     }
     
     function init() {
         initFirebase();
-initEventListeners();
-        showModal("Pizzaria Helber B ", "Pressione Iniciar para começar sua jornada como o Pizzaiolo Helber B! (Lembrete: o timer agora é crescente e a meta de pizzas da Fase 1 foi reduzida para testes)", 'start');
-}
+        initEventListeners();
+        showModal("Pizzaria Helber B 🇦🇺", "Pressione Iniciar para começar sua jornada como o Pizzaiolo Helber B! (Lembrete: o timer agora é crescente e a meta de pizzas da Fase 1 foi reduzida para testes)", 'start');
+    }
     
     init();
 
