@@ -1,174 +1,36 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pizzaria Helber B: Australian Man</title>
+    <title>Pizzaria Simulator - Deluxe Edition</title>
+    <!-- Carrega o Tailwind CSS para estilização rápida e responsiva --><script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* ESTILOS CSS - Design "Cartoon Cute" e Tema Austrália */
-        :root {
-            --color-bg-body: #008080; /* Teal - Oceano Australiano */
-            --color-bg-container: #ff9933; /* Laranja/Terra de Outback */
-            --color-border-dark: #000;
-            --color-border-medium: #333;
-            --color-panel-bg: #fff;
-            --color-text-dark: #333;
-            --color-text-light: #fff;
-            --color-header-bg: #8b0000; /* Vermelho Pizza */
-            --color-header-text: #ffd700; /* Ouro */
-            --color-kitchen-bg: #a0522d; /* Marrom Bancada */
-            --color-pizza-dough: #fce8a6; /* Massa */
-            --color-sauce: #ff0000; /* Molho Vermelho */
-            --color-cheese: #ffd700; /* Queijo Amarelo */
-            --color-pepperoni: #dc143c; /* Pepperoni Escuro */
-            --color-manjericao: #008000; /* Manjericão Verde */
-            --color-pimentao: #00a000; /* Pimentão Verde Claro */
-            --color-button-normal: #8b0000;
-            --color-button-finish: #3cb371;
-            --color-button-text: #fff;
-        }
-
+        /* Define a fonte padrão Inter */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Balsamiq+Sans:wght@400;700&display=swap');
         body {
-            font-family: 'Comic Sans MS', 'Arial Black', Gadget, sans-serif;
-            background: linear-gradient(135deg, var(--color-bg-body) 0%, #339999 100%);
-            color: var(--color-text-light);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            text-shadow: 2px 2px 3px rgba(0,0,0,0.3);
+            font-family: 'Balsamiq Sans', cursive; /* Fonte mais divertida */
+            background-color: #fce4ec; /* Rosa claro, base da cor da pizza */
             overflow-x: hidden;
+            background-image: url('https://www.transparenttextures.com/patterns/food.png'); /* Textura de fundo */
         }
 
-        #header {
-            width: 100%;
-            max-width: 1240px;
-            background-color: var(--color-header-bg);
-            border: 10px solid var(--color-border-dark);
-            border-radius: 20px;
-            padding: 10px 20px;
-            margin-bottom: 25px;
-            text-align: center;
-            box-shadow: 10px 10px 0 var(--color-border-dark);
-            color: var(--color-header-text);
-            position: relative;
-            z-index: 10;
-        }
-        
-        #header h1 {
-            margin: 5px 0;
-            font-size: 3em;
-            line-height: 1;
-            text-transform: uppercase;
-        }
-
-        #header p {
-            font-size: 1.2em;
-            margin-top: 5px;
-            color: #ffeeaa;
-        }
-
-        #game-info {
-            display: flex;
-            justify-content: space-around;
-            font-size: 1.3em;
-            margin-top: 15px;
-            color: var(--color-text-light);
-            background-color: rgba(0,0,0,0.2);
-            padding: 8px 0;
-            border-radius: 10px;
-            border: 2px dashed rgba(255,255,255,0.5);
-        }
-
-        #game-container {
-            display: flex;
-            width: 100%;
-            max-width: 1200px;
-            gap: 25px;
-            background: linear-gradient(180deg, var(--color-bg-container) 0%, #ff8c00 100%);
-            border: 15px solid var(--color-border-dark);
-            border-radius: 30px;
-            padding: 25px;
-            box-shadow: 15px 15px 0 var(--color-border-dark);
-            position: relative;
-            z-index: 5;
-        }
-
-        .panel {
-            background-color: var(--color-panel-bg);
-            padding: 20px;
-            border-radius: 20px;
-            border: 7px solid var(--color-border-medium);
-            box-shadow: 8px 8px 0 var(--color-border-medium);
-            color: var(--color-text-dark);
-            min-height: 300px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        h2 {
-            font-size: 1.8em;
-            color: var(--color-header-bg);
-            margin-top: 0;
-            margin-bottom: 15px;
-            text-align: center;
-            text-shadow: 1px 1px 0 rgba(0,0,0,0.1);
-        }
-
-        /* Menu de Receitas */
-        #recipe-menu {
-            width: 280px;
-        }
-
-        .recipe {
-            margin-bottom: 12px;
-            border-bottom: 2px dashed #ccc;
-            padding-bottom: 8px;
-            font-weight: bold;
-            font-size: 1.1em;
-        }
-
-        .recipe-ingredients {
-            font-size: 0.9em;
-            color: #666;
-            font-weight: normal;
-        }
-        
-        /* Cozinha */
-        #kitchen {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-            background-color: var(--color-kitchen-bg);
-            border: 7px solid var(--color-border-dark);
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 8px 8px 0 var(--color-border-dark);
-        }
-
-        #pizza-oven-area {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        #pizza-base {
-            width: 200px;
-            height: 200px;
+        /* Estilo para a bancada (Pizza Canvas) */
+        #pizza-workbench {
+            width: 320px; /* Um pouco maior */
+            height: 320px;
             border-radius: 50%;
-            background-color: var(--color-pizza-dough);
-            border: 7px dashed #666;
+            background-color: #f5deb3; /* Cor da massa clara */
+            border: 15px solid #a0522d; /* Borda de casca mais grossa */
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(255, 255, 255, 0.7);
+            margin: 20px auto;
             position: relative;
-            overflow: hidden; /* Para as camadas ficarem dentro */
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.2);
+            overflow: hidden;
+            transition: all 0.4s ease-out; /* Transição mais suave */
+            cursor: grabbing; /* Cursor de mão */
         }
 
+        /* Camadas de ingrediente na pizza */
         .ingredient-layer {
             position: absolute;
             top: 0;
@@ -176,679 +38,564 @@
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            opacity: 0; /* Inicia invisível */
-            transition: opacity 0.3s ease-in-out;
+            opacity: 0.95; /* Menos opacidade para mostrar camadas */
+            transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
+            pointer-events: none; /* Não interfere nos cliques */
         }
         
-        #sauce-layer { background-color: var(--color-sauce); }
-        #cheese-layer { background-color: var(--color-cheese); }
-        #pepperoni-layer { background-image: radial-gradient(circle, var(--color-pepperoni) 25%, transparent 30%), radial-gradient(circle, var(--color-pepperoni) 25%, transparent 30%), radial-gradient(circle, var(--color-pepperoni) 25%, transparent 30%); background-size: 33% 33%; background-position: 0% 0%, 50% 25%, 100% 50%;} /* Pequenos círculos de pepperoni */
-        #manjericao-layer { background-image: radial-gradient(circle, var(--color-manjericao) 20%, transparent 25%), radial-gradient(circle, var(--color-manjericao) 20%, transparent 25%); background-size: 25% 25%; background-position: 10% 20%, 60% 70%;} /* Folhas de manjericão */
-        #pimentao-layer { background-image: linear-gradient(45deg, var(--color-pimentao) 0%, transparent 50%), linear-gradient(135deg, var(--color-pimentao) 0%, transparent 50%); background-size: 25% 25%; background-position: 10% 10%, 70% 60%;} /* Pimentão */
-
-
-        #current-sequence-display {
-            font-size: 1.1em;
-            color: var(--color-text-dark);
-            font-weight: bold;
-            background-color: #f0f0f0;
-            padding: 8px 12px;
-            border-radius: 10px;
-            border: 2px dashed #999;
-            min-height: 20px;
-            text-align: center;
-        }
-
-        #ingredient-buttons {
-            display: flex;
-            flex-wrap: wrap; /* Permite quebrar linha */
-            justify-content: center;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .ing-btn {
-            padding: 12px 18px;
-            font-size: 1.1em;
-            cursor: pointer;
-            border: 4px solid var(--color-border-dark);
-            border-radius: 12px;
-            background-color: var(--color-button-normal);
-            color: var(--color-button-text);
-            box-shadow: 5px 5px 0 var(--color-border-dark);
-            transition: transform 0.1s, background-color 0.2s;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-        .ing-btn:hover {
-            background-color: #a00000;
-        }
-
-        .ing-btn:active {
-            transform: translate(5px, 5px);
-            box-shadow: none;
-        }
-
-        #finish-btn {
-            background-color: var(--color-button-finish);
-            margin-top: 20px;
-            font-size: 1.3em;
-            padding: 15px 25px;
-        }
-        #finish-btn:hover {
-            background-color: #4cd481;
-        }
-
-        /* Painel de Pedidos e Status */
-        #status-panel {
-            width: 280px;
-            justify-content: space-between; /* Empurra o status para baixo */
-        }
-
-        #order-queue {
-            flex-grow: 1; /* Permite que a fila cresça */
-            max-height: 250px; /* Limite de altura */
-            overflow-y: auto;
-            margin-bottom: 15px;
-            padding-right: 5px; /* Para scrollbar não cobrir conteúdo */
-        }
-
-        .order {
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 3px solid #666;
-            border-radius: 10px;
-            background-color: #f8f8f8;
-            box-shadow: 2px 2px 0 #999;
-            font-size: 0.95em;
-        }
-
-        .order.current-customer {
-            border-color: var(--color-header-bg);
-            background-color: #ffe0b2; /* Laranja claro */
-        }
-
-        .pizza-item {
-            font-weight: bold;
-            color: var(--color-header-bg);
-            display: block; /* Cada pizza em uma nova linha */
-            margin-top: 3px;
-        }
-
-        .pizza-item.completed {
-            text-decoration: line-through;
-            color: #999;
-        }
-
-        #current-order-display {
-            background-color: #ffe0b2; /* Laranja pastel */
-            border: 3px dashed var(--color-header-bg);
-            border-radius: 10px;
-            padding: 10px;
-            margin-top: auto; /* Empurra para o fundo do painel */
-            text-align: center;
-        }
-        #current-order-display p {
-            margin: 5px 0;
-        }
-
-        /* Estilos para mensagens de feedback */
-        #feedback-message {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: rgba(0, 0, 0, 0.8);
-            color: white;
-            padding: 20px 40px;
-            border-radius: 15px;
-            font-size: 2em;
-            font-weight: bold;
-            text-align: center;
-            z-index: 100;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease-in-out;
-            border: 5px solid yellow;
-            box-shadow: 0 0 20px rgba(255,255,0,0.5);
-        }
-
-        /* Efeito de flash na tela para erro */
-        .error-flash {
-            animation: flashRed 0.3s ease-out;
-        }
-
-        @keyframes flashRed {
-            0% { box-shadow: 0 0 20px 10px red; }
-            50% { box-shadow: 0 0 20px 10px red; }
-            100% { box-shadow: none; }
-        }
-
-        /* Overlay de fim de dia/jogo */
-        #game-overlay {
+        /* Estilos específicos para a tela modal de fim de dia */
+        .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.8);
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 200;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.5s ease-in-out;
+            z-index: 100;
+            backdrop-filter: blur(5px); /* Efeito de blur no fundo */
         }
 
-        #overlay-content {
-            background-color: #ffeeaa;
-            color: var(--color-text-dark);
+        .modal-content {
+            background: #fff8e1;
             padding: 40px;
             border-radius: 20px;
-            border: 10px solid var(--color-border-dark);
-            box-shadow: 15px 15px 0 var(--color-border-dark);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
             text-align: center;
-            transform: scale(0.8);
-            opacity: 0;
-            transition: transform 0.5s ease, opacity 0.5s ease;
+            max-width: 90%;
+            width: 500px; /* Um pouco maior */
+            border: 5px solid #ff9800; /* Borda temática */
+            animation: fadeIn 0.5s ease-out;
         }
 
-        #game-overlay.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-        #game-overlay.active #overlay-content {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        #overlay-content button {
-            background-color: var(--color-button-finish);
-            color: var(--color-button-text);
-            border: 4px solid var(--color-border-dark);
-            border-radius: 10px;
-            padding: 15px 30px;
-            font-size: 1.5em;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 20px;
-            box-shadow: 5px 5px 0 var(--color-border-dark);
-            transition: transform 0.1s, background-color 0.2s;
-        }
-
-        #overlay-content button:hover {
-            background-color: #4cd481;
-        }
-
-        #overlay-content button:active {
-            transform: translate(5px, 5px);
-            box-shadow: none;
-        }
-
-        /* Scrollbar estilo cartoon */
-        ::-webkit-scrollbar {
-            width: 12px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1; 
-            border-radius: 10px;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
         }
         
-        ::-webkit-scrollbar-thumb {
-            background: #888; 
+        /* Estilo para a lista de pedidos */
+        .order-card {
+            background-color: #fff8e1; /* Mais claro */
+            border: 2px solid #ffcc80; /* Borda mais suave */
+            transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+        }
+        
+        .order-card-pending {
+             border: 3px solid #64b5f6; /* Azul claro */
+             background-color: #e3f2fd;
+             box-shadow: 0 0 15px rgba(100, 181, 246, 0.6);
+        }
+
+        /* Estilo para os botões de ingrediente */
+        .ingredient-button {
+            transition: transform 0.1s, box-shadow 0.1s, background-color 0.1s;
+            border: 2px solid rgba(0,0,0,0.1);
+        }
+        .ingredient-button:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+        .ingredient-button:active {
+            transform: translateY(0) scale(0.97);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Cores e estilos para os emojis de ingrediente */
+        .emoji-layer {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 80px; /* Emojis maiores */
+            opacity: 0.9;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+            pointer-events: none;
+        }
+
+        /* Classes para simular "textura" de ingrediente */
+        .molho-base {
+            background: radial-gradient(circle at 50% 50%, #FF4500 0%, #FF6347 70%, transparent 90%);
+        }
+        .queijo-base {
+            background: radial-gradient(circle at 50% 50%, #FFD700 0%, #FFEB3B 70%, transparent 90%);
+        }
+        /* Para os outros ingredientes, usar emojis espalhados ou ícones */
+
+        /* Estilo para scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #ffe0b2;
             border-radius: 10px;
-            border: 2px solid #f1f1f1;
         }
-
+        ::-webkit-scrollbar-thumb {
+            background: #ff9800;
+            border-radius: 10px;
+        }
         ::-webkit-scrollbar-thumb:hover {
-            background: #555; 
+            background: #e68900;
         }
-
     </style>
 </head>
-<body>
+<body class="p-4 bg-gray-50">
 
-    <div id="header">
-        <h1>PIZZARIA HELBER B: AUSTRALIAN MAN 🐨</h1>
-        <p>A mais selvagem pizzaria do OutBack! Cuidado com os Dingos!</p>
-        <div id="game-info">
-            <span id="day-counter">Dia 1 - Fase 1</span>
-            <span id="timer">Tempo: 90s</span>
-            <span id="cash-display">Caixa: $0</span>
-            <span id="reputation-display">Reputação: ★★★</span>
+    <!-- HUD de Status --><div class="fixed top-0 left-0 right-0 p-4 bg-gradient-to-r from-red-600 to-amber-500 shadow-2xl z-50 rounded-b-3xl border-b-8 border-yellow-300">
+        <div class="flex justify-between items-center max-w-7xl mx-auto">
+            <div class="flex space-x-8">
+                <div class="text-xl font-extrabold text-white drop-shadow-lg">Dia: <span id="day-display" class="text-yellow-200">1</span></div>
+                <div class="text-xl font-extrabold text-white drop-shadow-lg">Caixa: <span id="cash-display" class="text-lime-300">R$ 0.00</span></div>
+            </div>
+            <div class="text-xl font-extrabold text-white drop-shadow-lg">
+                Pizzas Feitas: <span id="pizzas-made" class="text-cyan-200">0</span> / <span id="daily-quota" class="text-cyan-200">25</span>
+            </div>
         </div>
     </div>
 
-    <div id="game-container">
+    <!-- Layout Principal - Central e Bancada --><div class="max-w-7xl mx-auto mt-28 flex flex-col lg:flex-row gap-8">
 
-        <div id="recipe-menu" class="panel">
-            <h2>📜 Menu de Receitas</h2>
-            <div id="recipes-list">
-                </div>
+        <!-- Coluna 1: Clientes e Pedidos (Fila) --><div class="lg:w-1/3 w-full bg-white p-6 rounded-3xl shadow-2xl border-4 border-blue-400 h-[650px] overflow-y-auto">
+            <h2 class="text-3xl font-extrabold text-blue-800 mb-5 border-b-4 border-blue-200 pb-3 text-center bg-blue-50 p-3 rounded-t-xl sticky top-0 z-10 -mx-6 px-6">Clientes na Fila!</h2>
+            <div id="orders-queue" class="space-y-6">
+                <!-- Pedidos serão inseridos aqui --></div>
         </div>
 
-        <div id="kitchen" class="panel">
-            <h2>👨‍🍳 Bancada de Preparo</h2>
-            <div id="pizza-oven-area">
-                <div id="pizza-base">
-                    <div id="sauce-layer" class="ingredient-layer"></div>
-                    <div id="cheese-layer" class="ingredient-layer"></div>
-                    <div id="pepperoni-layer" class="ingredient-layer"></div>
-                    <div id="manjericao-layer" class="ingredient-layer"></div>
-                    <div id="pimentao-layer" class="ingredient-layer"></div>
-                </div>
-                <p id="current-sequence-display">Prepare sua pizza!</p>
+        <!-- Coluna 2: Bancada de Trabalho e Ingredientes --><div class="lg:w-1/3 w-full p-6 bg-white rounded-3xl shadow-2xl border-4 border-green-500">
+            <h2 class="text-3xl font-extrabold text-green-800 mb-5 text-center">Sua Bancada de Pizza!</h2>
+
+            <!-- Bancada da Pizza --><div id="pizza-workbench">
+                <!-- Camadas de Ingredientes Vão Aqui --><div id="current-pizza-layers"></div>
             </div>
 
-            <div id="ingredient-buttons">
-                <button class="ing-btn" data-ingredient="Massa" onclick="addIngredient('Massa')">Massa</button>
-                <button class="ing-btn" data-ingredient="Molho" onclick="addIngredient('Molho')">Molho</button>
-                <button class="ing-btn" data-ingredient="Queijo" onclick="addIngredient('Queijo')">Queijo</button>
-                <button class="ing-btn" data-ingredient="Pepperoni" onclick="addIngredient('Pepperoni')">Pepperoni</button>
-                <button class="ing-btn" data-ingredient="Pimentão" onclick="addIngredient('Pimentão')">Pimentão</button>
-                <button class="ing-btn" data-ingredient="Manjericão" onclick="addIngredient('Manjericão')">Manjericão</button>
+            <div class="flex justify-center my-6 space-x-4">
+                <button onclick="Game.checkPizza()" class="bg-gradient-to-r from-green-500 to-green-700 hover:from-green-600 hover:to-green-800 text-white font-extrabold py-3 px-8 rounded-full shadow-lg transition duration-200 transform hover:scale-105 active:scale-95">
+                    <span class="text-2xl">🔥</span> Assar & Entregar
+                </button>
+                <button onclick="Game.resetPizza()" class="bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 text-white font-extrabold py-3 px-8 rounded-full shadow-lg transition duration-200 transform hover:scale-105 active:scale-95">
+                    <span class="text-2xl">🚮</span> Descartar
+                </button>
             </div>
-            <button id="finish-btn" onclick="finishPizza()">🔥 FORNO & ENTREGA!</button>
+
+            <!-- Painel de Ingredientes --><h3 class="text-2xl font-extrabold text-gray-800 mt-8 mb-4 text-center border-t-2 border-gray-200 pt-4">Escolha seus Ingredientes</h3>
+            <div id="ingredients-panel" class="grid grid-cols-4 gap-3">
+                <!-- Botões de Ingredientes Serão Inseridos Aqui --></div>
         </div>
 
-        <div id="status-panel" class="panel">
-            <h2>🦘 Fila de Pedidos</h2>
-            <div id="order-queue">
-                <p>Aguardando o primeiro cliente...</p>
-            </div>
-            <div id="current-order-display">
-                <p>🐨 **Próxima Pizza:**</p>
-                <p id="current-pizza-type-display">-</p>
-            </div>
-        </div>
-
-    </div>
-
-    <div id="feedback-message"></div>
-
-    <div id="game-overlay">
-        <div id="overlay-content">
-            <h2 id="overlay-title">Fim do Dia!</h2>
-            <p id="overlay-message">Resultados do dia...</p>
-            <button id="overlay-button" onclick="handleOverlayButtonClick()">Continuar</button>
-        </div>
-    </div>
-
-    <script>
-        // --- JAVASCRIPT DO JOGO ---
-
-        // --- Variáveis Globais de Jogo ---
-        let cash = 0;
-        let reputation = 3; // Estrelas
-        let dayTime = 90; // Tempo em segundos por dia
-        let timerInterval;
-        let dayCounter = 1;
-        let currentPhase = 1;
-        const MAX_REPUTATION = 5;
-        const MIN_REPUTATION = 0;
-        const INITIAL_DAY_TIME = 90; // Tempo inicial por dia
-        const ORDERS_PER_DAY_BASE = 5; // Pedidos base por dia
-
-        const RECIPES = {
-            'Margherita': ['Massa', 'Molho', 'Queijo', 'Manjericão'],
-            'Pepperoni': ['Massa', 'Molho', 'Queijo', 'Pepperoni'],
-            'Helber Veggie': ['Massa', 'Molho', 'Queijo', 'Pimentão'],
-            'Aussie Supreme': ['Massa', 'Molho', 'Queijo', 'Pepperoni', 'Pimentão'] // Uma receita mais complexa
-        };
-
-        const PIZZA_PRICES = {
-            'Margherita': 10,
-            'Pepperoni': 12,
-            'Helber Veggie': 11,
-            'Aussie Supreme': 15
-        };
-
-        let orderQueue = []; // Fila de pedidos (clientes)
-        let currentCustomerOrder = null; // O pedido completo do cliente atual
-        let currentPizzaBeingMade = { // Detalhes da pizza sendo feita
-            type: '',
-            ingredientsAdded: [],
-            requiredIngredients: []
-        };
-        let pizzaCountToday = 0; // Contador de pizzas feitas no dia
-
-        // --- Elementos DOM ---
-        const cashDisplay = document.getElementById('cash-display');
-        const reputationDisplay = document.getElementById('reputation-display');
-        const timerDisplay = document.getElementById('timer');
-        const dayCounterDisplay = document.getElementById('day-counter');
-        const recipesList = document.getElementById('recipes-list');
-        const orderQueueDisplay = document.getElementById('order-queue');
-        const currentOrderDisplay = document.getElementById('current-order-display');
-        const currentPizzaTypeDisplay = document.getElementById('current-pizza-type-display');
-        const currentSequenceDisplay = document.getElementById('current-sequence-display');
-        const feedbackMessage = document.getElementById('feedback-message');
-        const gameContainer = document.getElementById('game-container');
-        const gameOverlay = document.getElementById('game-overlay');
-        const overlayTitle = document.getElementById('overlay-title');
-        const overlayMessage = document.getElementById('overlay-message');
-        const overlayButton = document.getElementById('overlay-button');
-
-        // Camadas visuais da pizza
-        const sauceLayer = document.getElementById('sauce-layer');
-        const cheeseLayer = document.getElementById('cheese-layer');
-        const pepperoniLayer = document.getElementById('pepperoni-layer');
-        const manjericaoLayer = document.getElementById('manjericao-layer');
-        const pimentaoLayer = document.getElementById('pimentao-layer');
-        const pizzaLayers = {
-            'Molho': sauceLayer,
-            'Queijo': cheeseLayer,
-            'Pepperoni': pepperoniLayer,
-            'Manjericão': manjericaoLayer,
-            'Pimentão': pimentaoLayer
-        };
-
-
-        // --- Funções de Jogo ---
-
-        function initGame() {
-            renderRecipes();
-            startGame();
-        }
-
-        function renderRecipes() {
-            recipesList.innerHTML = '';
-            for (const type in RECIPES) {
-                const div = document.createElement('div');
-                div.className = 'recipe';
-                div.innerHTML = `**${type}:** <div class="recipe-ingredients">${RECIPES[type].join(' > ')}</div>`;
-                recipesList.appendChild(div);
-            }
-        }
-
-        function updateUI() {
-            cashDisplay.textContent = `Caixa: $${cash}`;
-            reputationDisplay.textContent = `Reputação: ${'★'.repeat(reputation)}${'☆'.repeat(MAX_REPUTATION - reputation)}`;
-            dayCounterDisplay.textContent = `Dia ${dayCounter} - Fase ${currentPhase}`;
-            currentSequenceDisplay.textContent = currentPizzaBeingMade.ingredientsAdded.length > 0 ?
-                                                    currentPizzaBeingMade.ingredientsAdded.join(' > ') : "Comece pela Massa!";
-
-            if (currentCustomerOrder && currentPizzaBeingMade.type) {
-                currentPizzaTypeDisplay.innerHTML = `${currentCustomerOrder.customerName}<br>Pede: <span style="color:${var(--color-header-bg)}">${currentPizzaBeingMade.type}</span>`;
-            } else {
-                currentPizzaTypeDisplay.textContent = '-';
-            }
-        }
-
-        function showFeedback(message, isError = false) {
-            feedbackMessage.textContent = message;
-            feedbackMessage.style.opacity = 1;
-            if (isError) {
-                gameContainer.classList.add('error-flash');
-            }
-            setTimeout(() => {
-                feedbackMessage.style.opacity = 0;
-                gameContainer.classList.remove('error-flash');
-            }, 1500);
-        }
-
-        function startGame() {
-            cash = 0;
-            reputation = 3;
-            dayCounter = 1;
-            currentPhase = 1;
-            orderQueue = [];
-            currentCustomerOrder = null;
-            pizzaCountToday = 0;
-            startDay();
-        }
-
-        function startDay() {
-            dayTime = INITIAL_DAY_TIME; // Resetar o tempo
-            pizzaCountToday = 0;
-            orderQueue = []; // Limpa fila de pedidos
-            currentCustomerOrder = null;
-            resetPizzaBeingMade(); // Limpa a pizza na bancada
-            updateUI();
-            renderOrderQueue(); // Limpa a UI da fila
-
-            // Gera pedidos para o dia (até 25 em teoria, mas faremos uns 5-7 para demonstração)
-            const numOrdersToday = Math.floor(ORDERS_PER_DAY_BASE + (currentPhase - 1) * 1.5);
-            for (let i = 0; i < numOrdersToday; i++) {
-                setTimeout(() => generateCustomerOrder(), i * (Math.random() * 5000 + 3000)); // Chegada entre 3 e 8 segundos
-            }
-
-            // Inicia o timer do dia
-            clearInterval(timerInterval);
-            timerInterval = setInterval(() => {
-                dayTime--;
-                timerDisplay.textContent = `Tempo: ${dayTime}s`;
-                if (dayTime <= 0) {
-                    endDay();
-                }
-            }, 1000);
-
-            // Garante que o primeiro pedido seja processado se já houver na fila
-            if (!currentCustomerOrder && orderQueue.length > 0) {
-                processNextCustomerOrder();
-            }
-        }
-
-        function endDay() {
-            clearInterval(timerInterval);
-            let dayResultText = `Você serviu ${pizzaCountToday} pizzas hoje.\n`;
-            let successMessage = "Excelente! Você passou para o próximo dia!";
-            let failMessage = "Oh não! Você não atingiu a meta. Tente novamente!";
-
-            // Lógica de meta simplificada: pelo menos 3 pizzas e reputação não mínima
-            const targetPizzas = ORDERS_PER_DAY_BASE + (currentPhase - 1);
-            if (pizzaCountToday >= targetPizzas && reputation > 1) {
-                overlayTitle.textContent = "Dia Concluído! ☀️";
-                overlayMessage.innerHTML = `${dayResultText}Sua meta era ${targetPizzas} pizzas.<br>${successMessage}`;
-                overlayButton.textContent = "Avançar para o Próximo Dia";
-                dayCounter++;
-                if (dayCounter > 3) {
-                    dayCounter = 1;
-                    currentPhase++;
-                    overlayTitle.textContent = "Fase Concluída! 🏆";
-                    overlayMessage.innerHTML = `${dayResultText}Você concluiu a Fase ${currentPhase - 1}! Preparado para a Fase ${currentPhase}?`;
-                    overlayButton.textContent = "Iniciar Nova Fase";
-                }
-            } else {
-                overlayTitle.textContent = "Dia Fracassado! 🌧️";
-                overlayMessage.innerHTML = `${dayResultText}Sua meta era ${targetPizzas} pizzas.<br>${failMessage}`;
-                overlayButton.textContent = "Tentar o Dia Novamente";
-                // Reputação e caixa são mantidos para a próxima tentativa do dia
-            }
+        <!-- Coluna 3: Catálogo de Pizzas (Flyer) --><div class="lg:w-1/3 w-full bg-gradient-to-br from-amber-100 to-yellow-200 p-6 rounded-3xl shadow-2xl border-4 border-amber-600 h-[650px] overflow-y-auto">
+            <h2 class="text-3xl font-extrabold text-amber-900 mb-5 text-center bg-amber-200 p-3 rounded-t-xl sticky top-0 z-10 -mx-6 px-6">Nosso Menu Secreto!</h2>
+            <p class="text-sm text-amber-800 mb-6 text-center italic font-semibold">Decore a ordem para ser o Mestre!</p>
             
-            showOverlay();
-        }
+            <div id="pizza-catalog-list" class="space-y-8">
+                <!-- Catálogo de Pizzas (Receitas) --></div>
+        </div>
 
-        function showOverlay() {
-            gameOverlay.classList.add('active');
-        }
+    </div>
 
-        function hideOverlay() {
-            gameOverlay.classList.remove('active');
-        }
+    <!-- Modal de Fim de Dia / Game Over --><div id="end-day-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h2 id="modal-title" class="text-5xl font-extrabold text-green-700 mb-5">Parabéns! Dia Concluído!</h2>
+            
+            <p class="text-2xl font-semibold text-gray-800 mb-3">Faturamento Bruto: <span id="modal-revenue" class="text-green-600">R$ 0.00</span></p>
+            <p class="text-xl font-semibold text-gray-700 mb-4">Custo de Ingredientes (Aleatório): <span id="modal-cost" class="text-red-600">R$ 0.00</span></p>
+            <hr class="my-5 border-t-2 border-gray-300">
+            <p class="text-3xl font-extrabold text-gray-900 mb-7">LUCRO LÍQUIDO DO DIA: <span id="modal-profit" class="text-green-800">R$ 0.00</span></p>
+            
+            <p class="text-base text-gray-600 mb-5 italic" id="modal-status-message"></p>
+            
+            <button onclick="Game.startNewDay()" class="bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white font-extrabold py-4 px-10 rounded-full shadow-xl transition duration-200 transform hover:scale-105 active:scale-95 mt-6">
+                Começar Dia <span id="modal-next-day">2</span> <span class="text-2xl">☀️</span>
+            </button>
+        </div>
+    </div>
 
-        function handleOverlayButtonClick() {
-            hideOverlay();
-            if (overlayButton.textContent.includes("Tentar o Dia Novamente")) {
-                startDay(); // Recomeça o mesmo dia
-            } else {
-                startDay(); // Avança para o próximo dia ou fase
+    <!-- Modal de Pedido Falho / Erro --><div id="fail-modal" class="modal-overlay hidden">
+        <div class="modal-content bg-red-50 border-red-500">
+            <h2 class="text-5xl font-extrabold text-red-700 mb-5">Pedido Arruinado! 😠</h2>
+            <p class="text-2xl font-semibold text-gray-800 mb-4">A pizza não estava perfeita. Cliente insatisfeito.</p>
+            <p class="text-xl text-gray-600 mb-6">"Não é o que eu pedi!" 😡</p>
+            <button onclick="document.getElementById('fail-modal').classList.add('hidden')" class="bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 text-white font-extrabold py-3 px-8 rounded-full shadow-xl transition duration-150 transform hover:scale-105 active:scale-95 mt-6">
+                Entendido, Mestre!
+            </button>
+        </div>
+    </div>
+    
+<script>
+    // =========================================================
+    // 1. DADOS E CONFIGURAÇÕES DO JOGO
+    // =========================================================
+
+    const INGREDIENTS = {
+        MOLHO: { id: 'MOLHO', name: "Molho Tomate", color: "red-600", emoji: "🍅" },
+        QUEIJO: { id: 'QUEIJO', name: "Queijo Mussarela", color: "yellow-300", emoji: "🧀" },
+        MANJERICAO: { id: 'MANJERICAO', name: "Manjericão", color: "green-600", emoji: "🌿" },
+        PEPPERONI: { id: 'PEPPERONI', name: "Pepperoni", color: "red-700", emoji: "🥓" },
+        PRESUNTO: { id: 'PRESUNTO', name: "Presunto", color: "pink-300", emoji: "🍖" },
+        OVO: { id: 'OVO', name: "Ovo Cozido", color: "yellow-500", emoji: "🥚" },
+        CEBOLA: { id: 'CEBOLA', name: "Cebola Roxa", color: "purple-400", emoji: "🧅" }
+    };
+
+    const PIZZA_CATALOG = [
+        { name: "Margherita Clássica", price: 12.00, ingredients: [INGREDIENTS.MOLHO, INGREDIENTS.QUEIJO, INGREDIENTS.MANJERICAO] },
+        { name: "Pepperoni Supremo", price: 15.00, ingredients: [INGREDIENTS.MOLHO, INGREDIENTS.QUEIJO, INGREDIENTS.PEPPERONI] },
+        { name: "Presunto e Queijo", price: 13.50, ingredients: [INGREDIENTS.MOLHO, INGREDIENTS.QUEIJO, INGREDIENTS.PRESUNTO] },
+        { name: "Portuguesa Completa", price: 18.00, ingredients: [INGREDIENTS.MOLHO, INGREDIENTS.QUEIJO, INGREDIENTS.PRESUNTO, INGREDIENTS.OVO, INGREDIENTS.CEBOLA] },
+        { name: "Vegetariana Verde", price: 14.50, ingredients: [INGREDIENTS.MOLHO, INGREDIENTS.QUEIJO, INGREDIENTS.MANJERICAO, INGREDIENTS.CEBOLA] }
+    ];
+
+    // =========================================================
+    // 2. LÓGICA DO JOGO (OBJETO GLOBAL GAME)
+    // =========================================================
+
+    const Game = {
+        cash: 0,
+        day: 1,
+        dailyRevenue: 0,
+        dailyQuota: 25,
+        pizzasMadeToday: 0,
+        orders: [],
+        currentPizza: [], // Ingredientes da pizza sendo montada (IDs)
+        currentCustomer: null, // O cliente cujo pedido está ativo (primeiro da fila)
+
+        // Função para obter a cota de pizzas por dia
+        getDailyQuota: (day) => {
+            if (day <= 4) return 25;
+            if (day <= 10) return 35;
+            return 50;
+        },
+
+        // Função para gerar um pedido do cliente
+        generateOrder: () => {
+            const rand = Math.random();
+            let numPizzas = 1;
+            // 70% 1 pizza, 20% 2 pizzas, 10% 3 pizzas
+            if (rand > 0.70) {
+                numPizzas = rand > 0.90 ? 3 : 2;
             }
-        }
 
-        function generateCustomerOrder() {
-            const pizzaTypes = Object.keys(RECIPES);
-            const numPizzas = Math.random() < 0.3 + (currentPhase * 0.1) ? 2 : 1; // Chance maior de 2 pizzas em fases mais avançadas
-            const pizzasForCustomer = [];
+            const customer = {
+                id: Math.random().toString(36).substring(2, 9),
+                name: `Cliente #${Math.floor(Math.random() * 900) + 100}`,
+                pizzas: []
+            };
 
             for (let i = 0; i < numPizzas; i++) {
-                const type = pizzaTypes[Math.floor(Math.random() * pizzaTypes.length)];
-                pizzasForCustomer.push({ type: type, completed: false });
+                const recipe = PIZZA_CATALOG[Math.floor(Math.random() * PIZZA_CATALOG.length)];
+                customer.pizzas.push({
+                    recipe: recipe,
+                    status: 'pending' // 'pending', 'completed', 'failed'
+                });
+            }
+            return customer;
+        },
+
+        // Inicia o jogo ou um novo dia
+        init: () => {
+            // Se for a primeira inicialização, carrega o catálogo e ingredientes
+            if (Game.day === 1 && Game.cash === 0) {
+                Game.renderCatalog();
+                Game.renderIngredientsPanel();
+            }
+            Game.dailyRevenue = 0;
+            Game.pizzasMadeToday = 0;
+            Game.dailyQuota = Game.getDailyQuota(Game.day);
+            Game.orders = [];
+            Game.currentPizza = [];
+            Game.currentCustomer = null;
+            
+            // Cria os pedidos iniciais (de 2 a 4 clientes na fila)
+            const initialCustomers = Math.floor(Math.random() * 3) + 2;
+            for (let i = 0; i < initialCustomers; i++) {
+                Game.orders.push(Game.generateOrder());
             }
 
-            const customerId = Math.floor(Math.random() * 100000); // ID único
-            const customerNames = ["Dingo Dave", "Kangaroo Kate", "Koala Kevin", "Wombat Wendy", "Crocodile Cody"];
-            const randomName = customerNames[Math.floor(Math.random() * customerNames.length)];
+            Game.renderHUD();
+            Game.renderOrdersQueue();
+            Game.resetPizza();
+        },
+        
+        // Começa um novo dia após a conclusão do anterior
+        startNewDay: () => {
+            Game.day++;
+            Game.init();
+            document.getElementById('end-day-modal').classList.add('hidden');
+        },
 
-            orderQueue.push({
-                id: customerId,
-                customerName: randomName,
-                pizzas: pizzasForCustomer,
-                orderTime: dayTime // Para calcular bônus por rapidez
-            });
-            showFeedback(`Novo pedido de ${randomName}! 🍕`);
-            renderOrderQueue();
+        // Adiciona um ingrediente à pizza atual
+        addIngredient: (ingredientId) => {
+            const ingredient = Object.values(INGREDIENTS).find(i => i.id === ingredientId);
+            if (!ingredient) return;
 
-            if (!currentCustomerOrder) {
-                processNextCustomerOrder();
+            Game.currentPizza.push(ingredientId);
+            Game.renderPizzaWorkbench();
+        },
+
+        // Limpa a bancada
+        resetPizza: () => {
+            Game.currentPizza = [];
+            Game.renderPizzaWorkbench();
+            // Garante que o primeiro pedido pendente seja o focado
+            Game.currentCustomer = Game.orders[0] || null;
+            Game.renderOrdersQueue();
+        },
+
+        // Checa a pizza e finaliza o pedido
+        checkPizza: () => {
+            if (!Game.currentCustomer || Game.currentPizza.length === 0) {
+                // Se não há cliente ou pizza, apenas reseta
+                return Game.resetPizza();
             }
-        }
+            
+            // Encontra a primeira pizza 'pending' do cliente ativo
+            const activePizzaIndex = Game.currentCustomer.pizzas.findIndex(p => p.status === 'pending');
+            if (activePizzaIndex === -1) {
+                // Não deveria acontecer, mas se acontecer, reseta
+                 return Game.resetPizza();
+            }
 
-        function renderOrderQueue() {
-            orderQueueDisplay.innerHTML = '';
-            if (orderQueue.length === 0) {
-                orderQueueDisplay.innerHTML = '<p>Nenhum cliente na fila.</p>';
+            const activePizza = Game.currentCustomer.pizzas[activePizzaIndex];
+            const requiredIngredients = activePizza.recipe.ingredients.map(i => i.id);
+
+            // 1. Checa a quantidade de ingredientes
+            if (Game.currentPizza.length !== requiredIngredients.length) {
+                Game.handleOrderFailure("FALHA NA QUANTIDADE");
                 return;
             }
 
-            orderQueue.forEach(order => {
-                const div = document.createElement('div');
-                div.className = 'order';
-                if (order === currentCustomerOrder) {
-                    div.classList.add('current-customer');
-                }
-                
-                let pizzasHtml = order.pizzas.map(p => `
-                    <span class="pizza-item ${p.completed ? 'completed' : ''}">
-                        ${p.completed ? '✅' : '👉'} ${p.type}
-                    </span>
-                `).join('');
+            // 2. Checa a ordem e tipo de ingredientes (precisão total)
+            const match = Game.currentPizza.every((id, index) => id === requiredIngredients[index]);
 
-                div.innerHTML = `<strong>${order.customerName}:</strong> ${pizzasHtml}`;
-                orderQueueDisplay.appendChild(div);
-            });
-        }
-
-        function processNextCustomerOrder() {
-            if (orderQueue.length > 0) {
-                currentCustomerOrder = orderQueue[0];
-                // Encontrar a primeira pizza NÃO completa deste cliente para fazer
-                const nextPizzaToMake = currentCustomerOrder.pizzas.find(p => !p.completed);
-
-                if (nextPizzaToMake) {
-                    currentPizzaBeingMade.type = nextPizzaToMake.type;
-                    currentPizzaBeingMade.requiredIngredients = [...RECIPES[nextPizzaToMake.type]];
-                    resetPizzaVisuals();
-                    showFeedback(`Comece a fazer a pizza ${currentPizzaBeingMade.type}!`);
-                } else {
-                    // Todas as pizzas do cliente atual foram feitas, então remove o cliente
-                    orderQueue.shift();
-                    currentCustomerOrder = null;
-                    resetPizzaBeingMade(); // Limpa a bancada
-                    showFeedback('Cliente atendido! Próximo da fila...');
-                    processNextCustomerOrder(); // Processa o próximo cliente
-                }
+            if (match) {
+                // SUCESSO!
+                Game.handleOrderSuccess(activePizza, activePizzaIndex);
             } else {
-                currentCustomerOrder = null;
-                resetPizzaBeingMade();
-                showFeedback('Nenhum pedido ativo no momento. Aguarde mais clientes!', false);
+                // FALHA!
+                Game.handleOrderFailure("FALHA NA ORDEM/TIPO");
             }
-            renderOrderQueue(); // Atualiza a fila visualmente
-            updateUI();
-        }
-
-        function resetPizzaBeingMade() {
-            currentPizzaBeingMade = {
-                type: '',
-                ingredientsAdded: [],
-                requiredIngredients: []
-            };
-            resetPizzaVisuals();
-            updateUI();
-        }
-
-        function resetPizzaVisuals() {
-            for (const layer in pizzaLayers) {
-                pizzaLayers[layer].style.opacity = 0;
-            }
-            document.getElementById('pizza-base').classList.remove('error-flash'); // Remove flash de erro
-        }
-
-        function addIngredient(ingredient) {
-            if (!currentCustomerOrder || !currentPizzaBeingMade.type) {
-                showFeedback("Nenhum pedido ativo! O cliente australiano vai ficar zangado, Mate!", true);
-                return;
-            }
-
-            const requiredRecipe = currentPizzaBeingMade.requiredIngredients;
-            const nextRequiredIngredient = requiredRecipe[currentPizzaBeingMade.ingredientsAdded.length];
-
-            // 1. Verificar a ordem dos ingredientes
-            if (ingredient !== nextRequiredIngredient) {
-                showFeedback(`**ERRO!** Ordem incorreta: ${ingredient}. O próximo deve ser ${nextRequiredIngredient}. Reputação cai!`, true);
-                reputation = Math.max(MIN_REPUTATION, reputation - 1);
-                resetPizzaBeingMade();
-                return;
-            }
-
-            currentPizzaBeingMade.ingredientsAdded.push(ingredient);
-            updateUI();
+        },
+        
+        // Lógica de sucesso do pedido
+        handleOrderSuccess: (pizza, index) => {
+            pizza.status = 'completed';
             
-            // Atualiza visual da pizza
-            if (pizzaLayers[ingredient]) {
-                pizzaLayers[ingredient].style.opacity = 1;
+            Game.cash += pizza.recipe.price;
+            Game.dailyRevenue += pizza.recipe.price;
+            Game.pizzasMadeToday++;
+
+            // Se o cliente terminou todos os pedidos
+            const allCompleted = Game.currentCustomer.pizzas.every(p => p.status === 'completed');
+            
+            if (allCompleted) {
+                // Remove o cliente da fila e gera um novo
+                Game.orders.shift(); 
+                Game.orders.push(Game.generateOrder());
+                Game.resetPizza(); // Reseta e define o próximo cliente ativo
+            } else {
+                // Se o cliente ainda tem pedidos, apenas reseta para a próxima pizza
+                Game.resetPizza();
             }
-        }
+            
+            Game.renderHUD();
+            Game.renderOrdersQueue();
+            Game.checkDayEnd();
+        },
 
-        function finishPizza() {
-            if (!currentCustomerOrder || !currentPizzaBeingMade.type) {
-                showFeedback("Nada para entregar!", true);
-                return;
+        // Lógica de falha do pedido
+        handleOrderFailure: (reason) => {
+            // Remove o cliente insatisfeito e gera um novo
+            Game.orders.shift();
+            Game.orders.push(Game.generateOrder());
+            Game.resetPizza();
+
+            // Mostra o modal de falha
+            document.getElementById('fail-modal').classList.remove('hidden');
+            
+            Game.renderOrdersQueue();
+            Game.renderHUD();
+        },
+
+        // Verifica se o dia terminou
+        checkDayEnd: () => {
+            if (Game.pizzasMadeToday >= Game.dailyQuota) {
+                Game.showEndDaySummary();
+            } else if (Game.orders.length === 0 && Game.pizzasMadeToday < Game.dailyQuota) {
+                 // Caso raro onde a fila zera antes da cota. Gera mais 2 pedidos
+                 Game.orders.push(Game.generateOrder());
+                 Game.orders.push(Game.generateOrder());
+                 Game.renderOrdersQueue();
             }
+        },
 
-            const requiredRecipe = currentPizzaBeingMade.requiredIngredients;
-
-            // 1. Verificação de conclusão
-            if (currentPizzaBeingMade.ingredientsAdded.length !== requiredRecipe.length) {
-                showFeedback("**PIZZA INCOMPLETA!** O cliente Helber B não come massa nua. Reputação cai!", true);
-                reputation = Math.max(MIN_REPUTATION, reputation - 1);
-                resetPizzaBeingMade();
-                return;
+        // Mostra o resumo financeiro do dia
+        showEndDaySummary: () => {
+            // Custo aleatório entre 20% e 26%
+            const costRate = Math.random() * (0.26 - 0.20) + 0.20;
+            const cost = Game.dailyRevenue * costRate;
+            const profit = Game.dailyRevenue - cost;
+            
+            Game.cash -= cost; // Deduz o custo do caixa
+            
+            // Renderiza o modal
+            document.getElementById('modal-title').innerText = "Dia de Trabalho Concluído!";
+            document.getElementById('modal-revenue').innerText = `R$ ${Game.dailyRevenue.toFixed(2)}`;
+            document.getElementById('modal-cost').innerText = `R$ ${cost.toFixed(2)} (${(costRate * 100).toFixed(1)}%)`;
+            document.getElementById('modal-profit').innerText = `R$ ${profit.toFixed(2)}`;
+            document.getElementById('modal-next-day').innerText = Game.day + 1;
+            
+            let statusMessage = "Excelente trabalho! Você superou a cota e manteve a qualidade.";
+            if (Game.pizzasMadeToday > Game.dailyQuota) {
+                statusMessage = "Uau! Você excedeu a meta diária! Seu lucro disparou.";
+            } else if (profit <= 0) {
+                statusMessage = "Cuidado! Apesar da cota, seus custos foram muito altos. O caixa está apertado.";
+                document.getElementById('modal-title').classList.remove('text-green-700');
+                document.getElementById('modal-title').classList.add('text-red-700');
+            } else {
+                 document.getElementById('modal-title').classList.remove('text-red-700');
+                 document.getElementById('modal-title').classList.add('text-green-700');
             }
+            document.getElementById('modal-status-message').innerText = statusMessage;
 
-            // 2. Verificação final da ordem
-            for (let i = 0; i < requiredRecipe.length; i++) {
-                if (currentPizzaBeingMade.ingredientsAdded[i] !== requiredRecipe[i]) {
-                    showFeedback("Houve um erro na sequência dos ingredientes. Reputação cai!", true);
-                    reputation = Math.max(MIN_REPUTATION, reputation - 1);
-                    resetPizzaBeingMade();
-                    return;
+            document.getElementById('end-day-modal').classList.remove('hidden');
+            Game.renderHUD();
+        },
+
+        // =========================================================
+        // 3. FUNÇÕES DE RENDERIZAÇÃO (DOM)
+        // =========================================================
+
+        renderHUD: () => {
+            document.getElementById('day-display').innerText = Game.day;
+            document.getElementById('cash-display').innerText = `R$ ${Game.cash.toFixed(2)}`;
+            document.getElementById('pizzas-made').innerText = Game.pizzasMadeToday;
+            document.getElementById('daily-quota').innerText = Game.dailyQuota;
+        },
+
+        renderIngredientsPanel: () => {
+            const panel = document.getElementById('ingredients-panel');
+            panel.innerHTML = '';
+            
+            Object.values(INGREDIENTS).forEach(ing => {
+                const button = document.createElement('button');
+                // Classes Tailwind para um visual mais divertido
+                button.className = `ingredient-button bg-${ing.color} text-white font-extrabold py-3 px-1 rounded-lg shadow-md hover:shadow-xl transition duration-150 flex flex-col items-center justify-center text-sm transform hover:-translate-y-1`;
+                button.onclick = () => Game.addIngredient(ing.id);
+                button.innerHTML = `<span class="text-4xl leading-none mb-1">${ing.emoji}</span> <span class="mt-1">${ing.name.split(' ')[0]}</span>`; // Emoji maior
+                panel.appendChild(button);
+            });
+        },
+
+        renderCatalog: () => {
+            const list = document.getElementById('pizza-catalog-list');
+            list.innerHTML = '';
+
+            PIZZA_CATALOG.forEach((pizza, index) => {
+                const item = document.createElement('div');
+                item.className = 'bg-white p-5 rounded-2xl shadow-lg border-l-8 border-amber-400 transform hover:scale-[1.02] transition duration-200 ease-out';
+                
+                const ingredientsList = pizza.ingredients.map((ing, i) => 
+                    `<li class="flex items-center text-gray-700 text-lg"><span class="font-extrabold text-amber-700 mr-2">${i + 1}.</span> <span class="text-3xl mr-2">${ing.emoji}</span> ${ing.name}</li>`
+                ).join('');
+
+                item.innerHTML = `
+                    <h4 class="text-2xl font-extrabold text-amber-800 mb-2">${pizza.name}</h4>
+                    <p class="text-xl font-bold text-green-600 mb-3">Preço: R$ ${pizza.price.toFixed(2)}</p>
+                    <p class="font-bold text-gray-700 mt-4 border-t pt-3">Ordem dos Ingredientes:</p>
+                    <ul class="list-none space-y-2 text-lg pl-0 mt-2">
+                        ${ingredientsList}
+                    </ul>
+                `;
+                list.appendChild(item);
+            });
+        },
+
+        renderOrdersQueue: () => {
+            const queue = document.getElementById('orders-queue');
+            queue.innerHTML = '';
+
+            Game.orders.forEach((customer, custIndex) => {
+                const isCurrentCustomer = custIndex === 0;
+                const card = document.createElement('div');
+                card.className = `order-card p-5 rounded-2xl shadow-lg ${isCurrentCustomer ? 'order-card-pending scale-100' : 'bg-gray-100 border-gray-300 scale-98 opacity-90'} transition-all duration-300 ease-out`;
+
+                let orderHTML = `<h3 class="text-2xl font-extrabold text-blue-700 mb-4">${customer.name}</h3><ul class="space-y-3">`;
+                let totalValue = 0;
+
+                customer.pizzas.forEach((pizza, pizzaIndex) => {
+                    const statusColor = 
+                        pizza.status === 'completed' ? 'text-green-700' : 
+                        pizza.status === 'pending' ? 'text-amber-600' : 'text-red-700';
+                    const statusEmoji = 
+                        pizza.status === 'completed' ? '✅' : 
+                        pizza.status === 'pending' ? (isCurrentCustomer ? '👉' : '⏳') : '❌';
+                    
+                    totalValue += pizza.recipe.price;
+
+                    orderHTML += `
+                        <li class="p-3 rounded-lg ${pizza.status === 'completed' ? 'bg-green-100' : pizza.status === 'pending' && isCurrentCustomer ? 'bg-yellow-100' : 'bg-gray-50'} border border-dashed border-gray-300">
+                            <span class="text-xl ${statusColor} font-bold">${statusEmoji} ${pizza.recipe.name}</span>
+                            <span class="float-right text-xl font-extrabold text-gray-800">R$ ${pizza.recipe.price.toFixed(2)}</span>
+                        </li>
+                    `;
+                });
+
+                orderHTML += `</ul>
+                    <div class="mt-5 pt-3 border-t-2 border-gray-200 font-extrabold text-xl flex justify-between">
+                        <span>Valor Total do Pedido:</span>
+                        <span class="text-green-800">R$ ${totalValue.toFixed(2)}</span>
+                    </div>
+                `;
+
+                card.innerHTML = orderHTML;
+                queue.appendChild(card);
+            });
+        },
+
+        renderPizzaWorkbench: () => {
+            const layersDiv = document.getElementById('current-pizza-layers');
+            layersDiv.innerHTML = '';
+            
+            // Camadas para dar profundidade, desenhadas na ordem inversa
+            // A massa da pizza é o background da #pizza-workbench
+            
+            Game.currentPizza.reverse().forEach((id, index) => {
+                const ingredient = Object.values(INGREDIENTS).find(i => i.id === id);
+                if (!ingredient) return;
+
+                const layer = document.createElement('div');
+                layer.className = 'ingredient-layer';
+
+                // Aplica a cor de fundo e um estilo de "cobertura"
+                let visualStyle = '';
+                let scale = 1.0 - (index * 0.05); // Camadas de baixo são menores
+
+                // Gradientes e texturas para simular os ingredientes de forma mais rica
+                if (id === 'MOLHO') {
+                    visualStyle = `background: radial-gradient(circle at 50% 50%, rgba(200, 0, 0, 0.9) 0%, rgba(255, 99, 71, 0.95) 70%, transparent 80%);`;
+                } else if (id === 'QUEIJO') {
+                    visualStyle = `background: radial-gradient(circle at 50% 50%, rgba(255, 223, 0, 0.85) 0%, rgba(255, 240, 0, 0.95) 70%, transparent 80%);`;
+                } else {
+                    // Para ingredientes "picados" ou em pedaços, usamos um padrão de emoji ou gradiente repetido
+                    layer.classList.add('emoji-layer'); // Nova classe para emojis
+                    layer.style.fontSize = `${(80 - index * 5)}px`; // Emojis menores nas camadas de baixo
+                    layer.innerHTML = ingredient.emoji; // Adiciona o emoji como conteúdo da camada
+                    layer.style.opacity = 0.9 - (index * 0.1);
+                    layer.style.zIndex = PIZZA_CATALOG.length - index; // Z-index para sobreposição
                 }
-            }
 
-            // 3. Entrega de Sucesso
-            const price = PIZZA_PRICES[currentPizzaBeingMade.type];
-            cash += price; // Atualização instantânea do Caixa
-            reputation = Math.min(MAX_REPUTATION, reputation + 1); // Reputação sobe
-            pizzaCountToday++;
-            
-            showFeedback(`**SUCESSO!** Entregue ${currentPizzaBeingMade.type} para ${currentCustomerOrder.customerName}. Ganhou $${price}!`, false);
+                layer.style.cssText += visualStyle + `transform: scale(${scale});`;
+                layersDiv.appendChild(layer);
+            });
 
-            // Marca a pizza como completa no pedido do cliente
-            const pizzaIndex = currentCustomerOrder.pizzas.findIndex(p => p.type === currentPizzaBeingMade.type && !p.completed);
-            if (pizzaIndex !== -1) {
-                currentCustomerOrder.pizzas[pizzaIndex].completed = true;
-            }
-            
-            processNextCustomerOrder(); // Tenta fazer a próxima pizza para o mesmo cliente ou o próximo
+            // Reverte a lista para a ordem correta para o próximo clique
+            Game.currentPizza.reverse();
         }
+    };
 
-        // --- Inicia o Jogo ao Carregar ---
-        document.addEventListener('DOMContentLoaded', initGame);
-
-    </script>
+    // Inicializa o jogo ao carregar a página
+    window.onload = () => {
+        Game.init();
+    };
+</script>
 </body>
 </html>
