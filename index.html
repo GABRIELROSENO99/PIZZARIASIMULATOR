@@ -249,9 +249,8 @@ Let's make some wicked pizzas today!"
 
     <div id="game-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden">
         <div id="modal-content" class="bg-white p-8 rounded-xl shadow-2xl max-w-md w-full text-center border-t-8 border-aussie-orange">
-            <h2 id="modal-title" class="text-3xl font-black mb-4 text-aussie-green">Bem-vindo, Mate!</h2>
-            <p id="modal-body" class="mb-6 text-gray-700">Pressione Iniciar para começar 
-sua jornada como o Pizzaiolo Helber B!</p>
+            <h2 id="modal-title" class="text-3xl font-black mb-4 text-aussie-green"></h2>
+            <p id="modal-body" class="mb-6 text-gray-700"></p>
             <div id="modal-actions">
                 <button id="start-game-btn" class="bg-aussie-orange text-white font-bold py-3 px-6 rounded-full text-lg transition duration-150 hover:bg-aussie-green">
                     Iniciar Dia 1 
@@ -292,7 +291,7 @@ __app_id : 'default-app-id';
         userId: null,
     };
     
-    // --- CORREÇÃO DE EMOJIS (REAPLICADA) ---
+    // --- INGREDIENTES (Com Emojis Corrigidos) ---
     const INGREDIENTS = {
         'MOLHO': { color: '#c0392b', emoji: '🍅', type: 'layer-molho' },
         'QUEIJO': { color: '#f1c40f', emoji: '🧀', type: 'layer-queijo' },
@@ -732,18 +731,15 @@ elements.deliverBtn.classList.remove('hover:bg-aussie-green', 'hover:bg-gray-500
 
     /**
      * Renderiza os botões de ingredientes disponíveis.
- (Corrigido)
      */
     function renderIngredientButtons() {
         const container = elements.ingredientButtons;
 container.innerHTML = '';
         
-        // Obtém apenas os nomes dos ingredientes necessários nas receitas da fase atual
         const availableIngredients = getAvailableIngredientsForPhase();
 Object.keys(INGREDIENTS).forEach(name => {
             const ingredient = INGREDIENTS[name];
             
-            // Verifica se o ingrediente está na lista de disponíveis para a fase
             const isAvailable = availableIngredients.includes(name);
 
             const button = document.createElement('button');
@@ -761,35 +757,38 @@ text-xs font-bold shadow-md flex flex-col items-center transition duration-100 $
         });
 }
 
+    /**
+     * Renderiza a lista de receitas no formato solicitado: Emoji + Nome do Ingrediente por extenso.
+     */
     function renderRecipeList() {
         const container = elements.recipeList;
 container.innerHTML = '';
 
         const availableRecipes = Object.keys(RECIPES)
             .filter(name => RECIPES[name].phaseMin <= GAME_STATE.currentPhase);
-// Se Fase 1, usa a lista restrita para exibir apenas as que realmente aparecerão
         const recipesToDisplay = GAME_STATE.currentPhase === 1 
             ?
 PHASES[1].available.map(name => ({ name, recipe: RECIPES[name] }))
             : availableRecipes.map(name => ({ name, recipe: RECIPES[name] }));
-recipesToDisplay.forEach(item => {
+            
+        recipesToDisplay.forEach(item => {
             const { name, recipe } = item;
             const itemDiv = document.createElement('div');
             itemDiv.className = 'border-b border-gray-200 pb-1';
             
-            // --- MUDANÇA SOLICITADA 2: Emoji + Nome do Ingrediente por Extenso ---
+            // --- IMPLEMENTAÇÃO DA SOLICITAÇÃO 2: Emoji + Nome do Ingrediente por Extenso ---
             const ingredientString = recipe.ingredients.map(i => 
+                // Garantimos que o nome do ingrediente esteja em caixa alta, conforme o exemplo
                 INGREDIENTS[i] ? `${INGREDIENTS[i].emoji} ${i.toUpperCase()}` : '?'
             ).join(' ');
 
             itemDiv.innerHTML = `
                 <p class="font-bold text-md text-aussie-orange">${name} (R$${recipe.price})</p>
-               
                 <p class="text-xs">${ingredientString}</p>
             `;
             container.appendChild(itemDiv);
         });
-}
+    }
 
 
     function renderPizzaStack() {
@@ -1017,7 +1016,7 @@ elements.startGameBtn.addEventListener('click', startGame);
     function init() {
         initFirebase();
 initEventListeners();
-        // --- MUDANÇA SOLICITADA 1: Remoção do Lembrete de Teste e adição do Emoji na title
+        // --- IMPLEMENTAÇÃO DA SOLICITAÇÃO 1: Remoção do Lembrete de Teste e título com emoji ---
         showModal("Pizzaria Helber B 🇦🇺", "Pressione Iniciar para começar sua jornada como o Pizzaiolo Helber B!", 'start');
 }
     
