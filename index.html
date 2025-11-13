@@ -471,7 +471,7 @@
         }
     }
 
-    // --- Game Logic (Omitido para brevidade) ---
+    // --- Game Logic ---
 
     function startGame() {
         GAME_STATE.currentPhase = 1;
@@ -511,9 +511,8 @@
             });
         });
 
-        // Na Fase 1, se tivermos uma lista restrita de receitas, usamos elas.
         if (GAME_STATE.currentPhase === 1) {
-            const phase1Recipes = PHASES[1].available; // Nomes das receitas
+            const phase1Recipes = PHASES[1].available; 
             const phase1Ingredients = new Set();
             phase1Recipes.forEach(rName => {
                  if (RECIPES[rName]) {
@@ -532,9 +531,8 @@
         let availableRecipes = allRecipes;
 
         if (GAME_STATE.currentPhase === 1) {
-            availableRecipes = PHASES[1].available; // Usa a lista restrita de nomes de receita
+            availableRecipes = PHASES[1].available; 
         } else {
-            // Se a fase tem um limite de receitas (o número em 'available'), usa um subconjunto
             const numAvailable = PHASES[GAME_STATE.currentPhase].available;
             availableRecipes = allRecipes.slice(0, numAvailable); 
         }
@@ -551,7 +549,6 @@
         elements.currentOrderName.textContent = randomRecipeName;
         elements.customerAvatar.textContent = getRandomCustomerEmoji();
 
-        // O timer só começa a contar quando o pedido é gerado
         resetTimer(GAME_STATE.timerMax);
         updateUI();
     }
@@ -571,13 +568,11 @@
         const correctRecipe = GAME_STATE.currentOrder.recipe;
         const applied = GAME_STATE.appliedIngredients;
 
-        // 1. Verifica o tamanho
         if (applied.length !== correctRecipe.length) {
             handleWrongOrder("Falta ou sobra de ingredientes, Helber!");
             return;
         }
 
-        // 2. Verifica a ordem exata
         let isCorrect = true;
         for (let i = 0; i < correctRecipe.length; i++) {
             if (applied[i] !== correctRecipe[i]) {
@@ -697,7 +692,7 @@
         elements.deliverBtn.classList.add(canDeliver ? 'hover:bg-aussie-green' : 'hover:bg-gray-500');
 
         renderIngredientButtons();
-        renderRecipeList(); // Renderização refeita para incluir o botão de info
+        renderRecipeList();
         renderPizzaStack(); 
     }
 
@@ -708,13 +703,10 @@
         const container = elements.ingredientButtons;
         container.innerHTML = '';
         
-        // Obtém apenas os nomes dos ingredientes necessários nas receitas da fase atual
         const availableIngredients = getAvailableIngredientsForPhase();
 
         Object.keys(INGREDIENTS).forEach(name => {
             const ingredient = INGREDIENTS[name];
-            
-            // Verifica se o ingrediente está na lista de disponíveis para a fase
             const isAvailable = availableIngredients.includes(name);
 
             const button = document.createElement('button');
@@ -751,7 +743,6 @@
         const availableRecipes = Object.keys(RECIPES)
             .filter(name => RECIPES[name].phaseMin <= GAME_STATE.currentPhase);
         
-        // Se Fase 1, usa a lista restrita para exibir apenas as que realmente aparecerão
         const recipesToDisplay = GAME_STATE.currentPhase === 1 
             ? PHASES[1].available.map(name => ({ name, recipe: RECIPES[name] }))
             : availableRecipes.map(name => ({ name, recipe: RECIPES[name] }));
@@ -767,6 +758,7 @@
             itemDiv.className = 'border-b border-gray-200 pb-1';
             
             // 1. Linha principal (Nome + Preço + Ícone de Info)
+            // Note o 'window.toggleRecipeDetails' para acessar a função globalmente
             itemDiv.innerHTML = `
                 <div class="flex justify-between items-center">
                     <p class="font-bold text-md text-aussie-orange flex items-center">
@@ -819,10 +811,6 @@
 
     // --- Timer Logic (Crescente) ---
 
-    /**
-     * Inicia ou reinicia o timer, contando de 0 até o limite.
-     * @param {number} durationMs - Duração total do timer em milissegundos (o limite).
-     */
     function resetTimer(durationMs) {
         stopTimer();
         GAME_STATE.timerMax = durationMs;
@@ -838,7 +826,7 @@
         
         const updateBar = () => {
             const now = Date.now();
-            GAME_STATE.elapsedTime = now - startTime; // Tempo decorrido (crescente)
+            GAME_STATE.elapsedTime = now - startTime; 
 
             if (GAME_STATE.elapsedTime >= durationMs) {
                 stopTimer();
@@ -846,18 +834,15 @@
                 return;
             }
 
-            // Barra de progresso cresce de 0% a 100%
             const percentage = (GAME_STATE.elapsedTime / durationMs) * 100;
             elements.timerBarFill.style.width = `${percentage}%`;
             
-            // Atualiza o tempo em minutos:segundos (Mostra o tempo que JÁ PASSOU)
             const totalSeconds = Math.max(0, Math.floor(GAME_STATE.elapsedTime / 1000));
             const minutes = Math.floor(totalSeconds / 60);
             const seconds = totalSeconds % 60;
             const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
             elements.customerWaitTimer.textContent = `CLIENTE AGUARDANDO HÁ (${timeString})`;
 
-            // Muda a cor da barra perto do fim (quando a porcentagem está alta)
             if (percentage > 75) {
                 elements.timerBarFill.classList.remove('bg-green-500', 'bg-yellow-500');
                 elements.timerBarFill.classList.add('bg-red-700');
@@ -870,7 +855,7 @@
             }
         };
 
-        timerInterval = setInterval(updateBar, 100); // Atualização mais suave a cada 100ms
+        timerInterval = setInterval(updateBar, 100); 
         updateBar(); 
     }
 
@@ -1001,7 +986,7 @@
 
     // --- Event Listeners and Initialization ---
 
-    // Exporta a função para ser acessível globalmente a partir do onclick no HTML
+    // Torna a função de alternar visível para o HTML
     window.toggleRecipeDetails = toggleRecipeDetails; 
 
     function initEventListeners() {
@@ -1012,7 +997,7 @@
     function init() {
         initFirebase();
         initEventListeners();
-        showModal("Pizzaria Helber B 🇦🇺", "Pressione Iniciar para começar sua jornada como o Pizzaiolo Helber B! (Lembrete: o timer agora é crescente e a meta de pizzas da Fase 1 foi reduzida para testes)", 'start');
+        showModal("Pizzaria Helber B 🇦🇺", "Pressione Iniciar para começar sua jornada como o Pizzaiolo Helber B! (Timer crescente e info de receita adicionados)", 'start');
     }
     
     init();
