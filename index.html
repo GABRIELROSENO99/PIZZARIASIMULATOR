@@ -129,6 +129,18 @@
             /* Transição ajustada para dar a sensação de crescimento/acúmulo */
             transition: width 0.1s linear; 
         }
+
+        /* Estilo para o ícone de informação */
+        .info-icon {
+            cursor: pointer;
+            font-size: 1.1rem;
+            color: #3b82f6; /* Azul do Tailwind para info */
+            margin-left: 0.5rem;
+            transition: color 0.1s;
+        }
+        .info-icon:hover {
+            color: #1e40af;
+        }
     </style>
 </head>
 <body class="aussie-background min-h-screen p-4 md:p-8">
@@ -196,7 +208,7 @@
             <div id="order-queue" class="bg-white/95 p-4 rounded-xl shadow-inner border border-aussie-green">
                 <h2 class="text-xl font-bold mb-3 text-gray-800">Próximo Pedido 🧑‍🤝‍🧑</h2>
                 <p id="customer-wait-timer" class="text-md font-bold text-green-600 mb-2">
-                    CLIENTE AGUARDANDO A (00:00)
+                    CLIENTE AGUARDANDO HÁ (00:00)
                 </p>
                 <div id="current-order-card" class="bg-yellow-100 p-3 rounded-lg shadow-md border-l-4 border-yellow-500">
                     <p class="text-sm text-gray-500">Cliente (Aguardando Helber)</p>
@@ -249,7 +261,7 @@
         appliedIngredients: [],
         phaseGoal: 25,
         timerMax: 0,
-        elapsedTime: 0, // ALTERADO: Contará o tempo que passou.
+        elapsedTime: 0, 
         isAuthReady: false,
         userId: null,
     };
@@ -354,7 +366,7 @@
         customerWaitTimer: document.getElementById('customer-wait-timer'),
     };
 
-    // --- Firebase Setup (Mantido como estava) ---
+    // --- Firebase Setup (Omitido para brevidade, mas o código é mantido) ---
     let db, auth;
 
     async function initFirebase() {
@@ -366,11 +378,11 @@
         }
         
         try {
-            // ... (Lógica de inicialização Firebase omitida para brevidade, mas mantida no código original)
+            // Lógica de inicialização Firebase
             const app = initializeApp(firebaseConfig);
             db = getFirestore(app);
             auth = getAuth(app);
-            setLogLevel('debug'); // Log level for Firestore
+            setLogLevel('debug'); 
 
             let userCredential;
             try {
@@ -435,7 +447,7 @@
         }
     }
 
-    // --- Web Speech Synthesis (Helber's Voice) (Mantido como estava) ---
+    // --- Web Speech Synthesis (Helber's Voice - Omitido para brevidade) ---
 
     function helberSpeak(text) {
         if ('speechSynthesis' in window) {
@@ -459,7 +471,7 @@
         }
     }
 
-    // --- Game Logic ---
+    // --- Game Logic (Omitido para brevidade) ---
 
     function startGame() {
         GAME_STATE.currentPhase = 1;
@@ -489,10 +501,6 @@
         }
     }
 
-    /**
-     * Retorna a lista de nomes de ingredientes que estão em *qualquer* receita
-     * disponível para a fase atual.
-     */
     function getAvailableIngredientsForPhase() {
         const availableRecipes = Object.keys(RECIPES).filter(name => RECIPES[name].phaseMin <= GAME_STATE.currentPhase);
         const uniqueIngredients = new Set();
@@ -689,12 +697,12 @@
         elements.deliverBtn.classList.add(canDeliver ? 'hover:bg-aussie-green' : 'hover:bg-gray-500');
 
         renderIngredientButtons();
-        renderRecipeList();
+        renderRecipeList(); // Renderização refeita para incluir o botão de info
         renderPizzaStack(); 
     }
 
     /**
-     * Renderiza os botões de ingredientes disponíveis. (Corrigido)
+     * Renderiza os botões de ingredientes disponíveis.
      */
     function renderIngredientButtons() {
         const container = elements.ingredientButtons;
@@ -721,7 +729,21 @@
             container.appendChild(button);
         });
     }
+    
+    // NOVO: Função para alternar a exibição dos ingredientes da receita
+    function toggleRecipeDetails(recipeName) {
+        const detailsId = `details-${recipeName.replace(/\s/g, '_')}`;
+        const detailsElement = document.getElementById(detailsId);
+        
+        if (detailsElement) {
+            detailsElement.classList.toggle('hidden');
+        }
+    }
 
+
+    /**
+     * Renderiza a lista de receitas com o novo botão de informação. (ALTERADO)
+     */
     function renderRecipeList() {
         const container = elements.recipeList;
         container.innerHTML = '';
@@ -737,16 +759,29 @@
 
         recipesToDisplay.forEach(item => {
             const { name, recipe } = item;
+            
+            // Cria a string da receita (MOLHO - QUEIJO - MANJERICÃO)
+            const ingredientsList = recipe.ingredients.join(' - ');
+
             const itemDiv = document.createElement('div');
             itemDiv.className = 'border-b border-gray-200 pb-1';
+            
+            // 1. Linha principal (Nome + Preço + Ícone de Info)
             itemDiv.innerHTML = `
-                <p class="font-bold text-md text-aussie-orange">${name} (R$${recipe.price})</p>
-                <p class="text-xs">${recipe.ingredients.map(i => INGREDIENTS[i] ? INGREDIENTS[i].emoji : '?').join(' ')}</p>
+                <div class="flex justify-between items-center">
+                    <p class="font-bold text-md text-aussie-orange flex items-center">
+                        ${name} (R$${recipe.price})
+                        <span class="info-icon" onclick="window.toggleRecipeDetails('${name}')" title="Clique para ver os ingredientes">ⓘ</span>
+                    </p>
+                    <p class="text-xs text-gray-500">${recipe.ingredients.map(i => INGREDIENTS[i] ? INGREDIENTS[i].emoji : '?').join(' ')}</p>
+                </div>
+                <p id="details-${name.replace(/\s/g, '_')}" class="text-xs text-blue-700 mt-1 hidden">
+                    ${ingredientsList}
+                </p>
             `;
             container.appendChild(itemDiv);
         });
     }
-
 
     function renderPizzaStack() {
         const stack = elements.pizzaStack;
@@ -782,7 +817,7 @@
     }
 
 
-    // --- Timer Logic (AJUSTADO para Crescente) ---
+    // --- Timer Logic (Crescente) ---
 
     /**
      * Inicia ou reinicia o timer, contando de 0 até o limite.
@@ -795,7 +830,7 @@
         
         if (durationMs <= 0) {
             elements.timerBarFill.style.width = '0%';
-            elements.customerWaitTimer.textContent = 'CLIENTE AGUARDANDO A (Sem Pressão)';
+            elements.customerWaitTimer.textContent = 'CLIENTE AGUARDANDO HÁ (00:00 - Sem Pressão)';
             return;
         }
 
@@ -855,7 +890,7 @@
     }
 
 
-    // --- Modal Logic (Mantido como estava) ---
+    // --- Modal Logic (Omitido para brevidade) ---
 
     function showModal(title, body, type, isVictory = false) {
         elements.modalTitle.textContent = title;
@@ -895,7 +930,7 @@
         }
     }
 
-    // --- Utility Functions (Mantido como estava) ---
+    // --- Utility Functions (Omitido para brevidade) ---
 
     function displayMessage(message, className = 'text-gray-800') {
         elements.gameMessage.innerHTML = `Helber: "<span class="${className}">${message}</span>"`;
@@ -910,7 +945,7 @@
         return emojis[Math.floor(Math.random() * emojis.length)];
     }
 
-    // --- Animation & FX (Mantido como estava) ---
+    // --- Animation & FX (Omitido para brevidade) ---
 
     function animatePizzaDelivery() {
         const stack = elements.pizzaStack;
@@ -965,6 +1000,9 @@
 
 
     // --- Event Listeners and Initialization ---
+
+    // Exporta a função para ser acessível globalmente a partir do onclick no HTML
+    window.toggleRecipeDetails = toggleRecipeDetails; 
 
     function initEventListeners() {
         elements.deliverBtn.addEventListener('click', deliverPizza);
