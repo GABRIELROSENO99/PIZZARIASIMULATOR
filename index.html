@@ -32,7 +32,6 @@
 
         /* Animação do fundo Aussie/Rústico */
         .aussie-background {
-            /* Adicionei uma imagem de background placeholder. Você pode mudar para uma imagem rústica real de pizza. */
             background-image: url('https://placehold.co/1920x1080/D96E01/FFFFFF?text=FUNDO+R%C3%9ASTICO+PIZZARIA+AUSTRALIANA');
             background-size: cover;
             background-position: center;
@@ -175,8 +174,7 @@
                 </div>
             </div>
             <div id="game-message" class="mt-3 text-center text-xl font-semibold text-gray-800">
-                Helber: "G'day, mate!
-                Let's make some wicked pizzas today!"
+                Helber: "G'day, mate! Let's make some wicked pizzas today!"
             </div>
         </header>
 
@@ -198,7 +196,7 @@
 
             <div class="lg:col-span-6 flex flex-col items-center space-y-4">
                 <div class="text-center">
-                    <span id="helber-avatar"></span>
+                    <span id="helber-avatar"> </span>
                     <p class="text-xl font-bold text-gray-800">Helber B.</p>
                 </div>
 
@@ -248,8 +246,7 @@
             <div id="modal-content"
                 class="bg-white p-8 rounded-xl shadow-2xl max-w-md w-full text-center border-t-8 border-aussie-orange">
                 <h2 id="modal-title" class="text-3xl font-black mb-4 text-aussie-green">Bem-vindo, Mate!</h2>
-                <p id="modal-body" class="mb-6 text-gray-700">Pressione Iniciar para começar sua jornada como o Pizzaiolo
-                    Helber B!</p>
+                <p id="modal-body" class="mb-6 text-gray-700">Pressione Iniciar para começar sua jornada como o Pizzaiolo Helber B!</p>
                 <div id="modal-actions">
                     <button id="start-game-btn"
                         class="bg-aussie-orange text-white font-bold py-3 px-6 rounded-full text-lg transition duration-150 hover:bg-aussie-green">
@@ -293,32 +290,31 @@
             isAuthReady: false,
             userId: null,
         };
-        
-        // --- ALTERAÇÃO 2: INCLUSÃO DOS EMOJIS SOLICITADOS (com adição dos emojis restantes) ---
+        // --- ALTERAÇÃO 2: INCLUSÃO DOS EMOJIS SOLICITADOS ---
         const INGREDIENTS = {
             'MOLHO': { color: '#c0392b', emoji: '🥫', type: 'layer-molho' },
             'QUEIJO': { color: '#f1c40f', emoji: '🧀', type: 'layer-queijo' },
-            'CALABRESA': { color: '#e74c3c', emoji: '🌶️', type: 'layer-carne' },
-            'PEPPERONI': { color: '#c0392b', emoji: '🥩', type: 'layer-carne' },
-            'FRANGO': { color: '#f39c12', emoji: '🍗', type: 'layer-carne' },
-            'CATUPIRY': { color: '#ecf0f1', emoji: '🥛', type: 'layer-queijo' },
+            'CALABRESA': { color: '#e74c3c', emoji: '', type: 'layer-carne' },
+            'PEPPERONI': { color: '#c0392b', emoji: '', type: 'layer-carne' },
+            'FRANGO': { color: '#f39c12', emoji: '', type: 'layer-carne' },
+            'CATUPIRY': { color: '#ecf0f1', emoji: '', type: 'layer-queijo' },
             'MANJERICÃO': { color: '#2ecc71', emoji: '🌿', type: 'layer-vegetal' },
-            'ORÉGANO': { color: '#27ae60', emoji: '🍃', type: 'layer-vegetal' },
-            'CEBOLA': { color: '#bdc3c7', emoji: '🧅', type: 'layer-vegetal' },
-            'COGUMELOS': { color: '#95a5a6', emoji: '🍄', type: 'layer-vegetal' },
-            'GORGONZOLA': { color: '#3498db', emoji: '🌀', type: 'layer-queijo' },
-            'PROVOLONE': { color: '#9b59b6', emoji: '💜', type: 'layer-queijo' },
-            'BACON': { color: '#e67e22', emoji: '🥓', type: 'layer-carne' },
-            'AZEITONAS': { color: '#2c3e50', emoji: '⚫', type: 'layer-vegetal' },
-            'PIMENTÃO': { color: '#e67e22', emoji: '🫑', type: 'layer-vegetal' },
-            'ABACAXI': { color: '#f1c40f', emoji: '🍍', type: 'layer-abacaxi' },
-            'PRESUNTO': { color: '#e67e22', emoji: '🍖', type: 'layer-carne' },
-            'PARMESÃO': { color: '#f39c12', emoji: '🔆', type: 'layer-queijo' },
-            'BRÓCOLIS': { color: '#2ecc71', emoji: '🥦', type: 'layer-vegetal' },
-            'QUEIJO EXTRA': { color: '#f1c40f', emoji: '🧀+', type: 'layer-queijo' },
-            'CARNE MOÍDA': { color: '#8B4513', emoji: '🥩-', type: 'layer-carne' },
-            'ATUM': { color: '#2c3e50', emoji: '🐟', type: 'layer-carne' },
-            'ESCARGOT': { color: '#9b59b6', emoji: '🐌', type: 'layer-premium' },
+            'ORÉGANO': { color: '#27ae60', emoji: '', type: 'layer-vegetal' },
+            'CEBOLA': { color: '#bdc3c7', emoji: '', type: 'layer-vegetal' },
+            'COGUMELOS': { color: '#95a5a6', emoji: '', type: 'layer-vegetal' },
+            'GORGONZOLA': { color: '#3498db', emoji: '', type: 'layer-queijo' },
+            'PROVOLONE': { color: '#9b59b6', emoji: '', type: 'layer-queijo' },
+            'BACON': { color: '#e67e22', emoji: '', type: 'layer-carne' },
+            'AZEITONAS': { color: '#2c3e50', emoji: '', type: 'layer-vegetal' },
+            'PIMENTÃO': { color: '#e67e22', emoji: '', type: 'layer-vegetal' },
+            'ABACAXI': { color: '#f1c40f', emoji: '', type: 'layer-abacaxi' },
+            'PRESUNTO': { color: '#e67e22', emoji: '', type: 'layer-carne' },
+            'PARMESÃO': { color: '#f39c12', emoji: '', type: 'layer-queijo' },
+            'BRÓCOLIS': { color: '#2ecc71', emoji: '', type: 'layer-vegetal' },
+            'QUEIJO EXTRA': { color: '#f1c40f', emoji: '', type: 'layer-queijo' },
+            'CARNE MOÍDA': { color: '#8B4513', emoji: '', type: 'layer-carne' },
+            'ATUM': { color: '#2c3e50', emoji: '', type: 'layer-carne' },
+            'ESCARGOT': { color: '#9b59b6', emoji: '', type: 'layer-premium' },
         };
         // --------------------------------------------------
         
@@ -395,8 +391,7 @@
             currentPizzaBase: document.getElementById('current-pizza-base'),
             customerWaitTimer: document.getElementById('customer-wait-timer'),
         };
-
-        // --- Firebase Setup (Lógica mantida para persistência) ---
+        // --- Firebase Setup (Mantido como estava) ---
         let db, auth;
         async function initFirebase() {
             if (!firebaseConfig) {
@@ -472,7 +467,7 @@
             }
         }
 
-        // --- Web Speech Synthesis (Helber's Voice) ---
+        // --- Web Speech Synthesis (Helber's Voice) (Mantido como estava) ---
 
         function helberSpeak(text) {
             if ('speechSynthesis' in window) {
@@ -485,7 +480,7 @@
                     utterance.voice = aussieVoice;
                 } else {
                     utterance.voice = voices[0] ||
-                        null;
+                null;
                 }
 
                 utterance.rate = 1.0;
@@ -504,7 +499,6 @@
                 // Captura e ignora o erro se a reprodução falhar (ex: se o usuário pausar manualmente e tentar dar play de novo)
                 console.error("Falha ao tentar tocar a música:", error);
             });
-            
             GAME_STATE.currentPhase = 1;
             GAME_STATE.balance = 0;
             GAME_STATE.streak = 0;
@@ -519,25 +513,17 @@
             GAME_STATE.pizzasCompleted = 0;
             GAME_STATE.phaseGoal = phase.goal;
             GAME_STATE.timerMax = phase.timer * 1000;
-            GAME_STATE.elapsedTime = 0; // Reset do tempo decorrido
+            GAME_STATE.elapsedTime = 0;
+            // Reset do tempo
             GAME_STATE.appliedIngredients = [];
             resetPizzaBench();
             updateUI();
             displayMessage(phase.message);
-            // Só gera o pedido se o timer for relevante, senão espera o clique (Fase 1)
             if (GAME_STATE.currentPhase === 1) {
-                // Fase 1 é para aprender, sem pressão de tempo.
-                elements.customerWaitTimer.textContent = "CLIENTE AGUARDANDO A (PRONTO)";
                 generateNextOrder();
             } else {
                 GAME_STATE.currentOrder = null;
-                // O primeiro clique de ingrediente gera o primeiro pedido e começa o timer
-                elements.currentOrderName.textContent = "Aguardando 1º Ingrediente...";
-                elements.customerAvatar.textContent = "👨‍🍳";
-                elements.customerWaitTimer.textContent = "CLIENTE AGUARDANDO A (PRONTO)";
             }
-            renderIngredientButtons();
-            renderRecipeList();
         }
 
         /**
@@ -569,54 +555,6 @@
             return Array.from(uniqueIngredients);
         }
 
-        // --- Função para renderizar botões de Ingredientes ---
-        function renderIngredientButtons() {
-            const availableIngredients = getAvailableIngredientsForPhase();
-            elements.ingredientButtons.innerHTML = '';
-
-            availableIngredients.forEach(name => {
-                const ingredient = INGREDIENTS[name];
-                const button = document.createElement('button');
-                button.textContent = `${ingredient.emoji} ${name}`;
-                button.className = `ingredient-btn bg-white text-gray-800 text-xs font-bold py-2 px-1 rounded-lg shadow-md hover:bg-fundo-claro border border-gray-300`;
-                button.title = name;
-                button.onclick = () => {
-                    if (!GAME_STATE.currentOrder && GAME_STATE.currentPhase > 1) {
-                        // Se não há pedido e não é a Fase 1 (que gera na inicialização)
-                        generateNextOrder();
-                        startTimer();
-                    }
-                    addIngredient(name);
-                };
-                elements.ingredientButtons.appendChild(button);
-            });
-        }
-        
-        // --- Função para renderizar a lista de receitas ---
-        function renderRecipeList() {
-            const availableRecipes = Object.keys(RECIPES).filter(name => RECIPES[name].phaseMin <= GAME_STATE.currentPhase);
-            elements.recipeList.innerHTML = '';
-            
-            let recipesToDisplay = availableRecipes;
-            if (GAME_STATE.currentPhase === 1) {
-                recipesToDisplay = PHASES[1].available;
-            } else if (PHASES[GAME_STATE.currentPhase].available) {
-                // Se o número estiver limitado, exibe a lista limitada
-                const numAvailable = PHASES[GAME_STATE.currentPhase].available;
-                recipesToDisplay = availableRecipes.slice(0, numAvailable);
-            }
-
-            recipesToDisplay.forEach(recipeName => {
-                const recipe = RECIPES[recipeName];
-                const ingredientEmojis = recipe.ingredients.map(iName => INGREDIENTS[iName].emoji).join(' > ');
-                
-                const recipeItem = document.createElement('p');
-                recipeItem.className = 'bg-gray-100 p-2 rounded-md border-l-2 border-aussie-orange/50';
-                recipeItem.innerHTML = `<strong>${recipeName}:</strong> <span class="text-sm">${ingredientEmojis}</span> (R$ ${recipe.price})`;
-                elements.recipeList.appendChild(recipeItem);
-            });
-        }
-
 
         function generateNextOrder() {
             const allRecipes = Object.keys(RECIPES).filter(name => RECIPES[name].phaseMin <= GAME_STATE.currentPhase);
@@ -641,12 +579,8 @@
             };
             elements.currentOrderName.textContent = GAME_STATE.currentOrder.name;
             elements.customerAvatar.textContent = getRandomCustomerEmoji();
-            // O timer só começa a contar quando o pedido é gerado (exceto Fase 1)
-            if (GAME_STATE.currentPhase > 1) {
-                // Timer é iniciado no primeiro clique de ingrediente
-                elements.customerWaitTimer.textContent = "CLIENTE AGUARDANDO A (00:00)";
-            }
-            
+            // O timer só começa a contar quando o pedido é gerado
+            resetTimer(GAME_STATE.timerMax);
             updateUI();
         }
 
@@ -700,15 +634,11 @@
                 displayMessage(HELBER_SPEAK.CORRECT, 'text-green-600');
             }
 
-            // --- ALTERAÇÃO 3: Lógica do Combo Especial X2 na Fase 5 ---
             if (GAME_STATE.currentPhase === 5 && comboStreak > 0 && comboStreak % 3 === 0) {
-                // Se na Fase 5, e a cada 3 acertos em sequência, dobra o preço
-                const extraEarnings = price;
                 price *= 2;
-                elements.feedbackText.textContent = ` COMBO ESPECIAL X2! +R$${extraEarnings} de BÔNUS! | ${elements.feedbackText.textContent}`;
+                elements.feedbackText.textContent = ` COMBO ESPECIAL X2! +R$${price} | ${elements.feedbackText.textContent}`;
             }
-            // -----------------------------------------------------------
-            
+
             GAME_STATE.balance += price;
             GAME_STATE.pizzasCompleted++;
 
@@ -765,9 +695,6 @@
                 GAME_STATE.highScore = GAME_STATE.balance;
                 saveGameState();
             }
-            
-            // NOVO: Pausa a música
-            elements.backgroundMusic.pause();
 
             if (isVictory) {
                 animateFireworks();
@@ -782,287 +709,301 @@
         function resetPizzaBench() {
             GAME_STATE.appliedIngredients = [];
             elements.pizzaStack.innerHTML = '';
-            // Restaura o texto base na bancada
+            // Restaura a mensagem da base
             elements.currentPizzaBase.style.display = 'block';
-            elements.deliverBtn.disabled = true;
+            elements.pizzaStack.classList.add('border-dashed', 'border-aussie-orange/50');
+            elements.pizzaStack.classList.remove('border-aussie-orange', 'bg-yellow-600');
         }
 
-        // --- Timer Logic (Alterado para contar o tempo decorrido) ---
-
-        function startTimer() {
-            // Se Fase 1, não precisa de timer
-            if (GAME_STATE.currentPhase === 1 || GAME_STATE.timerMax <= 0) {
-                elements.timerBarFill.style.width = '100%';
-                elements.customerWaitTimer.textContent = "CLIENTE AGUARDANDO A (PRONTO)";
-                return;
-            }
-            
-            // Limpa qualquer timer anterior
-            stopTimer();
-            GAME_STATE.elapsedTime = 0; // Começa a contagem do zero
-            
-            timerInterval = setInterval(() => {
-                GAME_STATE.elapsedTime += 100; // Aumenta 100ms
-                const timeLeft = GAME_STATE.timerMax - GAME_STATE.elapsedTime;
-                
-                // Calcula a porcentagem com base no tempo RESTANTE para a barra decrescer
-                let percentage = (timeLeft / GAME_STATE.timerMax) * 100; 
-
-                // Atualiza a barra
-                elements.timerBarFill.style.width = `${percentage}%`;
-                
-                // Mudar a cor da barra dependendo do tempo
-                if (percentage > 50) {
-                    elements.timerBarFill.className = 'bg-green-500 h-4 rounded-full';
-                    elements.customerWaitTimer.className = 'text-md font-bold text-green-600 mb-2';
-                } else if (percentage > 20) {
-                    elements.timerBarFill.className = 'bg-yellow-500 h-4 rounded-full';
-                    elements.customerWaitTimer.className = 'text-md font-bold text-yellow-600 mb-2';
-                } else {
-                    elements.timerBarFill.className = 'bg-red-500 h-4 rounded-full';
-                    elements.customerWaitTimer.className = 'text-md font-bold text-red-600 mb-2';
-                }
-
-                // Atualiza o texto do timer com o tempo restante
-                const seconds = Math.floor(timeLeft / 1000);
-                const minutes = Math.floor(seconds / 60);
-                const remainingSeconds = seconds % 60;
-                
-                const timeString = `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
-                elements.customerWaitTimer.textContent = `CLIENTE AGUARDANDO A (${timeString})`;
-                
-                if (timeLeft <= 0) {
-                    handleTimeOut();
-                }
-            }, 100);
-        }
-
-        function stopTimer() {
-            clearInterval(timerInterval);
-            timerInterval = null;
-        }
-        
-        function resetTimer(maxTime) {
-             stopTimer();
-             // Inicia o timer novamente se for uma fase com tempo limite
-             if (GAME_STATE.currentPhase > 1 && maxTime > 0) {
-                 startTimer();
-             } else {
-                 elements.timerBarFill.style.width = '100%';
-                 elements.timerBarFill.className = 'bg-green-500 h-4 rounded-full';
-             }
-        }
-
-
-        function handleTimeOut() {
-            stopTimer();
-            if (GAME_STATE.currentOrder) {
-                elements.feedbackText.textContent = ` CLIENTE FUGIU! O tempo acabou!`;
-                displayMessage("Too slow, mate! We lost that one!", 'text-red-700 font-extrabold');
-                endGame(false); // Game Over por tempo esgotado
-            }
-        }
 
         // --- UI Rendering ---
 
         function updateUI() {
-            const currentPhase = PHASES[GAME_STATE.currentPhase];
             elements.faseCounter.textContent = `Fase: ${GAME_STATE.currentPhase}/5`;
-            elements.pizzaCounter.textContent = `Pizzas: ${GAME_STATE.pizzasCompleted}/${currentPhase.goal}`;
+            elements.pizzaCounter.textContent = `Pizzas: ${GAME_STATE.pizzasCompleted}/${GAME_STATE.phaseGoal}`;
             elements.saldoCounter.textContent = `Saldo: R$ ${GAME_STATE.balance}`;
             elements.highscoreDisplay.textContent = `Recorde: R$ ${GAME_STATE.highScore}`;
-            
-            elements.helberAvatar.textContent = (comboStreak >= 5) ? '🥇' : '🧑‍🍳';
-            
-            // Botão Entregar
-            if (GAME_STATE.currentOrder && GAME_STATE.appliedIngredients.length > 0) {
-                elements.deliverBtn.disabled = false;
-                elements.deliverBtn.className = 'w-full max-w-sm bg-aussie-green text-white font-black text-xl py-3 rounded-full shadow-lg transition duration-150 hover:bg-aussie-orange';
-            } else {
-                elements.deliverBtn.disabled = true;
-                elements.deliverBtn.className = 'w-full max-w-sm bg-gray-400 text-white font-black text-xl py-3 rounded-full shadow-lg transition duration-150 hover:bg-gray-500 disabled:opacity-50 disabled:cursor-not-allowed';
-            }
+            const canDeliver = GAME_STATE.isGameRunning && GAME_STATE.currentOrder && GAME_STATE.appliedIngredients.length > 0;
+            elements.deliverBtn.disabled = !canDeliver;
+            elements.deliverBtn.classList.remove('bg-aussie-orange', 'bg-gray-400');
+            elements.deliverBtn.classList.add(canDeliver ? 'bg-aussie-orange' : 'bg-gray-400');
+            elements.deliverBtn.classList.remove('hover:bg-aussie-green', 'hover:bg-gray-500');
+            elements.deliverBtn.classList.add(canDeliver ? 'hover:bg-aussie-green' : 'hover:bg-gray-500');
+
+            renderIngredientButtons();
+            renderRecipeList();
+            renderPizzaStack();
+        }
+
+        /**
+         * Renderiza os botões de ingredientes disponíveis.
+         * (Corrigido)
+         */
+        function renderIngredientButtons() {
+            const container = elements.ingredientButtons;
+            container.innerHTML = '';
+            // Obtém apenas os nomes dos ingredientes necessários nas receitas da fase atual
+            const availableIngredients = getAvailableIngredientsForPhase();
+            Object.keys(INGREDIENTS).forEach(name => {
+                const ingredient = INGREDIENTS[name];
+                // Verifica se o ingrediente está na lista de disponíveis para a fase
+                const isAvailable = availableIngredients.includes(name);
+
+                const button = document.createElement('button');
+                button.className = `ingredient-btn p-2 rounded-lg text-xs font-bold shadow-md flex flex-col items-center transition duration-100 ${isAvailable ? 'bg-fundo-claro border-2 border-aussie-green hover:bg-aussie-green/20' : 'bg-gray-200 text-gray-400 cursor-not-allowed'}`;
+                button.disabled = !isAvailable;
+                button.innerHTML = `<span class="text-xl">${ingredient.emoji}</span>${name}`;
+
+                if (isAvailable) {
+                    button.onclick = () => addIngredient(name);
+                }
+                container.appendChild(button);
+            });
+        }
+
+        function renderRecipeList() {
+            const container = elements.recipeList;
+            container.innerHTML = '';
+
+            const availableRecipes = Object.keys(RECIPES)
+                .filter(name => RECIPES[name].phaseMin <= GAME_STATE.currentPhase);
+            // Se Fase 1, usa a lista restrita para exibir apenas as que realmente aparecerão
+            const recipesToDisplay = GAME_STATE.currentPhase === 1 ?
+                PHASES[1].available.map(name => ({ name, recipe: RECIPES[name] })) :
+                availableRecipes.map(name => ({ name, recipe: RECIPES[name] }));
+            recipesToDisplay.forEach(item => {
+                const { name, recipe } = item;
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'border-b border-gray-200 pb-1';
+                itemDiv.innerHTML = `
+                <p class="font-bold text-md text-aussie-orange">${name} (R$${recipe.price})</p>
+                <p class="text-xs">${recipe.ingredients.map(i => INGREDIENTS[i] ? INGREDIENTS[i].emoji + ' ' + i : '?').join(' ')}</p>
+            `; // Adicionado o nome do ingrediente ao lado do emoji
+                container.appendChild(itemDiv);
+            });
         }
 
         function renderPizzaStack() {
-            elements.pizzaStack.innerHTML = '';
-            elements.currentPizzaBase.style.display = 'none'; // Esconde o texto base
+            const stack = elements.pizzaStack;
+            stack.innerHTML = '';
 
-            GAME_STATE.appliedIngredients.forEach((ingredientName, index) => {
+            // Se houver ingredientes, a base muda para visual de massa pronta.
+            if (GAME_STATE.appliedIngredients.length > 0) {
+                elements.currentPizzaBase.style.display = 'none';
+                stack.classList.remove('border-dashed', 'border-aussie-orange/50', 'bg-aussie-orange/10');
+                stack.classList.add('border-aussie-orange', 'bg-yellow-600');
+            } else {
+                stack.appendChild(elements.currentPizzaBase);
+                elements.currentPizzaBase.style.display = 'block';
+                stack.classList.add('border-dashed', 'border-aussie-orange/50', 'bg-aussie-orange/10');
+                stack.classList.remove('border-aussie-orange', 'bg-yellow-600');
+            }
+
+            // Renderiza os ingredientes aplicados
+            GAME_STATE.appliedIngredients.forEach(ingredientName => {
                 const ingredient = INGREDIENTS[ingredientName];
-                const layerDiv = document.createElement('div');
-                layerDiv.className = `pizza-layer ${ingredient.type}`;
-                // Tenta dar um efeito 3D
-                layerDiv.style.width = `${60 + (index * 5)}%`; // Largura crescente
-                
-                const emoji = document.createElement('span');
-                emoji.textContent = ingredient.emoji;
-                emoji.className = 'text-lg absolute';
-                layerDiv.appendChild(emoji);
-
-                elements.pizzaStack.appendChild(layerDiv);
+                if (ingredient) {
+                    const layer = document.createElement('div');
+                    layer.className = `pizza-layer ${ingredient.type}`;
+                    layer.style.backgroundColor = ingredient.color;
+                    stack.appendChild(layer);
+                }
             });
         }
-        
-        function displayMessage(text, className = 'text-gray-800') {
-            elements.gameMessage.innerHTML = `Helber: "${text}"`;
-            elements.gameMessage.className = `mt-3 text-center text-xl font-semibold ${className}`;
-        }
 
-        // --- Modal/FX ---
 
-        function showModal(title, body, type) {
+        // --- Timer, Modal & FX ---
+
+        function showModal(title, body, actionType) {
             elements.modalTitle.textContent = title;
             elements.modalBody.textContent = body;
-            elements.modalActions.innerHTML = ''; // Limpa botões anteriores
-            
-            if (type === 'nextPhase') {
-                const nextBtn = document.createElement('button');
-                nextBtn.id = 'continue-game-btn';
-                nextBtn.className = 'bg-aussie-orange text-white font-bold py-3 px-6 rounded-full text-lg transition duration-150 hover:bg-aussie-green';
-                nextBtn.textContent = `Iniciar Dia ${GAME_STATE.currentPhase}`;
-                nextBtn.onclick = hideModal;
-                elements.modalActions.appendChild(nextBtn);
-            } else if (type === 'gameOver' || type === 'victory') {
-                const restartBtn = document.createElement('button');
-                restartBtn.id = 'restart-game-btn';
-                restartBtn.className = 'bg-aussie-green text-white font-bold py-3 px-6 rounded-full text-lg transition duration-150 hover:bg-aussie-orange';
-                restartBtn.textContent = 'Jogar Novamente';
-                restartBtn.onclick = () => {
+            elements.modalActions.innerHTML = ''; // Limpa botões antigos
+
+            const button = document.createElement('button');
+            button.className = "bg-aussie-orange text-white font-bold py-3 px-6 rounded-full text-lg transition duration-150 hover:bg-aussie-green";
+            if (actionType === 'nextPhase') {
+                button.textContent = `Iniciar Dia ${GAME_STATE.currentPhase}`;
+                button.onclick = () => {
                     hideModal();
-                    // Reinicia o estado do jogo para a fase inicial
-                    GAME_STATE.currentPhase = 1; 
-                    GAME_STATE.balance = 0;
-                    GAME_STATE.pizzasCompleted = 0;
+                    helberSpeak(HELBER_SPEAK.NEXT_PHASE);
+                    // startPhase() já foi chamado em continueGameFlow
+                };
+            } else if (actionType === 'victory' || actionType === 'gameOver') {
+                button.textContent = "Recomeçar Dia 1";
+                button.onclick = () => {
+                    hideModal();
                     startGame();
                 };
-                elements.modalActions.appendChild(restartBtn);
             } else {
-                 const startBtn = document.createElement('button');
-                 startBtn.id = 'start-game-btn';
-                 startBtn.className = 'bg-aussie-orange text-white font-bold py-3 px-6 rounded-full text-lg transition duration-150 hover:bg-aussie-green';
-                 startBtn.textContent = 'Iniciar Dia 1';
-                 startBtn.onclick = startGame;
-                 elements.modalActions.appendChild(startBtn);
+                button.textContent = "Iniciar Dia 1";
+                button.onclick = startGame;
             }
-            
+
+            elements.modalActions.appendChild(button);
             elements.gameModal.classList.remove('hidden');
         }
 
         function hideModal() {
             elements.gameModal.classList.add('hidden');
-            if (GAME_STATE.isGameRunning) {
-                // Se o jogo estiver rodando (e não foi Game Over), continua a fase.
-                if (GAME_STATE.currentOrder) {
-                    resetTimer(GAME_STATE.timerMax);
-                } else if (GAME_STATE.currentPhase > 1) {
-                    // Se for uma nova fase (Dia 2+), o jogo espera o primeiro clique para começar o timer.
-                    elements.currentOrderName.textContent = "Aguardando 1º Ingrediente...";
-                    elements.customerAvatar.textContent = "👨‍🍳";
-                    elements.customerWaitTimer.textContent = "CLIENTE AGUARDANDO A (PRONTO)";
+        }
+
+        /**
+         * Inicia o timer, contando de 0 até durationMs milissegundos (o limite).
+         */
+        function resetTimer(durationMs) {
+            stopTimer();
+            GAME_STATE.timerMax = durationMs;
+            GAME_STATE.elapsedTime = 0;
+
+            if (durationMs <= 0) {
+                elements.timerBarFill.style.width = '0%';
+                elements.customerWaitTimer.textContent = 'CLIENTE AGUARDANDO A (Sem Pressão)';
+                return;
+            }
+
+            const startTime = Date.now();
+            const updateBar = () => {
+                const now = Date.now();
+                GAME_STATE.elapsedTime = now - startTime;
+
+                // Tempo decorrido (crescente)
+                if (GAME_STATE.elapsedTime >= durationMs) {
+                    stopTimer();
+                    handleTimeout();
+                    return;
                 }
+
+                // Barra de progresso cresce de 0% a 100%
+                const percentage = (GAME_STATE.elapsedTime / durationMs) * 100;
+                elements.timerBarFill.style.width = `${percentage}%`;
+
+                // Atualiza o tempo em minutos:segundos (Mostra o tempo que JÁ PASSOU)
+                const totalSeconds = Math.max(0, Math.floor(GAME_STATE.elapsedTime / 1000));
+                const minutes = Math.floor(totalSeconds / 60);
+                const seconds = totalSeconds % 60;
+                const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                elements.customerWaitTimer.textContent = `CLIENTE AGUARDANDO HÁ (${timeString})`;
+
+                // Muda a cor da barra perto do fim (quando a porcentagem está alta)
+                if (percentage > 75) {
+                    elements.timerBarFill.classList.remove('bg-green-500', 'bg-yellow-500');
+                    elements.timerBarFill.classList.add('bg-red-700');
+                } else if (percentage > 50) {
+                    elements.timerBarFill.classList.remove('bg-green-500', 'bg-red-700');
+                    elements.timerBarFill.classList.add('bg-yellow-500');
+                } else {
+                    elements.timerBarFill.classList.remove('bg-red-700', 'bg-yellow-500');
+                    elements.timerBarFill.classList.add('bg-green-500');
+                }
+            };
+
+            timerInterval = setInterval(updateBar, 100);
+            // Atualização mais suave a cada 100ms
+            updateBar();
+        }
+
+        function stopTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
             }
         }
-        
-        function animatePizzaDelivery() {
-            // Lógica para animar a pizza (ex: desaparecer ou mover para fora da tela)
-            const stack = elements.pizzaStack;
-            stack.style.transition = 'transform 0.5s ease-in, opacity 0.5s ease-in';
-            stack.style.transform = 'translateY(-100px) translateX(300px) rotate(45deg)';
-            stack.style.opacity = '0';
-            
-            setTimeout(() => {
-                stack.style.transition = 'none';
-                stack.style.transform = 'none';
-                stack.style.opacity = '1';
-                resetPizzaBench(); // Limpa e prepara para o próximo
-            }, 500);
-        }
-        
-        function animatePizzaExplosion() {
-            // Simula uma "explosão" de pizza/ingredientes
-            const stack = elements.pizzaStack;
-            const pieces = [];
-            for (let i = 0; i < 10; i++) {
-                const piece = document.createElement('div');
-                piece.className = 'pizza-layer layer-molho absolute'; // Camada vermelha/ingrediente
-                piece.style.width = '10px';
-                piece.style.height = '10px';
-                piece.style.borderRadius = '50%';
-                piece.style.backgroundColor = (i % 2 === 0) ? '#c0392b' : '#f1c40f'; // Vermelho/Amarelo
-                
-                const x = Math.random() * 300 - 150; // -150 a 150
-                const y = Math.random() * 300 - 150; // -150 a 150
-                
-                piece.style.setProperty('--x', `${x}px`);
-                piece.style.setProperty('--y', `${y}px`);
-                piece.classList.add('firework');
-                pieces.push(piece);
-                stack.appendChild(piece);
-            }
-            
-            stack.style.opacity = '0'; // Esconde a pilha
-            
-            setTimeout(() => {
-                pieces.forEach(p => p.remove());
-                stack.style.opacity = '1';
-                resetPizzaBench(); // Limpa e prepara para o próximo
-            }, 800);
+
+        function handleTimeout() {
+            elements.timerBarFill.style.width = '100%';
+            elements.customerWaitTimer.textContent = 'CLIENTE CANSOU! (Tempo Limite Atingido)';
+            handleWrongOrder("Tempo esgotado, Helber!");
         }
 
-        function animateFireworks() {
-            const container = document.getElementById('game-ui');
-            const colors = ['red', 'yellow', 'green', 'orange', 'purple'];
-
-            for (let i = 0; i < 20; i++) {
-                const firework = document.createElement('div');
-                firework.classList.add('firework');
-                firework.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                
-                // Posição inicial aleatória (centro da tela modal)
-                const startX = (container.offsetWidth / 2) + (Math.random() * 20 - 10);
-                const startY = (container.offsetHeight / 2) + (Math.random() * 20 - 10);
-                firework.style.left = `${startX}px`;
-                firework.style.top = `${startY}px`;
-
-                // Posição final (expansão)
-                const endX = Math.random() * 600 - 300;
-                const endY = Math.random() * 600 - 300;
-                firework.style.setProperty('--x', `${endX}px`);
-                firework.style.setProperty('--y', `${endY}px`);
-
-                container.appendChild(firework);
-                
-                setTimeout(() => firework.remove(), 1000);
-            }
-        }
-        
-
-        function getRandomCustomerEmoji() {
-            const emojis = ['🧑', '👩', '👴', '👵', '👨‍🎤', '🧑‍🚀', '👷', '👮', '👨‍💻', '👩‍🏫', '👨‍🌾', '👩‍🍳', '🧑‍🎓', '🦘'];
-            return emojis[Math.floor(Math.random() * emojis.length)];
+        // --- Utility Functions (Mantido como estava) ---
+        function displayMessage(message, className = 'text-gray-800') {
+            elements.gameMessage.innerHTML = `Helber: "<span class="${className}">${message}</span>"`;
         }
 
         function getRandomPraisePhrase() {
             return PRAISE_PHRASES[Math.floor(Math.random() * PRAISE_PHRASES.length)];
         }
 
-        // --- Event Listeners ---
-        elements.deliverBtn.addEventListener('click', deliverPizza);
-        elements.startGameBtn.addEventListener('click', startGame);
+        function getRandomCustomerEmoji() {
+            const emojis = ['👨', '👩', '👴', '👵', '🧑‍🍳', '👮', '👨‍🎤', '👩‍🦰', '👱', '👨‍🦱', '🦁'];
+            return emojis[Math.floor(Math.random() * emojis.length)];
+        }
 
-        // --- Initial Call ---
-        initFirebase();
-        // Garante que o modal inicial é mostrado até a autenticação estar pronta ou falhar
-        setTimeout(() => {
-            if (!GAME_STATE.isGameRunning) {
-                showModal("Bem-vindo, Mate!", "Pressione Iniciar para começar sua jornada como o Pizzaiolo Helber B! (É altamente recomendado iniciar o jogo com um clique do mouse ou toque na tela para permitir a reprodução de áudio e fala do Helber.)", 'initial');
+        // --- Animation & FX (Mantido como estava) ---
+        function animatePizzaDelivery() {
+            const stack = elements.pizzaStack;
+            stack.style.transition = 'all 0.5s ease-in';
+            stack.style.transform = 'translateY(-200px) rotate(30deg) scale(0.5)';
+            stack.style.opacity = '0';
+            // Simula o preparo da próxima massa
+            stack.style.backgroundColor = '';
+            setTimeout(() => {
+                stack.style.transition = 'none';
+                stack.style.transform = 'translateY(0) rotate(0) scale(1)';
+                stack.style.opacity = '1';
+                setTimeout(() => {
+                    stack.style.transition = 'all 0.2s ease-out';
+                }, 50);
+            }, 500);
+        }
+
+        function animatePizzaExplosion() {
+            const stack = elements.pizzaStack;
+            stack.style.transition = 'all 0.1s linear';
+            stack.style.transform = 'scale(1.1) rotate(5deg)';
+            stack.style.backgroundColor = '#e74c3c';
+            // Explosão vermelha/erro
+
+            setTimeout(() => {
+                stack.style.transform = 'scale(0.8) rotate(-5deg)';
+                stack.style.opacity = '0.5';
+            }, 100);
+            setTimeout(() => {
+                stack.style.transition = 'none';
+                stack.style.transform = 'scale(1) rotate(0)';
+                stack.style.opacity = '1';
+                stack.style.backgroundColor = '';
+                setTimeout(() => {
+                    stack.style.transition = 'all 0.2s ease-out';
+                }, 50);
+            }, 500);
+        }
+
+        function animateFireworks() {
+            const container = document.body;
+            for (let i = 0; i < 20; i++) {
+                const firework = document.createElement('div');
+                firework.className = 'firework';
+                const x = (Math.random() * 200 - 100) + 'px';
+                const y = (Math.random() * 200 - 100) + 'px';
+                firework.style.left = `${Math.random() * 100}%`;
+                firework.style.top = `${Math.random() * 100}%`;
+                firework.style.setProperty('--x', x);
+                firework.style.setProperty('--y', y);
+                firework.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                container.appendChild(firework);
+
+                setTimeout(() => firework.remove(), 800);
             }
-        }, 100);
-        
-        // NOVO: Adiciona o Helber Avatar (Aussie Man)
-        document.getElementById('helber-avatar').textContent = '🤠';
+        }
 
+
+        // --- Event Listeners and Initialization ---
+
+        function initEventListeners() {
+            elements.deliverBtn.addEventListener('click', deliverPizza);
+            elements.startGameBtn.addEventListener('click', startGame);
+        }
+
+        function init() {
+            initFirebase();
+            initEventListeners();
+            // Chamada da função com a mensagem alterada (corpo do modal já foi ajustado no HTML)
+            showModal("Pizzaria Helber B ", "Pressione Iniciar para começar sua jornada como o Pizzaiolo Helber B!", 'initial');
+        }
+
+        init();
     </script>
 </body>
+
 </html>
