@@ -249,8 +249,9 @@ Let's make some wicked pizzas today!"
 
     <div id="game-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden">
         <div id="modal-content" class="bg-white p-8 rounded-xl shadow-2xl max-w-md w-full text-center border-t-8 border-aussie-orange">
-            <h2 id="modal-title" class="text-3xl font-black mb-4 text-aussie-green"></h2>
-            <p id="modal-body" class="mb-6 text-gray-700"></p>
+            <h2 id="modal-title" class="text-3xl font-black mb-4 text-aussie-green">Bem-vindo, Mate!</h2>
+            <p id="modal-body" class="mb-6 text-gray-700">Pressione Iniciar para começar 
+sua jornada como o Pizzaiolo Helber B!</p>
             <div id="modal-actions">
                 <button id="start-game-btn" class="bg-aussie-orange text-white font-bold py-3 px-6 rounded-full text-lg transition duration-150 hover:bg-aussie-green">
                     Iniciar Dia 1 
@@ -291,9 +292,9 @@ __app_id : 'default-app-id';
         userId: null,
     };
     
-    // --- INGREDIENTES (Com Emojis Corrigidos) ---
+    // --- INGREDIENTES (CORRIGIDO: Emojis adicionados) ---
     const INGREDIENTS = {
-        'MOLHO': { color: '#c0392b', emoji: '🍅', type: 'layer-molho' },
+        'MOLHO': { color: '#c0392b', emoji: '🥫', type: 'layer-molho' },
         'QUEIJO': { color: '#f1c40f', emoji: '🧀', type: 'layer-queijo' },
         'CALABRESA': { color: '#e74c3c', emoji: '🌶️', type: 'layer-carne' },
         'PEPPERONI': { color: '#c0392b', emoji: '🥩', type: 'layer-carne' },
@@ -776,9 +777,9 @@ PHASES[1].available.map(name => ({ name, recipe: RECIPES[name] }))
             const itemDiv = document.createElement('div');
             itemDiv.className = 'border-b border-gray-200 pb-1';
             
-            // --- IMPLEMENTAÇÃO DA SOLICITAÇÃO 2: Emoji + Nome do Ingrediente por Extenso ---
+            // --- CÓDIGO ALTERADO PARA INCLUIR NOME POR EXTENSO ---
             const ingredientString = recipe.ingredients.map(i => 
-                // Garantimos que o nome do ingrediente esteja em caixa alta, conforme o exemplo
+                // Pega o emoji e o nome do ingrediente em caixa alta
                 INGREDIENTS[i] ? `${INGREDIENTS[i].emoji} ${i.toUpperCase()}` : '?'
             ).join(' ');
 
@@ -786,6 +787,7 @@ PHASES[1].available.map(name => ({ name, recipe: RECIPES[name] }))
                 <p class="font-bold text-md text-aussie-orange">${name} (R$${recipe.price})</p>
                 <p class="text-xs">${ingredientString}</p>
             `;
+            // --- FIM DO CÓDIGO ALTERADO ---
             container.appendChild(itemDiv);
         });
     }
@@ -1016,8 +1018,7 @@ elements.startGameBtn.addEventListener('click', startGame);
     function init() {
         initFirebase();
 initEventListeners();
-        // --- IMPLEMENTAÇÃO DA SOLICITAÇÃO 1: Remoção do Lembrete de Teste e título com emoji ---
-        showModal("Pizzaria Helber B 🇦🇺", "Pressione Iniciar para começar sua jornada como o Pizzaiolo Helber B!", 'start');
+        showModal("Pizzaria Helber B ", "Pressione Iniciar para começar sua jornada como o Pizzaiolo Helber B! (Lembrete: o timer agora é crescente e a meta de pizzas da Fase 1 foi reduzida para testes)", 'start');
 }
     
     init();
