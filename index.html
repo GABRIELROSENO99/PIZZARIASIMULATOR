@@ -1,1008 +1,954 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pizzaria Helber B - Australian Man</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'aussie-orange': '#D96E01',
-                        'aussie-green': '#00843D',
-                        'bancada-brown': '#6D4C41',
-                        'fundo-claro': '#FFF5E6',
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
-    <style>
-        /* Custom CSS para o tema Aussie */
-        body {
-            background-color: #f0f0f0;
-            font-family: 'Inter', sans-serif;
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizzaria Helber B - Australian Man</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'aussie-orange': '#D96E01',
+                        'aussie-green': '#00843D',
+                        'bancada-brown': '#6D4C41',
+                        'fundo-claro': '#FFF5E6',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* Custom CSS para o tema Aussie */
+        body {
+            background-color: #f0f0f0;
+            font-family: 'Inter', sans-serif;
+        }
 
-        /* Animação do fundo Aussie/Rústico */
-        .aussie-background {
-            background-image: url('https://placehold.co/1920x1080/D96E01/FFFFFF?text=FUNDO+R%C3%9ASTICO+PIZZARIA+AUSTRALIANA');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            position: relative;
-            z-index: 1;
-        }
+        /* Animação do fundo Aussie/Rústico */
+        .aussie-background {
+            background-image: url('https://placehold.co/1920x1080/D96E01/FFFFFF?text=FUNDO+R%C3%9ASTICO+PIZZARIA+AUSTRALIANA');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+            z-index: 1;
+        }
 
-        .aussie-background::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(255, 255, 255, 0.8); /* Camada de opacidade para a UI */
-            z-index: 2;
-        }
+        .aussie-background::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.8); /* Camada de opacidade para a UI */
+            z-index: 2;
+        }
 
-        #game-ui {
-            z-index: 3;
-            position: relative;
-        }
+        #game-ui {
+            z-index: 3;
+            position: relative;
+        }
 
-        /* Estilo da Bancada da Pizza */
-        #pizza-bench {
-            background-color: #bcaaa4; /* Mármore claro/madeira */
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
+        /* Estilo da Bancada da Pizza */
+        #pizza-bench {
+            background-color: #bcaaa4; /* Mármore claro/madeira */
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
 
-        /* Estilo do Helber (Texto/Emoji) */
-        #helber-avatar {
-            font-size: 3rem;
-            animation: pulse 1s infinite alternate;
-        }
+        /* Estilo do Helber (Texto/Emoji) */
+        #helber-avatar {
+            font-size: 3rem;
+            animation: pulse 1s infinite alternate;
+        }
 
-        @keyframes pulse {
-            from { transform: scale(1); }
-            to { transform: scale(1.05); }
-        }
+        @keyframes pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.05); }
+        }
 
-        /* Botão de Ingrediente */
-        .ingredient-btn {
-            transition: transform 0.1s, box-shadow 0.1s;
-            cursor: pointer;
-        }
-        .ingredient-btn:active {
-            transform: scale(0.95);
-            box-shadow: none;
-        }
+        /* Botão de Ingrediente */
+        .ingredient-btn {
+            transition: transform 0.1s, box-shadow 0.1s;
+            cursor: pointer;
+        }
+        .ingredient-btn:active {
+            transform: scale(0.95);
+            box-shadow: none;
+        }
 
-        /* Pizza Stack - Visual Feedback */
-        #pizza-stack {
-            min-height: 200px;
-            display: flex;
-            flex-direction: column-reverse; /* Empilha de baixo para cima */
-            align-items: center;
-            justify-content: center;
-        }
-        .pizza-layer {
-            width: 90%;
-            height: 20px;
-            border-radius: 50%;
-            margin-top: -10px; /* Sobrepõe as camadas */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-            transition: all 0.2s ease-out;
-        }
-        .layer-molho { background-color: #c0392b; }
-        .layer-queijo { background-color: #f1c40f; }
-        .layer-carne { background-color: #8B4513; }
-        .layer-vegetal { background-color: #27ae60; }
-        .layer-premium { background-color: #9b59b6; }
-        .layer-abacaxi { background-color: #f39c12; }
+        /* Pizza Stack - Visual Feedback */
+        #pizza-stack {
+            min-height: 200px;
+            display: flex;
+            flex-direction: column-reverse; /* Empilha de baixo para cima */
+            align-items: center;
+            justify-content: center;
+        }
+        .pizza-layer {
+            width: 90%;
+            height: 20px;
+            border-radius: 50%;
+            margin-top: -10px; /* Sobrepõe as camadas */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            transition: all 0.2s ease-out;
+        }
+        .layer-molho { background-color: #c0392b; }
+        .layer-queijo { background-color: #f1c40f; }
+        .layer-carne { background-color: #8B4513; }
+        .layer-vegetal { background-color: #27ae60; }
+        .layer-premium { background-color: #9b59b6; }
+        .layer-abacaxi { background-color: #f39c12; }
 
 
-        /* Foguetes de Artifício (Vitória) */
-        .firework {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: red;
-            border-radius: 50%;
-            opacity: 0;
-            animation: firework-burst 0.8s ease-out forwards;
-        }
+        /* Foguetes de Artifício (Vitória) */
+        .firework {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: red;
+            border-radius: 50%;
+            opacity: 0;
+            animation: firework-burst 0.8s ease-out forwards;
+        }
 
-        @keyframes firework-burst {
-            0% { opacity: 1; transform: translate(0, 0) scale(1); }
-            100% { opacity: 0; transform: translate(var(--x), var(--y)) scale(0.5); }
-        }
+        @keyframes firework-burst {
+            0% { opacity: 1; transform: translate(0, 0) scale(1); }
+            100% { opacity: 0; transform: translate(var(--x), var(--y)) scale(0.5); }
+        }
 
-        /* Timer Bar */
-        #timer-bar-fill {
-            /* Transição ajustada para dar a sensação de crescimento/acúmulo */
-            transition: width 0.1s linear; 
-        }
-
-        /* Estilo para o ícone de informação */
-        .info-icon {
-            cursor: pointer;
-            font-size: 1.1rem;
-            color: #3b82f6; /* Azul do Tailwind para info */
-            margin-left: 0.5rem;
-            transition: color 0.1s;
-        }
-        .info-icon:hover {
-            color: #1e40af;
-        }
-    </style>
+        /* Timer Bar */
+        #timer-bar-fill {
+            /* Transição ajustada para dar a sensação de crescimento/acúmulo */
+            transition: width 0.1s linear; 
+        }
+    </style>
 </head>
 <body class="aussie-background min-h-screen p-4 md:p-8">
 
 <div id="game-ui" class="max-w-7xl mx-auto">
-    <header class="bg-white/90 p-4 mb-6 rounded-xl shadow-lg border-t-4 border-aussie-green">
-        <div class="flex flex-col md:flex-row justify-between items-center text-center">
-            <h1 class="text-3xl font-black text-aussie-orange uppercase tracking-wider mb-2 md:mb-0">
-                Pizzaria Helber B - Australian Man 🇦🇺
-            </h1>
-            <div class="flex space-x-4 font-bold text-lg">
-                <span id="fase-counter" class="bg-aussie-green text-white px-3 py-1 rounded-full shadow-md">Fase: 1/5</span>
-                <span id="pizza-counter" class="bg-aussie-orange text-white px-3 py-1 rounded-full shadow-md">Pizzas: 0/25</span>
-                <span id="saldo-counter" class="bg-gray-700 text-white px-3 py-1 rounded-full shadow-md">Saldo: R$ 0</span>
-                <span id="highscore-display" class="bg-blue-600 text-white px-3 py-1 rounded-full shadow-md">Recorde: R$ 0</span>
-            </div>
-        </div>
-        <div id="game-message" class="mt-3 text-center text-xl font-semibold text-gray-800">
-            Helber: "G'day, mate! Let's make some wicked pizzas today!"
-        </div>
-    </header>
+    <header class="bg-white/90 p-4 mb-6 rounded-xl shadow-lg border-t-4 border-aussie-green">
+        <div class="flex flex-col md:flex-row justify-between items-center text-center">
+            <h1 class="text-3xl font-black text-aussie-orange uppercase tracking-wider mb-2 md:mb-0">
+                Pizzaria Helber B - Australian Man 🇦🇺
+            </h1>
+            <div class="flex space-x-4 font-bold text-lg">
+                <span id="fase-counter" class="bg-aussie-green text-white px-3 py-1 rounded-full shadow-md">Fase: 1/5</span>
+                <span id="pizza-counter" class="bg-aussie-orange text-white px-3 py-1 rounded-full shadow-md">Pizzas: 0/25</span>
+                <span id="saldo-counter" class="bg-gray-700 text-white px-3 py-1 rounded-full shadow-md">Saldo: R$ 0</span>
+                <span id="highscore-display" class="bg-blue-600 text-white px-3 py-1 rounded-full shadow-md">Recorde: R$ 0</span>
+            </div>
+        </div>
+        <div id="game-message" class="mt-3 text-center text-xl font-semibold text-gray-800">
+            Helber: "G'day, mate! Let's make some wicked pizzas today!"
+        </div>
+    </header>
 
-    <main class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <main class="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-        <div class="lg:col-span-3 space-y-6">
-            <div id="ingredients-shelf" class="bg-white/95 p-4 rounded-xl shadow-inner border border-aussie-green">
-                <h2 class="text-xl font-bold mb-3 text-gray-800">Ingredientes 🛒</h2>
-                <div id="ingredient-buttons" class="grid grid-cols-3 gap-2">
-                    </div>
-            </div>
+        <div class="lg:col-span-3 space-y-6">
+            <div id="ingredients-shelf" class="bg-white/95 p-4 rounded-xl shadow-inner border border-aussie-green">
+                <h2 class="text-xl font-bold mb-3 text-gray-800">Ingredientes 🛒</h2>
+                <div id="ingredient-buttons" class="grid grid-cols-3 gap-2">
+                    </div>
+            </div>
 
-            <div class="bg-white/95 p-4 rounded-xl shadow-inner border border-aussie-orange max-h-96 overflow-y-auto">
-                <h2 class="text-xl font-bold mb-3 text-aussie-green">Receitas (Ordem Exata!) 📜</h2>
-                <div id="recipe-list" class="text-sm font-mono text-gray-700 space-y-2">
-                    </div>
-            </div>
-        </div>
+            <div class="bg-white/95 p-4 rounded-xl shadow-inner border border-aussie-orange max-h-96 overflow-y-auto">
+                <h2 class="text-xl font-bold mb-3 text-aussie-green">Receitas (Ordem Exata!) 📜</h2>
+                <div id="recipe-list" class="text-sm font-mono text-gray-700 space-y-2">
+                    </div>
+            </div>
+        </div>
 
-        <div class="lg:col-span-6 flex flex-col items-center space-y-4">
-            <div class="text-center">
-                <span id="helber-avatar">👨‍🍳 🇦🇺</span>
-                <p class="text-xl font-bold text-gray-800">Helber B.</p>
-            </div>
+        <div class="lg:col-span-6 flex flex-col items-center space-y-4">
+            <div class="text-center">
+                <span id="helber-avatar">👨‍🍳 🇦🇺</span>
+                <p class="text-xl font-bold text-gray-800">Helber B.</p>
+            </div>
 
-            <div id="pizza-bench" class="w-full max-w-lg h-80 flex flex-col items-center justify-center p-4">
-                <h3 class="text-center text-lg font-semibold mb-4 text-white p-2 rounded-lg bg-gray-800/70">
-                    Sua Pizza 🍕
-                </h3>
-                <div id="pizza-stack" class="w-64 h-64 border-8 border-dashed border-aussie-orange/50 rounded-full bg-aussie-orange/10 flex flex-col items-center justify-center">
-                    <p id="current-pizza-base" class="text-sm text-gray-600">Massa (Arraste o primeiro ingrediente)</p>
-                </div>
-            </div>
+            <div id="pizza-bench" class="w-full max-w-lg h-80 flex flex-col items-center justify-center p-4">
+                <h3 class="text-center text-lg font-semibold mb-4 text-white p-2 rounded-lg bg-gray-800/70">
+                    Sua Pizza 🍕
+                </h3>
+                <div id="pizza-stack" class="w-64 h-64 border-8 border-dashed border-aussie-orange/50 rounded-full bg-aussie-orange/10 flex flex-col items-center justify-center">
+                    <p id="current-pizza-base" class="text-sm text-gray-600">Massa (Arraste o primeiro ingrediente)</p>
+                </div>
+            </div>
 
-            <button id="deliver-btn" disabled
-                    class="w-full max-w-sm bg-gray-400 text-white font-black text-xl py-3 rounded-full shadow-lg transition duration-150 hover:bg-gray-500 disabled:opacity-50 disabled:cursor-not-allowed">
-                ENTREGAR AO CLIENTE 🚀
-            </button>
+            <button id="deliver-btn" disabled
+                    class="w-full max-w-sm bg-gray-400 text-white font-black text-xl py-3 rounded-full shadow-lg transition duration-150 hover:bg-gray-500 disabled:opacity-50 disabled:cursor-not-allowed">
+                ENTREGAR AO CLIENTE 🚀
+            </button>
 
-            <div class="w-full max-w-lg mt-4 bg-gray-200 rounded-full h-4">
-                <div id="timer-bar-fill" class="bg-green-500 h-4 rounded-full" style="width: 0%;"></div>
-            </div>
-        </div>
+            <div class="w-full max-w-lg mt-4 bg-gray-200 rounded-full h-4">
+                <div id="timer-bar-fill" class="bg-green-500 h-4 rounded-full" style="width: 0%;"></div>
+            </div>
+        </div>
 
-        <div class="lg:col-span-3 space-y-6">
-            <div id="order-queue" class="bg-white/95 p-4 rounded-xl shadow-inner border border-aussie-green">
-                <h2 class="text-xl font-bold mb-3 text-gray-800">Próximo Pedido 🧑‍🤝‍🧑</h2>
-                <p id="customer-wait-timer" class="text-md font-bold text-green-600 mb-2">
-                    CLIENTE AGUARDANDO HÁ (00:00)
-                </p>
-                <div id="current-order-card" class="bg-yellow-100 p-3 rounded-lg shadow-md border-l-4 border-yellow-500">
-                    <p class="text-sm text-gray-500">Cliente (Aguardando Helber)</p>
-                    <p id="customer-avatar" class="text-2xl mt-1">🏄‍♂️</p>
-                    <p id="current-order-name" class="text-xl font-black text-red-700 mt-2">...</p>
-                </div>
-            </div>
+        <div class="lg:col-span-3 space-y-6">
+            <div id="order-queue" class="bg-white/95 p-4 rounded-xl shadow-inner border border-aussie-green">
+                <h2 class="text-xl font-bold mb-3 text-gray-800">Próximo Pedido 🧑‍🤝‍🧑</h2>
+                <p id="customer-wait-timer" class="text-md font-bold text-green-600 mb-2">
+                    CLIENTE AGUARDANDO A (00:00)
+                </p>
+                <div id="current-order-card" class="bg-yellow-100 p-3 rounded-lg shadow-md border-l-4 border-yellow-500">
+                    <p class="text-sm text-gray-500">Cliente (Aguardando Helber)</p>
+                    <p id="customer-avatar" class="text-2xl mt-1">🏄‍♂️</p>
+                    <p id="current-order-name" class="text-xl font-black text-red-700 mt-2">...</p>
+                </div>
+            </div>
 
-            <div id="feedback-area" class="bg-white/95 p-4 rounded-xl shadow-inner border border-aussie-orange min-h-[100px]">
-                <h2 class="text-xl font-bold mb-3 text-gray-800">Feedback 🗣️</h2>
-                <p id="feedback-text" class="text-lg italic text-gray-600">Aguardando entrega...</p>
-            </div>
-        </div>
-    </main>
+            <div id="feedback-area" class="bg-white/95 p-4 rounded-xl shadow-inner border border-aussie-orange min-h-[100px]">
+                <h2 class="text-xl font-bold mb-3 text-gray-800">Feedback 🗣️</h2>
+                <p id="feedback-text" class="text-lg italic text-gray-600">Aguardando entrega...</p>
+            </div>
+        </div>
+    </main>
 
-    <div id="game-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden">
-        <div id="modal-content" class="bg-white p-8 rounded-xl shadow-2xl max-w-md w-full text-center border-t-8 border-aussie-orange">
-            <h2 id="modal-title" class="text-3xl font-black mb-4 text-aussie-green">Bem-vindo, Mate!</h2>
-            <p id="modal-body" class="mb-6 text-gray-700">Pressione Iniciar para começar sua jornada como o Pizzaiolo Helber B!</p>
-            <div id="modal-actions">
-                <button id="start-game-btn" class="bg-aussie-orange text-white font-bold py-3 px-6 rounded-full text-lg transition duration-150 hover:bg-aussie-green">
-                    Iniciar Dia 1 🍕
-                </button>
-            </div>
-        </div>
-    </div>
+    <div id="game-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 hidden">
+        <div id="modal-content" class="bg-white p-8 rounded-xl shadow-2xl max-w-md w-full text-center border-t-8 border-aussie-orange">
+            <h2 id="modal-title" class="text-3xl font-black mb-4 text-aussie-green">Bem-vindo, Mate!</h2>
+            <p id="modal-body" class="mb-6 text-gray-700">Pressione Iniciar para começar sua jornada como o Pizzaiolo Helber B!</p>
+            <div id="modal-actions">
+                <button id="start-game-btn" class="bg-aussie-orange text-white font-bold py-3 px-6 rounded-full text-lg transition duration-150 hover:bg-aussie-green">
+                    Iniciar Dia 1 🍕
+                </button>
+            </div>
+        </div>
+    </div>
 
 </div>
 
 <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-    import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-    import { setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-    // Variáveis globais de ambiente (PREENCHIDAS PELO CANVAS)
-    const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-    const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
-    const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-
-    // Configurações e Variáveis Globais do Jogo
-    let GAME_STATE = {
-        currentPhase: 1,
-        pizzasCompleted: 0,
-        balance: 0,
-        highScore: 0,
-        streak: 0,
-        isGameRunning: false,
-        currentOrder: null,
-        appliedIngredients: [],
-        phaseGoal: 25,
-        timerMax: 0,
-        elapsedTime: 0, 
-        isAuthReady: false,
-        userId: null,
-    };
-
-    const INGREDIENTS = {
-        'MOLHO': { color: '#c0392b', emoji: '🥫', type: 'layer-molho' },
-        'QUEIJO': { color: '#f1c40f', emoji: '🧀', type: 'layer-queijo' },
-        'CALABRESA': { color: '#e74c3c', emoji: '🥩', type: 'layer-carne' },
-        'PEPPERONI': { color: '#c0392b', emoji: '🌶️', type: 'layer-carne' },
-        'FRANGO': { color: '#f39c12', emoji: '🐔', type: 'layer-carne' },
-        'CATUPIRY': { color: '#ecf0f1', emoji: '🥛', type: 'layer-queijo' },
-        'MANJERICÃO': { color: '#2ecc71', emoji: '🌿', type: 'layer-vegetal' },
-        'ORÉGANO': { color: '#27ae60', emoji: '🍃', type: 'layer-vegetal' },
-        'CEBOLA': { color: '#bdc3c7', emoji: '🧅', type: 'layer-vegetal' },
-        'COGUMELOS': { color: '#95a5a6', emoji: '🍄', type: 'layer-vegetal' },
-        'GORGONZOLA': { color: '#3498db', emoji: '🧀', type: 'layer-queijo' },
-        'PROVOLONE': { color: '#9b59b6', emoji: '🧀', type: 'layer-queijo' },
-        'BACON': { color: '#e67e22', emoji: '🥓', type: 'layer-carne' },
-        'AZEITONAS': { color: '#2c3e50', emoji: '⚫', type: 'layer-vegetal' },
-        'PIMENTÃO': { color: '#e67e22', emoji: '🫑', type: 'layer-vegetal' },
-        'ABACAXI': { color: '#f1c40f', emoji: '🍍', type: 'layer-abacaxi' },
-        'PRESUNTO': { color: '#e67e22', emoji: '🍖', type: 'layer-carne' },
-        'PARMESÃO': { color: '#f39c12', emoji: '🧀', type: 'layer-queijo' },
-        'BRÓCOLIS': { color: '#2ecc71', emoji: '🥦', type: 'layer-vegetal' },
-        'QUEIJO EXTRA': { color: '#f1c40f', emoji: '🧀', type: 'layer-queijo' },
-        'CARNE MOÍDA': { color: '#8B4513', emoji: '🥩', type: 'layer-carne' },
-        'ATUM': { color: '#2c3e50', emoji: '🐟', type: 'layer-carne' },
-        'ESCARGOT': { color: '#9b59b6', emoji: '🐌', type: 'layer-premium' },
-    };
-
-    const RECIPES = {
-        'MARGHERITA': { ingredients: ['MOLHO', 'QUEIJO', 'MANJERICÃO'], price: 50, phaseMin: 1 },
-        'CALABRESA': { ingredients: ['MOLHO', 'QUEIJO', 'CALABRESA', 'CEBOLA'], price: 60, phaseMin: 1 },
-        'FRANGO CATUPIRY': { ingredients: ['MOLHO', 'QUEIJO', 'FRANGO', 'CATUPIRY'], price: 70, phaseMin: 1 },
-        'PEPPERONI': { ingredients: ['MOLHO', 'QUEIJO', 'PEPPERONI', 'ORÉGANO'], price: 75, phaseMin: 1 },
-        'BACON': { ingredients: ['MOLHO', 'QUEIJO', 'BACON', 'CEBOLA'], price: 70, phaseMin: 1 },
-        'QUATRO QUEIJOS': { ingredients: ['MOLHO', 'QUEIJO', 'GORGONZOLA', 'PROVOLONE', 'PARMESÃO'], price: 90, phaseMin: 2 },
-        'COGUMELOS': { ingredients: ['MOLHO', 'QUEIJO', 'COGUMELOS', 'MANJERICÃO'], price: 65, phaseMin: 2 },
-        'HAWAIIAN': { ingredients: ['MOLHO', 'QUEIJO', 'PRESUNTO', 'ABACAXI'], price: 80, phaseMin: 2 },
-        'AZEITONA': { ingredients: ['MOLHO', 'QUEIJO', 'AZEITONAS', 'PIMENTÃO'], price: 60, phaseMin: 3 },
-        'BRÓCOLIS': { ingredients: ['MOLHO', 'QUEIJO', 'BRÓCOLIS', 'QUEIJO EXTRA'], price: 85, phaseMin: 3 },
-        'CARNE': { ingredients: ['MOLHO', 'QUEIJO', 'CARNE MOÍDA', 'CEBOLA'], price: 70, phaseMin: 4 },
-        'ATUM': { ingredients: ['MOLHO', 'QUEIJO', 'ATUM', 'ORÉGANO'], price: 65, phaseMin: 4 },
-        'ESCARGOT': { ingredients: ['MOLHO', 'QUEIJO', 'ESCARGOT', 'MANJERICÃO'], price: 120, phaseMin: 5 }, // Premium
-        'VEGETARIANA': { ingredients: ['MOLHO', 'QUEIJO', 'PIMENTÃO', 'COGUMELOS', 'ABACAXI'], price: 95, phaseMin: 5 },
-        'SUPREMA': { ingredients: ['MOLHO', 'QUEIJO', 'PEPPERONI', 'BACON', 'COGUMELOS', 'PIMENTÃO'], price: 110, phaseMin: 5 },
-    };
-
-    const PHASES = {
-        1: { goal: 2, timer: 0, available: ['MARGHERITA', 'CALABRESA', 'FRANGO CATUPIRY', 'PEPPERONI', 'BACON'], message: "Dia de treino! Sem pressão, mate!" }, // Reduzido goal para teste
-        2: { goal: 5, timer: 120, available: 8, message: "Aperta o passo! O relógio está correndo, cobber!" }, // Reduzido goal para teste
-        3: { goal: 5, timer: 105, available: 12, message: "A clientela está agitada, menos tempo para errar!" },
-        4: { goal: 5, timer: 90, available: 15, message: "Dia de super-pico! Pedidos piscando!" },
-        5: { goal: 5, timer: 75, available: 15, message: "Final do campeonato! Acerto triplo é dinheiro extra!" },
-    };
-
-    // Frases de elogio expandidas com o tema Brasil/São Paulo
-    const PRAISE_PHRASES = [
-        "Deliciosa mate!", "Perfeita, cobber!", "A melhor da Austrália!", "Queijo derretido top!",
-        "Simplesmente perfeito!", "Dez de dez!", "Eu voltarei!", "Fantástico!", "Sabor impecável, mate!",
-        "Muito bom, amigo!", "Que fatia de pizza!", "Obrigado, lenda!",
-        "Entrega incrivelmente rápida! Você é um foguete, Helber!",
-        "Helber é o mestre da velocidade! Ripper!",
-        "Essa rapidez é nota 10! Não deu tempo nem de piscar!",
-        "É sabor de São Paulo, Helber! Que saudade da pizza brasileira!",
-        "Esse queijo lembra o da Mooca! Sabor de casa!",
-        "Atendimento Aussie, sabor brasileiro. Combinação perfeita!",
-    ];
-
-    const HELBER_SPEAK = {
-        START: "G'day, mate! Let's make some wicked pizzas today!",
-        CORRECT: "Fair dinkum! Nailed it, mate! Get that dough!",
-        WRONG: "Crikey! That's gone belly up. Try again, cobber!",
-        NEXT_PHASE: "Ripper! We smashed that day. Now for the next one!",
-        VICTORY: "You beaut! We did it! Pizza empire, here we come!",
-    };
-
-    let timerInterval = null;
-    let comboStreak = 0;
-
-    // --- DOM Elements ---
-    const elements = {
-        faseCounter: document.getElementById('fase-counter'),
-        pizzaCounter: document.getElementById('pizza-counter'),
-        saldoCounter: document.getElementById('saldo-counter'),
-        highscoreDisplay: document.getElementById('highscore-display'),
-        gameMessage: document.getElementById('game-message'),
-        ingredientButtons: document.getElementById('ingredient-buttons'),
-        recipeList: document.getElementById('recipe-list'),
-        pizzaStack: document.getElementById('pizza-stack'),
-        deliverBtn: document.getElementById('deliver-btn'),
-        currentOrderName: document.getElementById('current-order-name'),
-        customerAvatar: document.getElementById('customer-avatar'),
-        feedbackText: document.getElementById('feedback-text'),
-        timerBarFill: document.getElementById('timer-bar-fill'),
-        gameModal: document.getElementById('game-modal'),
-        modalTitle: document.getElementById('modal-title'),
-        modalBody: document.getElementById('modal-body'),
-        modalActions: document.getElementById('modal-actions'),
-        startGameBtn: document.getElementById('start-game-btn'),
-        currentPizzaBase: document.getElementById('current-pizza-base'),
-        customerWaitTimer: document.getElementById('customer-wait-timer'),
-    };
-
-    // --- Firebase Setup (Omitido para brevidade, mas o código é mantido) ---
-    let db, auth;
-
-    async function initFirebase() {
-        if (!firebaseConfig) {
-            console.error("Firebase config not available. Running game without persistence.");
-            GAME_STATE.isAuthReady = true;
-            elements.highscoreDisplay.textContent = "Recorde: R$ 0 (Local)";
-            return;
-        }
-        
-        try {
-            // Lógica de inicialização Firebase
-            const app = initializeApp(firebaseConfig);
-            db = getFirestore(app);
-            auth = getAuth(app);
-            setLogLevel('debug'); 
-
-            let userCredential;
-            try {
-                if (initialAuthToken) {
-                    userCredential = await signInWithCustomToken(auth, initialAuthToken);
-                } else {
-                    userCredential = await signInAnonymously(auth);
-                }
-            } catch (error) {
-                userCredential = await signInAnonymously(auth);
-            }
-
-            GAME_STATE.userId = userCredential.user.uid;
-            GAME_STATE.isAuthReady = true;
-            loadGameState(); 
-
-        } catch (error) {
-            console.error("Erro fatal ao inicializar Firebase ou Autenticar:", error);
-            GAME_STATE.isAuthReady = true;
-            elements.highscoreDisplay.textContent = "Recorde: R$ 0 (Erro Auth)";
-        }
-    }
-
-    function getUserScoreDocRef() {
-        if (!db || !GAME_STATE.userId) return null;
-        const collectionPath = `/artifacts/${appId}/users/${GAME_STATE.userId}/pizzagame_scores`;
-        return doc(db, collectionPath, 'high_score');
-    }
-
-    function loadGameState() {
-        if (!GAME_STATE.isAuthReady || !db || !GAME_STATE.userId) return;
-
-        const docRef = getUserScoreDocRef();
-        if (!docRef) return;
-
-        onSnapshot(docRef, (docSnap) => {
-            if (docSnap.exists()) {
-                const data = docSnap.data();
-                GAME_STATE.highScore = data.highScore || 0;
-            } else {
-                saveGameState(); 
-            }
-            updateUI();
-        }, (error) => {
-            console.error("Erro ao ouvir High Score:", error);
-        });
-    }
-
-    async function saveGameState() {
-        if (!GAME_STATE.isAuthReady || !db || !GAME_STATE.userId) return;
-
-        try {
-            const docRef = getUserScoreDocRef();
-            if (!docRef) return;
-
-            await setDoc(docRef, {
-                highScore: GAME_STATE.highScore,
-                lastUpdated: new Date().toISOString()
-            }, { merge: true });
-        } catch (e) {
-            console.error("Erro ao salvar High Score:", e);
-        }
-    }
-
-    // --- Web Speech Synthesis (Helber's Voice - Omitido para brevidade) ---
-
-    function helberSpeak(text) {
-        if ('speechSynthesis' in window) {
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'en-US'; 
-
-            const voices = window.speechSynthesis.getVoices();
-            let aussieVoice = voices.find(voice => voice.lang === 'en-AU');
-
-            if (aussieVoice) {
-                utterance.voice = aussieVoice;
-            } else {
-                utterance.voice = voices[0] || null;
-            }
-
-            utterance.rate = 1.0;
-            utterance.pitch = 1.0;
-            window.speechSynthesis.speak(utterance);
-        } else {
-            console.warn("Speech Synthesis não suportado neste navegador.");
-        }
-    }
-
-    // --- Game Logic ---
-
-    function startGame() {
-        GAME_STATE.currentPhase = 1;
-        GAME_STATE.balance = 0;
-        GAME_STATE.streak = 0;
-        GAME_STATE.isGameRunning = true;
-        hideModal();
-        startPhase();
-        helberSpeak(HELBER_SPEAK.START);
-    }
-
-    function startPhase() {
-        const phase = PHASES[GAME_STATE.currentPhase];
-        GAME_STATE.pizzasCompleted = 0;
-        GAME_STATE.phaseGoal = phase.goal;
-        GAME_STATE.timerMax = phase.timer * 1000;
-        GAME_STATE.elapsedTime = 0; // Reset do tempo
-        GAME_STATE.appliedIngredients = [];
-        resetPizzaBench();
-        updateUI();
-        displayMessage(phase.message);
-
-        if (GAME_STATE.currentPhase === 1) {
-            generateNextOrder();
-        } else {
-            GAME_STATE.currentOrder = null; 
-        }
-    }
-
-    function getAvailableIngredientsForPhase() {
-        const availableRecipes = Object.keys(RECIPES).filter(name => RECIPES[name].phaseMin <= GAME_STATE.currentPhase);
-        const uniqueIngredients = new Set();
-        
-        availableRecipes.forEach(rName => {
-            RECIPES[rName].ingredients.forEach(iName => {
-                uniqueIngredients.add(iName);
-            });
-        });
-
-        if (GAME_STATE.currentPhase === 1) {
-            const phase1Recipes = PHASES[1].available; 
-            const phase1Ingredients = new Set();
-            phase1Recipes.forEach(rName => {
-                 if (RECIPES[rName]) {
-                    RECIPES[rName].ingredients.forEach(iName => phase1Ingredients.add(iName));
-                 }
-            });
-            return Array.from(phase1Ingredients);
-        }
-
-        return Array.from(uniqueIngredients);
-    }
-
-
-    function generateNextOrder() {
-        const allRecipes = Object.keys(RECIPES).filter(name => RECIPES[name].phaseMin <= GAME_STATE.currentPhase);
-        let availableRecipes = allRecipes;
-
-        if (GAME_STATE.currentPhase === 1) {
-            availableRecipes = PHASES[1].available; 
-        } else {
-            const numAvailable = PHASES[GAME_STATE.currentPhase].available;
-            availableRecipes = allRecipes.slice(0, numAvailable); 
-        }
-
-        const randomRecipeName = availableRecipes[Math.floor(Math.random() * availableRecipes.length)];
-        const order = RECIPES[randomRecipeName];
-
-        GAME_STATE.currentOrder = {
-            name: randomRecipeName,
-            recipe: order.ingredients,
-            price: order.price,
-        };
-
-        elements.currentOrderName.textContent = randomRecipeName;
-        elements.customerAvatar.textContent = getRandomCustomerEmoji();
-
-        resetTimer(GAME_STATE.timerMax);
-        updateUI();
-    }
-
-    function addIngredient(ingredientName) {
-        if (!GAME_STATE.isGameRunning || !GAME_STATE.currentOrder) return;
-
-        GAME_STATE.appliedIngredients.push(ingredientName);
-        renderPizzaStack();
-        updateUI(); 
-    }
-
-    function deliverPizza() {
-        if (GAME_STATE.appliedIngredients.length === 0 || !GAME_STATE.currentOrder) return;
-        stopTimer();
-
-        const correctRecipe = GAME_STATE.currentOrder.recipe;
-        const applied = GAME_STATE.appliedIngredients;
-
-        if (applied.length !== correctRecipe.length) {
-            handleWrongOrder("Falta ou sobra de ingredientes, Helber!");
-            return;
-        }
-
-        let isCorrect = true;
-        for (let i = 0; i < correctRecipe.length; i++) {
-            if (applied[i] !== correctRecipe[i]) {
-                isCorrect = false;
-                break;
-            }
-        }
-
-        if (isCorrect) {
-            handleCorrectOrder();
-        } else {
-            handleWrongOrder("A ordem dos ingredientes está errada, cobber!");
-        }
-    }
-
-    function handleCorrectOrder() {
-        let price = GAME_STATE.currentOrder.price;
-        comboStreak++;
-
-        if (comboStreak >= 5) {
-            price = Math.round(price * 1.5); 
-            elements.feedbackText.textContent = `🔥 STREAK x1.5! Pizza perfeita! +R$${price}`;
-            displayMessage(HELBER_SPEAK.CORRECT, 'text-green-700 font-extrabold');
-        } else {
-            const praise = getRandomPraisePhrase();
-            elements.feedbackText.textContent = praise;
-            displayMessage(HELBER_SPEAK.CORRECT, 'text-green-600');
-        }
-
-        if (GAME_STATE.currentPhase === 5 && comboStreak > 0 && comboStreak % 3 === 0) {
-            price *= 2; 
-            elements.feedbackText.textContent = `✨ COMBO ESPECIAL X2! +R$${price} | ${elements.feedbackText.textContent}`;
-        }
-
-        GAME_STATE.balance += price;
-        GAME_STATE.pizzasCompleted++;
-
-        helberSpeak(HELBER_SPEAK.CORRECT);
-        animatePizzaDelivery();
-
-        setTimeout(() => {
-            continueGameFlow();
-        }, 1500);
-    }
-
-    function handleWrongOrder(reason) {
-        GAME_STATE.balance = Math.max(0, GAME_STATE.balance - 20); 
-        comboStreak = 0;
-        elements.feedbackText.textContent = `❌ Penalidade (-R$20). ${reason}`;
-        displayMessage(`❌ Crikey! That's gone belly up. Try again, cobber!`, 'text-red-600');
-        helberSpeak(HELBER_SPEAK.WRONG);
-        animatePizzaExplosion();
-        
-        setTimeout(() => {
-            continueGameFlow();
-        }, 1500);
-    }
-
-    function continueGameFlow() {
-        if (GAME_STATE.pizzasCompleted >= GAME_STATE.phaseGoal) {
-            stopTimer();
-            if (GAME_STATE.currentPhase < 5) {
-                GAME_STATE.currentPhase++;
-                
-                startPhase(); 
-
-                showModal(`Fim do Dia ${GAME_STATE.currentPhase - 1}`,
-                          `R$ ${GAME_STATE.balance} ganhos hoje! Prepare-se para o Dia ${GAME_STATE.currentPhase}.`,
-                          'nextPhase');
-
-            } else {
-                endGame(true);
-            }
-        } else {
-            resetPizzaBench(); 
-            updateUI();
-            generateNextOrder();
-        }
-    }
-
-
-    function endGame(isVictory) {
-        GAME_STATE.isGameRunning = false;
-        stopTimer();
-
-        if (GAME_STATE.balance > GAME_STATE.highScore) {
-            GAME_STATE.highScore = GAME_STATE.balance;
-            saveGameState();
-        }
-
-        if (isVictory) {
-            helberSpeak(HELBER_SPEAK.VICTORY);
-            showModal("PARABÉNS, HELBER! VITÓRIA!",
-                      `VOCÊ CONSEGUIU DINHEIRO SUFICIENTE PARA MONTAR UMA PIZZARIA NA AUSTRÁLIA! Saldo Final: R$ ${GAME_STATE.balance}`,
-                      'endGame', true);
-            animateFireworks();
-        } else {
-            showModal("Fim de Jogo 😔",
-                      `Você não atingiu a meta. Saldo Final: R$ ${GAME_STATE.balance}`,
-                      'endGame');
-        }
-    }
-
-    // --- UI Rendering ---
-
-    function updateUI() {
-        elements.faseCounter.textContent = `Fase: ${GAME_STATE.currentPhase}/5`;
-        elements.pizzaCounter.textContent = `Pizzas: ${GAME_STATE.pizzasCompleted}/${GAME_STATE.phaseGoal}`;
-        elements.saldoCounter.textContent = `Saldo: R$ ${GAME_STATE.balance}`;
-        elements.highscoreDisplay.textContent = `Recorde: R$ ${GAME_STATE.highScore}`;
-        
-        const canDeliver = GAME_STATE.isGameRunning && GAME_STATE.currentOrder && GAME_STATE.appliedIngredients.length > 0;
-        elements.deliverBtn.disabled = !canDeliver;
-        elements.deliverBtn.classList.remove('bg-aussie-orange', 'bg-gray-400');
-        elements.deliverBtn.classList.add(canDeliver ? 'bg-aussie-orange' : 'bg-gray-400');
-        elements.deliverBtn.classList.remove('hover:bg-aussie-green', 'hover:bg-gray-500');
-        elements.deliverBtn.classList.add(canDeliver ? 'hover:bg-aussie-green' : 'hover:bg-gray-500');
-
-        renderIngredientButtons();
-        renderRecipeList();
-        renderPizzaStack(); 
-    }
-
-    /**
-     * Renderiza os botões de ingredientes disponíveis.
-     */
-    function renderIngredientButtons() {
-        const container = elements.ingredientButtons;
-        container.innerHTML = '';
-        
-        const availableIngredients = getAvailableIngredientsForPhase();
-
-        Object.keys(INGREDIENTS).forEach(name => {
-            const ingredient = INGREDIENTS[name];
-            const isAvailable = availableIngredients.includes(name);
-
-            const button = document.createElement('button');
-            button.className = `ingredient-btn p-2 rounded-lg text-xs font-bold shadow-md flex flex-col items-center transition duration-100 ${isAvailable ? 'bg-fundo-claro border-2 border-aussie-green hover:bg-aussie-green/20' : 'bg-gray-200 text-gray-400 cursor-not-allowed'}`;
-            button.disabled = !isAvailable;
-            button.innerHTML = `<span class="text-xl">${ingredient.emoji}</span>${name}`;
-            
-            if (isAvailable) {
-                button.onclick = () => addIngredient(name);
-            }
-
-            container.appendChild(button);
-        });
-    }
-    
-    // NOVO: Função para alternar a exibição dos ingredientes da receita
-    function toggleRecipeDetails(recipeName) {
-        const detailsId = `details-${recipeName.replace(/\s/g, '_')}`;
-        const detailsElement = document.getElementById(detailsId);
-        
-        if (detailsElement) {
-            detailsElement.classList.toggle('hidden');
-        }
-    }
-
-
-    /**
-     * Renderiza a lista de receitas com o novo botão de informação. (ALTERADO)
-     */
-    function renderRecipeList() {
-        const container = elements.recipeList;
-        container.innerHTML = '';
-
-        const availableRecipes = Object.keys(RECIPES)
-            .filter(name => RECIPES[name].phaseMin <= GAME_STATE.currentPhase);
-        
-        const recipesToDisplay = GAME_STATE.currentPhase === 1 
-            ? PHASES[1].available.map(name => ({ name, recipe: RECIPES[name] }))
-            : availableRecipes.map(name => ({ name, recipe: RECIPES[name] }));
-
-
-        recipesToDisplay.forEach(item => {
-            const { name, recipe } = item;
-            
-            // Cria a string da receita (MOLHO - QUEIJO - MANJERICÃO)
-            const ingredientsList = recipe.ingredients.join(' - ');
-
-            const itemDiv = document.createElement('div');
-            itemDiv.className = 'border-b border-gray-200 pb-1';
-            
-            // 1. Linha principal (Nome + Preço + Ícone de Info)
-            // Note o 'window.toggleRecipeDetails' para acessar a função globalmente
-            itemDiv.innerHTML = `
-                <div class="flex justify-between items-center">
-                    <p class="font-bold text-md text-aussie-orange flex items-center">
-                        ${name} (R$${recipe.price})
-                        <span class="info-icon" onclick="window.toggleRecipeDetails('${name}')" title="Clique para ver os ingredientes">ⓘ</span>
-                    </p>
-                    <p class="text-xs text-gray-500">${recipe.ingredients.map(i => INGREDIENTS[i] ? INGREDIENTS[i].emoji : '?').join(' ')}</p>
-                </div>
-                <p id="details-${name.replace(/\s/g, '_')}" class="text-xs text-blue-700 mt-1 hidden">
-                    ${ingredientsList}
-                </p>
-            `;
-            container.appendChild(itemDiv);
-        });
-    }
-
-    function renderPizzaStack() {
-        const stack = elements.pizzaStack;
-        stack.innerHTML = ''; 
-
-        const baseLayer = document.createElement('div');
-        baseLayer.className = 'w-full h-10 border-8 border-aussie-orange rounded-full bg-yellow-600 shadow-xl';
-        stack.appendChild(baseLayer);
-
-        GAME_STATE.appliedIngredients.forEach(name => {
-            const ingredient = INGREDIENTS[name];
-            const layer = document.createElement('div');
-            layer.className = `pizza-layer ${ingredient.type}`;
-            layer.textContent = ingredient.emoji; 
-            layer.style.backgroundColor = ingredient.color;
-            layer.style.opacity = 0.9;
-            stack.appendChild(layer);
-        });
-
-        if (GAME_STATE.appliedIngredients.length === 0) {
-            elements.currentPizzaBase.style.display = 'block';
-        } else {
-            elements.currentPizzaBase.style.display = 'none';
-        }
-    }
-    
-    function resetPizzaBench() {
-        GAME_STATE.appliedIngredients = [];
-        elements.feedbackText.textContent = "Aguardando entrega...";
-        elements.gameMessage.innerHTML = 'Helber: "G\'day, mate! Let\'s make some wicked pizzas today!"';
-        renderPizzaStack();
-        updateUI();
-    }
-
-
-    // --- Timer Logic (Crescente) ---
-
-    function resetTimer(durationMs) {
-        stopTimer();
-        GAME_STATE.timerMax = durationMs;
-        GAME_STATE.elapsedTime = 0;
-        
-        if (durationMs <= 0) {
-            elements.timerBarFill.style.width = '0%';
-            elements.customerWaitTimer.textContent = 'CLIENTE AGUARDANDO HÁ (00:00 - Sem Pressão)';
-            return;
-        }
-
-        const startTime = Date.now();
-        
-        const updateBar = () => {
-            const now = Date.now();
-            GAME_STATE.elapsedTime = now - startTime; 
-
-            if (GAME_STATE.elapsedTime >= durationMs) {
-                stopTimer();
-                handleTimeout();
-                return;
-            }
-
-            const percentage = (GAME_STATE.elapsedTime / durationMs) * 100;
-            elements.timerBarFill.style.width = `${percentage}%`;
-            
-            const totalSeconds = Math.max(0, Math.floor(GAME_STATE.elapsedTime / 1000));
-            const minutes = Math.floor(totalSeconds / 60);
-            const seconds = totalSeconds % 60;
-            const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            elements.customerWaitTimer.textContent = `CLIENTE AGUARDANDO HÁ (${timeString})`;
-
-            if (percentage > 75) {
-                elements.timerBarFill.classList.remove('bg-green-500', 'bg-yellow-500');
-                elements.timerBarFill.classList.add('bg-red-700');
-            } else if (percentage > 50) {
-                elements.timerBarFill.classList.remove('bg-green-500', 'bg-red-700');
-                elements.timerBarFill.classList.add('bg-yellow-500');
-            } else {
-                elements.timerBarFill.classList.remove('bg-red-700', 'bg-yellow-500');
-                elements.timerBarFill.classList.add('bg-green-500');
-            }
-        };
-
-        timerInterval = setInterval(updateBar, 100); 
-        updateBar(); 
-    }
-
-    function stopTimer() {
-        if (timerInterval) {
-            clearInterval(timerInterval);
-            timerInterval = null;
-        }
-    }
-
-    function handleTimeout() {
-        elements.timerBarFill.style.width = '100%';
-        elements.customerWaitTimer.textContent = 'CLIENTE CANSOU! (Tempo Limite Atingido)';
-        displayMessage("Too slow, mate! The customer's bolted!", 'text-red-800');
-        
-        handleWrongOrder("Tempo limite atingido! Cliente desistiu da pizza.");
-    }
-
-
-    // --- Modal Logic (Omitido para brevidade) ---
-
-    function showModal(title, body, type, isVictory = false) {
-        elements.modalTitle.textContent = title;
-        elements.modalBody.textContent = body;
-        elements.modalActions.innerHTML = ''; 
-
-        let buttonText = "Continuar";
-        let buttonClass = 'bg-aussie-orange hover:bg-aussie-green';
-        let action = hideModal;
-
-        if (type === 'start') {
-            buttonText = "Iniciar Dia 1 🍕";
-            action = startGame;
-        } else if (type === 'nextPhase') {
-            buttonText = `Começar Dia ${GAME_STATE.currentPhase} 🚀`;
-            buttonClass = 'bg-aussie-green hover:bg-aussie-orange';
-        } else if (type === 'endGame') {
-            buttonText = isVictory ? "Jogar Novamente!" : "Tentar Novamente";
-            buttonClass = isVictory ? 'bg-blue-600 hover:bg-blue-800' : 'bg-red-600 hover:bg-red-800';
-            action = startGame;
-        }
-
-        const newButton = document.createElement('button');
-        newButton.className = `font-bold py-3 px-6 rounded-full text-lg transition duration-150 text-white shadow-lg ${buttonClass}`;
-        newButton.textContent = buttonText;
-        newButton.onclick = action;
-        elements.modalActions.appendChild(newButton);
-
-        elements.gameModal.classList.remove('hidden');
-    }
-
-    function hideModal() {
-        elements.gameModal.classList.add('hidden');
-        
-        if (GAME_STATE.isGameRunning && GAME_STATE.currentOrder === null) {
-            generateNextOrder();
-        }
-    }
-
-    // --- Utility Functions (Omitido para brevidade) ---
-
-    function displayMessage(message, className = 'text-gray-800') {
-        elements.gameMessage.innerHTML = `Helber: "<span class="${className}">${message}</span>"`;
-    }
-
-    function getRandomPraisePhrase() {
-        return PRAISE_PHRASES[Math.floor(Math.random() * PRAISE_PHRASES.length)];
-    }
-
-    function getRandomCustomerEmoji() {
-        const emojis = ['👨', '👩', '👴', '👵', '🧑‍🎓', '👷', '👨‍🎤', '🏄‍♂️', '🐨', '🦘', '🦙'];
-        return emojis[Math.floor(Math.random() * emojis.length)];
-    }
-
-    // --- Animation & FX (Omitido para brevidade) ---
-
-    function animatePizzaDelivery() {
-        const stack = elements.pizzaStack;
-        stack.style.transform = 'translateY(-200px) rotate(30deg) scale(0.5)';
-        stack.style.opacity = '0';
-
-        setTimeout(() => {
-            stack.style.transition = 'none';
-            stack.style.transform = 'translateY(0) rotate(0) scale(1)';
-            stack.style.opacity = '1';
-            setTimeout(() => {
-                stack.style.transition = 'all 0.2s ease-out';
-            }, 50); 
-        }, 500); 
-    }
-
-    function animatePizzaExplosion() {
-        const stack = elements.pizzaStack;
-        stack.style.transform = 'scale(0)';
-        stack.style.opacity = '0';
-        stack.style.backgroundColor = 'red';
-
-        setTimeout(() => {
-            stack.style.transition = 'none';
-            stack.style.transform = 'scale(1)';
-            stack.style.opacity = '1';
-            stack.style.backgroundColor = '';
-            setTimeout(() => {
-                stack.style.transition = 'all 0.2s ease-out';
-            }, 50); 
-        }, 500); 
-    }
-
-
-    function animateFireworks() {
-        const container = document.body;
-        for (let i = 0; i < 20; i++) {
-            const firework = document.createElement('div');
-            firework.className = 'firework';
-            const x = (Math.random() * 200 - 100) + 'px'; 
-            const y = (Math.random() * 200 - 100) + 'px'; 
-            firework.style.left = `${Math.random() * 100}%`;
-            firework.style.top = `${Math.random() * 100}%`;
-            firework.style.setProperty('--x', x);
-            firework.style.setProperty('--y', y);
-            firework.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
-            container.appendChild(firework);
-
-            setTimeout(() => firework.remove(), 800);
-        }
-    }
-
-
-    // --- Event Listeners and Initialization ---
-
-    // Torna a função de alternar visível para o HTML
-    window.toggleRecipeDetails = toggleRecipeDetails; 
-
-    function initEventListeners() {
-        elements.deliverBtn.addEventListener('click', deliverPizza);
-        elements.startGameBtn.addEventListener('click', startGame);
-    }
-    
-    function init() {
-        initFirebase();
-        initEventListeners();
-        showModal("Pizzaria Helber B 🇦🇺", "Pressione Iniciar para começar sua jornada como o Pizzaiolo Helber B! (Timer crescente e info de receita adicionados)", 'start');
-    }
-    
-    init();
-
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    import { setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    // Variáveis globais de ambiente (PREENCHIDAS PELO CANVAS)
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+    const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+    const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+    // Configurações e Variáveis Globais do Jogo
+    let GAME_STATE = {
+        currentPhase: 1,
+        pizzasCompleted: 0,
+        balance: 0,
+        highScore: 0,
+        streak: 0,
+        isGameRunning: false,
+        currentOrder: null,
+        appliedIngredients: [],
+        phaseGoal: 25,
+        timerMax: 0,
+        elapsedTime: 0, // ALTERADO: Contará o tempo que passou.
+        isAuthReady: false,
+        userId: null,
+    };
+
+    const INGREDIENTS = {
+        'MOLHO': { color: '#c0392b', emoji: '🥫', type: 'layer-molho' },
+        'QUEIJO': { color: '#f1c40f', emoji: '🧀', type: 'layer-queijo' },
+        'CALABRESA': { color: '#e74c3c', emoji: '🥩', type: 'layer-carne' },
+        'PEPPERONI': { color: '#c0392b', emoji: '🌶️', type: 'layer-carne' },
+        'FRANGO': { color: '#f39c12', emoji: '🐔', type: 'layer-carne' },
+        'CATUPIRY': { color: '#ecf0f1', emoji: '🥛', type: 'layer-queijo' },
+        'MANJERICÃO': { color: '#2ecc71', emoji: '🌿', type: 'layer-vegetal' },
+        'ORÉGANO': { color: '#27ae60', emoji: '🍃', type: 'layer-vegetal' },
+        'CEBOLA': { color: '#bdc3c7', emoji: '🧅', type: 'layer-vegetal' },
+        'COGUMELOS': { color: '#95a5a6', emoji: '🍄', type: 'layer-vegetal' },
+        'GORGONZOLA': { color: '#3498db', emoji: '🧀', type: 'layer-queijo' },
+        'PROVOLONE': { color: '#9b59b6', emoji: '🧀', type: 'layer-queijo' },
+        'BACON': { color: '#e67e22', emoji: '🥓', type: 'layer-carne' },
+        'AZEITONAS': { color: '#2c3e50', emoji: '⚫', type: 'layer-vegetal' },
+        'PIMENTÃO': { color: '#e67e22', emoji: '🫑', type: 'layer-vegetal' },
+        'ABACAXI': { color: '#f1c40f', emoji: '🍍', type: 'layer-abacaxi' },
+        'PRESUNTO': { color: '#e67e22', emoji: '🍖', type: 'layer-carne' },
+        'PARMESÃO': { color: '#f39c12', emoji: '🧀', type: 'layer-queijo' },
+        'BRÓCOLIS': { color: '#2ecc71', emoji: '🥦', type: 'layer-vegetal' },
+        'QUEIJO EXTRA': { color: '#f1c40f', emoji: '🧀', type: 'layer-queijo' },
+        'CARNE MOÍDA': { color: '#8B4513', emoji: '🥩', type: 'layer-carne' },
+        'ATUM': { color: '#2c3e50', emoji: '🐟', type: 'layer-carne' },
+        'ESCARGOT': { color: '#9b59b6', emoji: '🐌', type: 'layer-premium' },
+    };
+
+    const RECIPES = {
+        'MARGHERITA': { ingredients: ['MOLHO', 'QUEIJO', 'MANJERICÃO'], price: 50, phaseMin: 1 },
+        'CALABRESA': { ingredients: ['MOLHO', 'QUEIJO', 'CALABRESA', 'CEBOLA'], price: 60, phaseMin: 1 },
+        'FRANGO CATUPIRY': { ingredients: ['MOLHO', 'QUEIJO', 'FRANGO', 'CATUPIRY'], price: 70, phaseMin: 1 },
+        'PEPPERONI': { ingredients: ['MOLHO', 'QUEIJO', 'PEPPERONI', 'ORÉGANO'], price: 75, phaseMin: 1 },
+        'BACON': { ingredients: ['MOLHO', 'QUEIJO', 'BACON', 'CEBOLA'], price: 70, phaseMin: 1 },
+        'QUATRO QUEIJOS': { ingredients: ['MOLHO', 'QUEIJO', 'GORGONZOLA', 'PROVOLONE', 'PARMESÃO'], price: 90, phaseMin: 2 },
+        'COGUMELOS': { ingredients: ['MOLHO', 'QUEIJO', 'COGUMELOS', 'MANJERICÃO'], price: 65, phaseMin: 2 },
+        'HAWAIIAN': { ingredients: ['MOLHO', 'QUEIJO', 'PRESUNTO', 'ABACAXI'], price: 80, phaseMin: 2 },
+        'AZEITONA': { ingredients: ['MOLHO', 'QUEIJO', 'AZEITONAS', 'PIMENTÃO'], price: 60, phaseMin: 3 },
+        'BRÓCOLIS': { ingredients: ['MOLHO', 'QUEIJO', 'BRÓCOLIS', 'QUEIJO EXTRA'], price: 85, phaseMin: 3 },
+        'CARNE': { ingredients: ['MOLHO', 'QUEIJO', 'CARNE MOÍDA', 'CEBOLA'], price: 70, phaseMin: 4 },
+        'ATUM': { ingredients: ['MOLHO', 'QUEIJO', 'ATUM', 'ORÉGANO'], price: 65, phaseMin: 4 },
+        'ESCARGOT': { ingredients: ['MOLHO', 'QUEIJO', 'ESCARGOT', 'MANJERICÃO'], price: 120, phaseMin: 5 }, // Premium
+        'VEGETARIANA': { ingredients: ['MOLHO', 'QUEIJO', 'PIMENTÃO', 'COGUMELOS', 'ABACAXI'], price: 95, phaseMin: 5 },
+        'SUPREMA': { ingredients: ['MOLHO', 'QUEIJO', 'PEPPERONI', 'BACON', 'COGUMELOS', 'PIMENTÃO'], price: 110, phaseMin: 5 },
+    };
+
+    const PHASES = {
+        1: { goal: 2, timer: 0, available: ['MARGHERITA', 'CALABRESA', 'FRANGO CATUPIRY', 'PEPPERONI', 'BACON'], message: "Dia de treino! Sem pressão, mate!" }, // Reduzido goal para teste
+        2: { goal: 5, timer: 120, available: 8, message: "Aperta o passo! O relógio está correndo, cobber!" }, // Reduzido goal para teste
+        3: { goal: 5, timer: 105, available: 12, message: "A clientela está agitada, menos tempo para errar!" },
+        4: { goal: 5, timer: 90, available: 15, message: "Dia de super-pico! Pedidos piscando!" },
+        5: { goal: 5, timer: 75, available: 15, message: "Final do campeonato! Acerto triplo é dinheiro extra!" },
+    };
+
+    // Frases de elogio expandidas com o tema Brasil/São Paulo
+    const PRAISE_PHRASES = [
+        "Deliciosa mate!", "Perfeita, cobber!", "A melhor da Austrália!", "Queijo derretido top!",
+        "Simplesmente perfeito!", "Dez de dez!", "Eu voltarei!", "Fantástico!", "Sabor impecável, mate!",
+        "Muito bom, amigo!", "Que fatia de pizza!", "Obrigado, lenda!",
+        "Entrega incrivelmente rápida! Você é um foguete, Helber!",
+        "Helber é o mestre da velocidade! Ripper!",
+        "Essa rapidez é nota 10! Não deu tempo nem de piscar!",
+        "É sabor de São Paulo, Helber! Que saudade da pizza brasileira!",
+        "Esse queijo lembra o da Mooca! Sabor de casa!",
+        "Atendimento Aussie, sabor brasileiro. Combinação perfeita!",
+    ];
+
+    const HELBER_SPEAK = {
+        START: "G'day, mate! Let's make some wicked pizzas today!",
+        CORRECT: "Fair dinkum! Nailed it, mate! Get that dough!",
+        WRONG: "Crikey! That's gone belly up. Try again, cobber!",
+        NEXT_PHASE: "Ripper! We smashed that day. Now for the next one!",
+        VICTORY: "You beaut! We did it! Pizza empire, here we come!",
+    };
+
+    let timerInterval = null;
+    let comboStreak = 0;
+
+    // --- DOM Elements ---
+    const elements = {
+        faseCounter: document.getElementById('fase-counter'),
+        pizzaCounter: document.getElementById('pizza-counter'),
+        saldoCounter: document.getElementById('saldo-counter'),
+        highscoreDisplay: document.getElementById('highscore-display'),
+        gameMessage: document.getElementById('game-message'),
+        ingredientButtons: document.getElementById('ingredient-buttons'),
+        recipeList: document.getElementById('recipe-list'),
+        pizzaStack: document.getElementById('pizza-stack'),
+        deliverBtn: document.getElementById('deliver-btn'),
+        currentOrderName: document.getElementById('current-order-name'),
+        customerAvatar: document.getElementById('customer-avatar'),
+        feedbackText: document.getElementById('feedback-text'),
+        timerBarFill: document.getElementById('timer-bar-fill'),
+        gameModal: document.getElementById('game-modal'),
+        modalTitle: document.getElementById('modal-title'),
+        modalBody: document.getElementById('modal-body'),
+        modalActions: document.getElementById('modal-actions'),
+        startGameBtn: document.getElementById('start-game-btn'),
+        currentPizzaBase: document.getElementById('current-pizza-base'),
+        customerWaitTimer: document.getElementById('customer-wait-timer'),
+    };
+
+    // --- Firebase Setup (Mantido como estava) ---
+    let db, auth;
+
+    async function initFirebase() {
+        if (!firebaseConfig) {
+            console.error("Firebase config not available. Running game without persistence.");
+            GAME_STATE.isAuthReady = true;
+            elements.highscoreDisplay.textContent = "Recorde: R$ 0 (Local)";
+            return;
+        }
+        
+        try {
+            // ... (Lógica de inicialização Firebase omitida para brevidade, mas mantida no código original)
+            const app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            auth = getAuth(app);
+            setLogLevel('debug'); // Log level for Firestore
+
+            let userCredential;
+            try {
+                if (initialAuthToken) {
+                    userCredential = await signInWithCustomToken(auth, initialAuthToken);
+                } else {
+                    userCredential = await signInAnonymously(auth);
+                }
+            } catch (error) {
+                userCredential = await signInAnonymously(auth);
+            }
+
+            GAME_STATE.userId = userCredential.user.uid;
+            GAME_STATE.isAuthReady = true;
+            loadGameState(); 
+
+        } catch (error) {
+            console.error("Erro fatal ao inicializar Firebase ou Autenticar:", error);
+            GAME_STATE.isAuthReady = true;
+            elements.highscoreDisplay.textContent = "Recorde: R$ 0 (Erro Auth)";
+        }
+    }
+
+    function getUserScoreDocRef() {
+        if (!db || !GAME_STATE.userId) return null;
+        const collectionPath = `/artifacts/${appId}/users/${GAME_STATE.userId}/pizzagame_scores`;
+        return doc(db, collectionPath, 'high_score');
+    }
+
+    function loadGameState() {
+        if (!GAME_STATE.isAuthReady || !db || !GAME_STATE.userId) return;
+
+        const docRef = getUserScoreDocRef();
+        if (!docRef) return;
+
+        onSnapshot(docRef, (docSnap) => {
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                GAME_STATE.highScore = data.highScore || 0;
+            } else {
+                saveGameState(); 
+            }
+            updateUI();
+        }, (error) => {
+            console.error("Erro ao ouvir High Score:", error);
+        });
+    }
+
+    async function saveGameState() {
+        if (!GAME_STATE.isAuthReady || !db || !GAME_STATE.userId) return;
+
+        try {
+            const docRef = getUserScoreDocRef();
+            if (!docRef) return;
+
+            await setDoc(docRef, {
+                highScore: GAME_STATE.highScore,
+                lastUpdated: new Date().toISOString()
+            }, { merge: true });
+        } catch (e) {
+            console.error("Erro ao salvar High Score:", e);
+        }
+    }
+
+    // --- Web Speech Synthesis (Helber's Voice) (Mantido como estava) ---
+
+    function helberSpeak(text) {
+        if ('speechSynthesis' in window) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US'; 
+
+            const voices = window.speechSynthesis.getVoices();
+            let aussieVoice = voices.find(voice => voice.lang === 'en-AU');
+
+            if (aussieVoice) {
+                utterance.voice = aussieVoice;
+            } else {
+                utterance.voice = voices[0] || null;
+            }
+
+            utterance.rate = 1.0;
+            utterance.pitch = 1.0;
+            window.speechSynthesis.speak(utterance);
+        } else {
+            console.warn("Speech Synthesis não suportado neste navegador.");
+        }
+    }
+
+    // --- Game Logic ---
+
+    function startGame() {
+        GAME_STATE.currentPhase = 1;
+        GAME_STATE.balance = 0;
+        GAME_STATE.streak = 0;
+        GAME_STATE.isGameRunning = true;
+        hideModal();
+        startPhase();
+        helberSpeak(HELBER_SPEAK.START);
+    }
+
+    function startPhase() {
+        const phase = PHASES[GAME_STATE.currentPhase];
+        GAME_STATE.pizzasCompleted = 0;
+        GAME_STATE.phaseGoal = phase.goal;
+        GAME_STATE.timerMax = phase.timer * 1000;
+        GAME_STATE.elapsedTime = 0; // Reset do tempo
+        GAME_STATE.appliedIngredients = [];
+        resetPizzaBench();
+        updateUI();
+        displayMessage(phase.message);
+
+        if (GAME_STATE.currentPhase === 1) {
+            generateNextOrder();
+        } else {
+            GAME_STATE.currentOrder = null; 
+        }
+    }
+
+    /**
+     * Retorna a lista de nomes de ingredientes que estão em *qualquer* receita
+     * disponível para a fase atual.
+     */
+    function getAvailableIngredientsForPhase() {
+        const availableRecipes = Object.keys(RECIPES).filter(name => RECIPES[name].phaseMin <= GAME_STATE.currentPhase);
+        const uniqueIngredients = new Set();
+        
+        availableRecipes.forEach(rName => {
+            RECIPES[rName].ingredients.forEach(iName => {
+                uniqueIngredients.add(iName);
+            });
+        });
+
+        // Na Fase 1, se tivermos uma lista restrita de receitas, usamos elas.
+        if (GAME_STATE.currentPhase === 1) {
+            const phase1Recipes = PHASES[1].available; // Nomes das receitas
+            const phase1Ingredients = new Set();
+            phase1Recipes.forEach(rName => {
+                 if (RECIPES[rName]) {
+                    RECIPES[rName].ingredients.forEach(iName => phase1Ingredients.add(iName));
+                 }
+            });
+            return Array.from(phase1Ingredients);
+        }
+
+        return Array.from(uniqueIngredients);
+    }
+
+
+    function generateNextOrder() {
+        const allRecipes = Object.keys(RECIPES).filter(name => RECIPES[name].phaseMin <= GAME_STATE.currentPhase);
+        let availableRecipes = allRecipes;
+
+        if (GAME_STATE.currentPhase === 1) {
+            availableRecipes = PHASES[1].available; // Usa a lista restrita de nomes de receita
+        } else {
+            // Se a fase tem um limite de receitas (o número em 'available'), usa um subconjunto
+            const numAvailable = PHASES[GAME_STATE.currentPhase].available;
+            availableRecipes = allRecipes.slice(0, numAvailable); 
+        }
+
+        const randomRecipeName = availableRecipes[Math.floor(Math.random() * availableRecipes.length)];
+        const order = RECIPES[randomRecipeName];
+
+        GAME_STATE.currentOrder = {
+            name: randomRecipeName,
+            recipe: order.ingredients,
+            price: order.price,
+        };
+
+        elements.currentOrderName.textContent = randomRecipeName;
+        elements.customerAvatar.textContent = getRandomCustomerEmoji();
+
+        // O timer só começa a contar quando o pedido é gerado
+        resetTimer(GAME_STATE.timerMax);
+        updateUI();
+    }
+
+    function addIngredient(ingredientName) {
+        if (!GAME_STATE.isGameRunning || !GAME_STATE.currentOrder) return;
+
+        GAME_STATE.appliedIngredients.push(ingredientName);
+        renderPizzaStack();
+        updateUI(); 
+    }
+
+    function deliverPizza() {
+        if (GAME_STATE.appliedIngredients.length === 0 || !GAME_STATE.currentOrder) return;
+        stopTimer();
+
+        const correctRecipe = GAME_STATE.currentOrder.recipe;
+        const applied = GAME_STATE.appliedIngredients;
+
+        // 1. Verifica o tamanho
+        if (applied.length !== correctRecipe.length) {
+            handleWrongOrder("Falta ou sobra de ingredientes, Helber!");
+            return;
+        }
+
+        // 2. Verifica a ordem exata
+        let isCorrect = true;
+        for (let i = 0; i < correctRecipe.length; i++) {
+            if (applied[i] !== correctRecipe[i]) {
+                isCorrect = false;
+                break;
+            }
+        }
+
+        if (isCorrect) {
+            handleCorrectOrder();
+        } else {
+            handleWrongOrder("A ordem dos ingredientes está errada, cobber!");
+        }
+    }
+
+    function handleCorrectOrder() {
+        let price = GAME_STATE.currentOrder.price;
+        comboStreak++;
+
+        if (comboStreak >= 5) {
+            price = Math.round(price * 1.5); 
+            elements.feedbackText.textContent = `🔥 STREAK x1.5! Pizza perfeita! +R$${price}`;
+            displayMessage(HELBER_SPEAK.CORRECT, 'text-green-700 font-extrabold');
+        } else {
+            const praise = getRandomPraisePhrase();
+            elements.feedbackText.textContent = praise;
+            displayMessage(HELBER_SPEAK.CORRECT, 'text-green-600');
+        }
+
+        if (GAME_STATE.currentPhase === 5 && comboStreak > 0 && comboStreak % 3 === 0) {
+            price *= 2; 
+            elements.feedbackText.textContent = `✨ COMBO ESPECIAL X2! +R$${price} | ${elements.feedbackText.textContent}`;
+        }
+
+        GAME_STATE.balance += price;
+        GAME_STATE.pizzasCompleted++;
+
+        helberSpeak(HELBER_SPEAK.CORRECT);
+        animatePizzaDelivery();
+
+        setTimeout(() => {
+            continueGameFlow();
+        }, 1500);
+    }
+
+    function handleWrongOrder(reason) {
+        GAME_STATE.balance = Math.max(0, GAME_STATE.balance - 20); 
+        comboStreak = 0;
+        elements.feedbackText.textContent = `❌ Penalidade (-R$20). ${reason}`;
+        displayMessage(`❌ Crikey! That's gone belly up. Try again, cobber!`, 'text-red-600');
+        helberSpeak(HELBER_SPEAK.WRONG);
+        animatePizzaExplosion();
+        
+        setTimeout(() => {
+            continueGameFlow();
+        }, 1500);
+    }
+
+    function continueGameFlow() {
+        if (GAME_STATE.pizzasCompleted >= GAME_STATE.phaseGoal) {
+            stopTimer();
+            if (GAME_STATE.currentPhase < 5) {
+                GAME_STATE.currentPhase++;
+                
+                startPhase(); 
+
+                showModal(`Fim do Dia ${GAME_STATE.currentPhase - 1}`,
+                          `R$ ${GAME_STATE.balance} ganhos hoje! Prepare-se para o Dia ${GAME_STATE.currentPhase}.`,
+                          'nextPhase');
+
+            } else {
+                endGame(true);
+            }
+        } else {
+            resetPizzaBench(); 
+            updateUI();
+            generateNextOrder();
+        }
+    }
+
+
+    function endGame(isVictory) {
+        GAME_STATE.isGameRunning = false;
+        stopTimer();
+
+        if (GAME_STATE.balance > GAME_STATE.highScore) {
+            GAME_STATE.highScore = GAME_STATE.balance;
+            saveGameState();
+        }
+
+        if (isVictory) {
+            helberSpeak(HELBER_SPEAK.VICTORY);
+            showModal("PARABÉNS, HELBER! VITÓRIA!",
+                      `VOCÊ CONSEGUIU DINHEIRO SUFICIENTE PARA MONTAR UMA PIZZARIA NA AUSTRÁLIA! Saldo Final: R$ ${GAME_STATE.balance}`,
+                      'endGame', true);
+            animateFireworks();
+        } else {
+            showModal("Fim de Jogo 😔",
+                      `Você não atingiu a meta. Saldo Final: R$ ${GAME_STATE.balance}`,
+                      'endGame');
+        }
+    }
+
+    // --- UI Rendering ---
+
+    function updateUI() {
+        elements.faseCounter.textContent = `Fase: ${GAME_STATE.currentPhase}/5`;
+        elements.pizzaCounter.textContent = `Pizzas: ${GAME_STATE.pizzasCompleted}/${GAME_STATE.phaseGoal}`;
+        elements.saldoCounter.textContent = `Saldo: R$ ${GAME_STATE.balance}`;
+        elements.highscoreDisplay.textContent = `Recorde: R$ ${GAME_STATE.highScore}`;
+        
+        const canDeliver = GAME_STATE.isGameRunning && GAME_STATE.currentOrder && GAME_STATE.appliedIngredients.length > 0;
+        elements.deliverBtn.disabled = !canDeliver;
+        elements.deliverBtn.classList.remove('bg-aussie-orange', 'bg-gray-400');
+        elements.deliverBtn.classList.add(canDeliver ? 'bg-aussie-orange' : 'bg-gray-400');
+        elements.deliverBtn.classList.remove('hover:bg-aussie-green', 'hover:bg-gray-500');
+        elements.deliverBtn.classList.add(canDeliver ? 'hover:bg-aussie-green' : 'hover:bg-gray-500');
+
+        renderIngredientButtons();
+        renderRecipeList();
+        renderPizzaStack(); 
+    }
+
+    /**
+     * Renderiza os botões de ingredientes disponíveis. (Corrigido)
+     */
+    function renderIngredientButtons() {
+        const container = elements.ingredientButtons;
+        container.innerHTML = '';
+        
+        // Obtém apenas os nomes dos ingredientes necessários nas receitas da fase atual
+        const availableIngredients = getAvailableIngredientsForPhase();
+
+        Object.keys(INGREDIENTS).forEach(name => {
+            const ingredient = INGREDIENTS[name];
+            
+            // Verifica se o ingrediente está na lista de disponíveis para a fase
+            const isAvailable = availableIngredients.includes(name);
+
+            const button = document.createElement('button');
+            button.className = `ingredient-btn p-2 rounded-lg text-xs font-bold shadow-md flex flex-col items-center transition duration-100 ${isAvailable ? 'bg-fundo-claro border-2 border-aussie-green hover:bg-aussie-green/20' : 'bg-gray-200 text-gray-400 cursor-not-allowed'}`;
+            button.disabled = !isAvailable;
+            button.innerHTML = `<span class="text-xl">${ingredient.emoji}</span>${name}`;
+            
+            if (isAvailable) {
+                button.onclick = () => addIngredient(name);
+            }
+
+            container.appendChild(button);
+        });
+    }
+
+    function renderRecipeList() {
+        const container = elements.recipeList;
+        container.innerHTML = '';
+
+        const availableRecipes = Object.keys(RECIPES)
+            .filter(name => RECIPES[name].phaseMin <= GAME_STATE.currentPhase);
+        
+        // Se Fase 1, usa a lista restrita para exibir apenas as que realmente aparecerão
+        const recipesToDisplay = GAME_STATE.currentPhase === 1 
+            ? PHASES[1].available.map(name => ({ name, recipe: RECIPES[name] }))
+            : availableRecipes.map(name => ({ name, recipe: RECIPES[name] }));
+
+
+        recipesToDisplay.forEach(item => {
+            const { name, recipe } = item;
+            const detail = recipe.ingredients.join(' - '); // Cria o detalhe da receita
+
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'border-b border-gray-200 pb-1';
+            itemDiv.innerHTML = `
+                <div class="flex items-center space-x-1">
+                    <p class="font-bold text-md text-aussie-orange">${name} (R$${recipe.price})</p>
+                    <span class="text-aussie-green text-lg" title="Ingredientes da Receita">ⓘ</span>
+                </div>
+                <p class="text-xs text-gray-500 truncate">${detail}</p>
+            `;
+            container.appendChild(itemDiv);
+        });
+    }
+
+    function renderPizzaStack() {
+        const stack = elements.pizzaStack;
+        stack.innerHTML = '';
+        
+        if (GAME_STATE.appliedIngredients.length === 0) {
+            elements.currentPizzaBase.style.display = 'block';
+            elements.currentPizzaBase.textContent = "Massa (Arraste o primeiro ingrediente)";
+            stack.appendChild(elements.currentPizzaBase);
+            return;
+        } else {
+            elements.currentPizzaBase.style.display = 'none';
+        }
+
+        // Camada de Base (Massa)
+        const baseLayer = document.createElement('div');
+        baseLayer.className = 'pizza-layer w-72 h-10 bg-yellow-700 shadow-xl transition-all duration-300';
+        baseLayer.style.marginTop = '0px'; 
+        stack.appendChild(baseLayer);
+
+        GAME_STATE.appliedIngredients.forEach(ingredientName => {
+            const ingredient = INGREDIENTS[ingredientName];
+            const layerDiv = document.createElement('div');
+            layerDiv.className = `pizza-layer ${ingredient.type} text-center text-xs font-bold text-white flex items-center justify-center`;
+            layerDiv.textContent = ingredient.emoji;
+            stack.appendChild(layerDiv);
+        });
+    }
+
+    // --- Timer Logic ---
+
+    function resetTimer(maxTime) {
+        stopTimer();
+        GAME_STATE.timerMax = maxTime;
+        GAME_STATE.elapsedTime = 0;
+        elements.timerBarFill.style.width = '100%';
+        elements.timerBarFill.classList.remove('bg-yellow-500', 'bg-red-500');
+        elements.timerBarFill.classList.add('bg-green-500');
+
+        if (maxTime > 0) {
+            timerInterval = setInterval(updateTimer, 100);
+        }
+    }
+
+    function updateTimer() {
+        if (!GAME_STATE.isGameRunning || !GAME_STATE.currentOrder) {
+            stopTimer();
+            return;
+        }
+
+        GAME_STATE.elapsedTime += 100;
+        const remainingTime = GAME_STATE.timerMax - GAME_STATE.elapsedTime;
+        const percentage = (remainingTime / GAME_STATE.timerMax) * 100;
+
+        if (remainingTime <= 0) {
+            elements.customerWaitTimer.textContent = 'CLIENTE FOI EMBORA 😔';
+            stopTimer();
+            handleWrongOrder("O cliente ficou impaciente e foi embora!");
+            return;
+        }
+
+        // Atualiza Barra e Texto
+        elements.timerBarFill.style.width = `${percentage}%`;
+        const seconds = Math.floor(remainingTime / 1000);
+        const minutes = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        elements.customerWaitTimer.textContent = `CLIENTE AGUARDANDO A (${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')})`;
+
+        // Muda a cor
+        elements.timerBarFill.classList.remove('bg-green-500', 'bg-yellow-500', 'bg-red-500');
+        if (percentage > 50) {
+            elements.timerBarFill.classList.add('bg-green-500');
+        } else if (percentage > 20) {
+            elements.timerBarFill.classList.add('bg-yellow-500');
+        } else {
+            elements.timerBarFill.classList.add('bg-red-500');
+        }
+    }
+
+    function stopTimer() {
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
+
+    // --- Helper Functions ---
+
+    function getRandomPraisePhrase() {
+        return PRAISE_PHRASES[Math.floor(Math.random() * PRAISE_PHRASES.length)];
+    }
+
+    function getRandomCustomerEmoji() {
+        const emojis = ['🧑‍🤝‍🧑', '🏄‍♂️', '🐨', '🏖️', '🧑‍🦳', '👩‍🦰', '🧔‍♂️', '👵', '👨‍🦱', '👩‍🎤'];
+        return emojis[Math.floor(Math.random() * emojis.length)];
+    }
+
+    function resetPizzaBench() {
+        GAME_STATE.appliedIngredients = [];
+        elements.feedbackText.textContent = "Aguardando entrega...";
+        elements.gameMessage.textContent = PHASES[GAME_STATE.currentPhase].message;
+        elements.currentOrderName.textContent = "...";
+        elements.customerAvatar.textContent = "🧑‍🤝‍🧑";
+        renderPizzaStack();
+    }
+
+    function displayMessage(text, classes = 'text-gray-800') {
+        elements.gameMessage.textContent = text;
+        elements.gameMessage.className = `mt-3 text-center text-xl font-semibold ${classes}`;
+    }
+
+    function showModal(title, body, actionType, isSuccess = false) {
+        elements.modalTitle.textContent = title;
+        elements.modalBody.textContent = body;
+        elements.modalActions.innerHTML = '';
+        elements.gameModal.classList.remove('hidden');
+
+        elements.modalTitle.classList.remove('text-aussie-green', 'text-red-600');
+        elements.modalTitle.classList.add(isSuccess ? 'text-aussie-green' : 'text-red-600');
+
+        if (actionType === 'nextPhase') {
+            const nextBtn = document.createElement('button');
+            nextBtn.className = "bg-aussie-green text-white font-bold py-3 px-6 rounded-full text-lg transition duration-150 hover:bg-aussie-orange";
+            nextBtn.textContent = `Começar Dia ${GAME_STATE.currentPhase} 🚀`;
+            nextBtn.onclick = () => { hideModal(); startPhase(); helberSpeak(PHASES[GAME_STATE.currentPhase].message); };
+            elements.modalActions.appendChild(nextBtn);
+        } else if (actionType === 'endGame') {
+            const restartBtn = document.createElement('button');
+            restartBtn.className = "bg-aussie-orange text-white font-bold py-3 px-6 rounded-full text-lg transition duration-150 hover:bg-aussie-green";
+            restartBtn.textContent = 'Recomeçar Dia 1 🍕';
+            restartBtn.onclick = startGame;
+            elements.modalActions.appendChild(restartBtn);
+        }
+    }
+
+    function hideModal() {
+        elements.gameModal.classList.add('hidden');
+    }
+
+    // --- Visual Effects ---
+
+    function animatePizzaDelivery() {
+        const layers = elements.pizzaStack.querySelectorAll('.pizza-layer');
+        layers.forEach((layer, index) => {
+            layer.style.transition = 'transform 0.5s ease-in, opacity 0.5s ease-in';
+            // Move para cima e desaparece
+            layer.style.transform = `translateY(-300px) scale(0.5)`;
+            layer.style.opacity = '0';
+            layer.style.transitionDelay = `${index * 0.05}s`;
+        });
+    }
+
+    function animatePizzaExplosion() {
+        const layers = elements.pizzaStack.querySelectorAll('.pizza-layer');
+        layers.forEach((layer, index) => {
+            // Posição de explosão aleatória
+            const randX = (Math.random() - 0.5) * 300;
+            const randY = (Math.random() - 1) * 300;
+            layer.style.transition = 'transform 0.5s ease-out, opacity 0.5s ease-out';
+            layer.style.transform = `translate(${randX}px, ${randY}px) rotate(${Math.random() * 360}deg) scale(0.1)`;
+            layer.style.opacity = '0';
+            layer.style.transitionDelay = `${index * 0.03}s`;
+        });
+    }
+
+
+    function animateFireworks() {
+        for (let i = 0; i < 20; i++) {
+            const firework = document.createElement('div');
+            firework.className = 'firework';
+            // Gera em cima do modal
+            const startX = elements.gameModal.clientWidth / 2;
+            const startY = elements.gameModal.clientHeight / 2;
+
+            firework.style.left = `${startX}px`;
+            firework.style.top = `${startY}px`;
+
+            const randX = (Math.random() - 0.5) * 400;
+            const randY = (Math.random() - 0.5) * 400;
+            firework.style.setProperty('--x', `${randX}px`);
+            firework.style.setProperty('--y', `${randY}px`);
+
+            firework.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            firework.style.animationDelay = `${Math.random() * 0.3}s`;
+            elements.gameModal.appendChild(firework);
+            
+            setTimeout(() => firework.remove(), 1000);
+        }
+    }
+
+    // --- Initialization ---
+    elements.startGameBtn.onclick = startGame;
+    initFirebase();
+
+    // Exibe o modal inicial (Obrigatório)
+    if (!GAME_STATE.isGameRunning) {
+        showModal("Bem-vindo, Mate!",
+                      "Pressione Iniciar para começar sua jornada como o Pizzaiolo Helber B!",
+                      'startGame');
+    }
 </script>
-
 </body>
 </html>
